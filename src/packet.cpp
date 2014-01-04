@@ -21,13 +21,4 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#include <iostream>
-
-class Host {
-private:
-    unsigned char mac[6] {};
-    unsigned char addr4[4] {};
-    unsigned char addr6[16] {};
-public:
-    Host();
-};
+#include "packet.h"

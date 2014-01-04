@@ -22,12 +22,8 @@
 //
 
 #include <iostream>
+#include <pcap.h>
 
-class Host {
-private:
-    unsigned char mac[6] {};
-    unsigned char addr4[4] {};
-    unsigned char addr6[16] {};
-public:
-    Host();
+class Device {
+    
 };

@@ -22,4 +22,6 @@
 //
 
 #include <iostream>
+#include "device.h"
+#include "packet.h"
 #include "host.h"
