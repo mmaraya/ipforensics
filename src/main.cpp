@@ -21,15 +21,9 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#include <iostream>
-#include <Poco/Net/IPAddress.h>
-using namespace std;
+#include "main.h"
 
-class Host {
-private:
-    unsigned char mac[6] {};
-    Poco::Net::IPAddress v4;
-    Poco::Net::IPAddress v6;
-public:
-    Host();
-};
+int main(const int argc, const char * argv[]) {
+    Host h;
+    return 0;
+}
