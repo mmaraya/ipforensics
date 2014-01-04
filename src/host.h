@@ -22,14 +22,16 @@
 //
 
 #include <iostream>
-#include <Poco/Net/IPAddress.h>
 using namespace std;
 
+//
+// Generic class to represent a vendor-neutral Internet Protocol host
+//
 class Host {
 private:
     unsigned char mac[6] {};
-    Poco::Net::IPAddress v4;
-    Poco::Net::IPAddress v6;
+    unsigned char addr4[4] {};
+    unsigned char addr6[16] {};
 public:
     Host();
 };
