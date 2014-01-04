@@ -22,3 +22,7 @@
 //
 
 #include "device.h"
+
+const vector<Packet> Device::getPackets() {
+    return packets;
+}

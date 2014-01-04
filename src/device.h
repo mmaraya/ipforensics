@@ -22,8 +22,16 @@
 //
 
 #include <iostream>
+#include <vector>
 #include <pcap.h>
+#include "packet.h"
+using namespace std;
 
 class Device {
-    
+private:
+    vector<Packet> packets;
+
+public:
+    void capture(int n = 1);
+    const vector<Packet> getPackets();
 };

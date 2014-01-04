@@ -22,7 +22,12 @@
 //
 
 #include <iostream>
+#include "host.h"
 
 class Packet {
+private:
+    Host host;
     
+public:
+    const Host getHost();
 };
