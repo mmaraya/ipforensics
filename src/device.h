@@ -31,14 +31,16 @@ class Device {
 private:
     string name;
     string description;
+    bool loopback;
     vector<Packet> packets;
 public:
-    Device(string, string);
+    Device(string, string, bool);
     
     const string getName() const;
     void setName(string);
     const string getDescription() const;
     void setDescription(string);
+    const bool isLoopback() const;
 
     void capture(int);
     const vector<Packet> getPackets();

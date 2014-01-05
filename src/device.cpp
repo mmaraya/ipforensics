@@ -23,9 +23,10 @@
 
 #include "device.h"
 
-Device::Device(string n, string d="") {
+Device::Device(string n, string d="", bool l=false) {
     name = n;
     description = d;
+    loopback = l;
 }
 
 const string Device::getName() const {
@@ -48,10 +49,14 @@ const vector<Packet> Device::getPackets() {
     return packets;
 }
 
+const bool Device::isLoopback() const {
+    return loopback;
+}
+
 //
 // overload the ostream << operator for Device
 //
  ostream &operator<<(ostream &out, const Device &d) {
-    out << d.getName() << ": " << d.getDescription();
+     out << d.getName() << ":" << d.getDescription() << ":" << (d.isLoopback()?"LOOPBACK":"");
     return out;
 }

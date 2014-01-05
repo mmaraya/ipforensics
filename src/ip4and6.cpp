@@ -43,12 +43,13 @@ void IPForensics::loadDevices() {
     char error[PCAP_ERRBUF_SIZE];
     
     if (pcap_findalldevs(&alldevsp, error) == 0) {
-        pcap_if_t* devsp = alldevsp;
-        while (devsp != NULL) {
-            string name = (devsp->name == NULL) ? "" : devsp->name;
-            string description = (devsp->description == NULL) ? "" : devsp->description;
-            addDevice(Device(name, description));
-            devsp = devsp->next;
+        pcap_if_t* devp = alldevsp;
+        while (devp != NULL) {
+            string name = (devp->name == NULL) ? "" : devp->name;
+            string description = (devp->description == NULL) ? "" : devp->description;
+            bool loopback = devp->flags & PCAP_IF_LOOPBACK;
+            addDevice(Device(name, description, loopback));
+            devp = devp->next;
         }
     } else {
         pcap_freealldevs(alldevsp);
