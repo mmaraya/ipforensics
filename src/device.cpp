@@ -23,6 +23,8 @@
 
 #include "device.h"
 
+Device::Device() {}
+
 Device::Device(string n, string d="", bool l=false) {
     name = n;
     description = d;

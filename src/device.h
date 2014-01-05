@@ -34,6 +34,7 @@ private:
     bool loopback;
     vector<Packet> packets;
 public:
+    Device();
     Device(string, string, bool);
     
     const string getName() const;

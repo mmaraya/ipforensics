@@ -24,15 +24,38 @@
 #include "main.h"
 
 int main(const int argc, const char * argv[]) {
+    
+    // check for device name supplied in command-line arguments
+    string deviceName;
+    if (argc > 1) {
+        deviceName = argv[1];
+    }
+    
+    // load packet capture device list from system
     IPForensics ip;
     try {
         ip.loadDevices();
     } catch (string e) {
         cout << "An exception occurred: " << e << endl;
     }
+
+    // select device to use
+    Device device;
     cout << "Found " << ip.getDevices().size() << " capture device(s): " << endl;
     for (Device d : ip.getDevices()) {
         cout << d << endl;
+        if (deviceName == d.getName()) {
+            device = d;
+        } else {
+            if (device.getName().empty() && !d.isLoopback()) {
+                device = d;
+            }
+        }
     }
+    if (deviceName != device.getName()) {
+        cout << "Packet capture device \'" << deviceName << "\' not found. ";
+    }
+    cout << "Using packet capture device \'" << device.getName() << "\'." << endl;
+    
     return 0;
 }
