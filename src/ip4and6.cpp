@@ -23,19 +23,37 @@
 
 #include "ip4and6.h"
 
-IPForensics::IPForensics() {
-    
-}
-
-IPForensics::~IPForensics() {
-    
-}
-
-const vector<Device> IPForensics::listDevices() {
-
-    pcap_if_t* all;
-    char error[PCAP_ERRBUF_SIZE];
-    int result = pcap_findalldevs(&all, error);
-    
+vector<Device> IPForensics::getDevices() {
     return devices;
+}
+
+//
+// Add device to the list
+//
+void IPForensics::addDevice(Device d) {
+    devices.push_back(d);
+}
+
+//
+// Loads all available packet capture devices into the list
+//
+void IPForensics::loadDevices() {
+
+    pcap_if_t* alldevsp;
+    char error[PCAP_ERRBUF_SIZE];
+    
+    if (pcap_findalldevs(&alldevsp, error) == 0) {
+        pcap_if_t* devsp = alldevsp;
+        while (devsp != NULL) {
+            string name = (devsp->name == NULL) ? "" : devsp->name;
+            string description = (devsp->description == NULL) ? "" : devsp->description;
+            addDevice(Device(name, description));
+            devsp = devsp->next;
+        }
+    } else {
+        pcap_freealldevs(alldevsp);
+        throw runtime_error(error);
+    }
+    pcap_freealldevs(alldevsp);
+    return;
 }

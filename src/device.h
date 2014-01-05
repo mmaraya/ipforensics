@@ -29,9 +29,19 @@ using namespace std;
 
 class Device {
 private:
+    string name;
+    string description;
     vector<Packet> packets;
-
 public:
-    void capture(int n = 1);
+    Device(string, string);
+    
+    const string getName() const;
+    void setName(string);
+    const string getDescription() const;
+    void setDescription(string);
+
+    void capture(int);
     const vector<Packet> getPackets();
 };
+
+ostream &operator<<(ostream &out, const Device &d);

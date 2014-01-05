@@ -24,8 +24,15 @@
 #include "main.h"
 
 int main(const int argc, const char * argv[]) {
-    Device d;
-    Packet p;
-    Host h;
+    IPForensics ip;
+    try {
+        ip.loadDevices();
+    } catch (string e) {
+        cout << "An exception occurred: " << e << endl;
+    }
+    cout << "Found " << ip.getDevices().size() << " capture device(s): " << endl;
+    for (Device d : ip.getDevices()) {
+        cout << d << endl;
+    }
     return 0;
 }

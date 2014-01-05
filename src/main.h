@@ -22,5 +22,5 @@
 //
 
 #include <iostream>
-#include "device.h"
+#include "ip4and6.h"
 using namespace std;

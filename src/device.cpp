@@ -23,6 +23,35 @@
 
 #include "device.h"
 
+Device::Device(string n, string d="") {
+    name = n;
+    description = d;
+}
+
+const string Device::getName() const {
+    return name;
+}
+
+void Device::setName(string str) {
+    name = str;
+}
+
+const string Device::getDescription() const {
+    return description;
+}
+
+void Device::setDescription(string str) {
+    description = str;
+}
+
 const vector<Packet> Device::getPackets() {
     return packets;
+}
+
+//
+// overload the ostream << operator for Device
+//
+ ostream &operator<<(ostream &out, const Device &d) {
+    out << d.getName() << ": " << d.getDescription();
+    return out;
 }

@@ -30,7 +30,7 @@ class IPForensics {
 private:
     vector<Device> devices;
 public:
-    IPForensics();
-    ~IPForensics();
-    const vector<Device> listDevices();
+    vector<Device> getDevices();
+    void loadDevices();
+    void addDevice(Device);
 };
