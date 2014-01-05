@@ -31,19 +31,28 @@ int main(const int argc, const char * argv[]) {
         deviceName = argv[1];
     }
     
+    // check for number of packets to capture in command-line arguments
+    int packetCount {100};
+    if (argc > 2) {
+        try {
+            packetCount = stoi(argv[2]);
+        } catch (exception const &e) {
+            cout << "Could not convert \'" << argv[2] << "\' into a number: " << e.what() << endl;
+            return 1;
+        }
+    }
+    
     // load packet capture device list from system
     IPForensics ip;
     try {
         ip.loadDevices();
-    } catch (string e) {
-        cout << "An exception occurred: " << e << endl;
+    } catch (exception const &e) {
+        cout << "Could not query system for packet capture devices: " << e.what() << endl;
     }
 
     // select device to use
     Device device;
-    cout << "Found " << ip.getDevices().size() << " capture device(s): " << endl;
     for (Device d : ip.getDevices()) {
-        cout << d << endl;
         if (deviceName == d.getName()) {
             device = d;
         } else {
@@ -53,9 +62,17 @@ int main(const int argc, const char * argv[]) {
         }
     }
     if (deviceName != device.getName()) {
-        cout << "Packet capture device \'" << deviceName << "\' not found. ";
+        cout << "Invalid packet capture device \'" << deviceName << "\'. ";
+        cout << "Valid device(s):";
+        for (Device d: ip.getDevices()) {
+            cout << ' ' << d.getName();
+        }
+        cout << endl;
+        return 1;
     }
-    cout << "Using packet capture device \'" << device.getName() << "\'." << endl;
+    
+    // display accepted run-time parameters
+    cout << "Using \'" << device.getName() << "\' to capture " << packetCount << " packet(s)." << endl;
     
     return 0;
 }
