@@ -47,12 +47,12 @@ void Device::setDescription(string str) {
     description = str;
 }
 
-const vector<Packet> Device::getPackets() {
-    return packets;
-}
-
 const bool Device::isLoopback() const {
     return loopback;
+}
+
+const vector<Packet> Device::getPackets() {
+    return packets;
 }
 
 //
@@ -62,3 +62,31 @@ const bool Device::isLoopback() const {
      out << d.getName() << ":" << d.getDescription() << ":" << (d.isLoopback()?"LOOPBACK":"");
     return out;
 }
+
+//
+// Read n packets from this device and load into packet list
+// Return the number of packets actually read
+//
+int Device::capture(int n) {
+    
+    char error[PCAP_ERRBUF_SIZE];
+    pcap_t* pcap = pcap_open_live(name.c_str(), snapLen, true, timeout, error);
+    if (pcap == NULL) {
+        throw runtime_error(error);
+    }
+    
+    const unsigned char * packet;
+    struct pcap_pkthdr header;
+    for (int i = 0; i < n; ++i) {
+        packet = pcap_next(pcap, &header);
+        cout << "Packet header size: " << header.len << endl;
+        cout << "Data link type: " << pcap_datalink(pcap) << endl;
+    }
+    
+    pcap_close(pcap);
+    
+    return 0;
+}
+
+
+

@@ -33,6 +33,8 @@ private:
     string description;
     bool loopback;
     vector<Packet> packets;
+    static const int snapLen = 256;
+    static const int timeout = 1000;
 public:
     Device();
     Device(string, string, bool);
@@ -42,9 +44,9 @@ public:
     const string getDescription() const;
     void setDescription(string);
     const bool isLoopback() const;
-
-    void capture(int);
     const vector<Packet> getPackets();
+
+    int capture(int);
 };
 
 ostream &operator<<(ostream &out, const Device &d);

@@ -32,7 +32,7 @@ int main(const int argc, const char * argv[]) {
     }
     
     // check for number of packets to capture in command-line arguments
-    int packetCount {100};
+    int packetCount {10};
     if (argc > 2) {
         try {
             packetCount = stoi(argv[2]);
@@ -73,6 +73,8 @@ int main(const int argc, const char * argv[]) {
     
     // display accepted run-time parameters
     cout << "Using \'" << device.getName() << "\' to capture " << packetCount << " packet(s)." << endl;
+    
+    device.capture(packetCount);
     
     return 0;
 }
