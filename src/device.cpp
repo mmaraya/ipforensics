@@ -69,23 +69,23 @@ const vector<Packet> Device::getPackets() {
 //
 int Device::capture(int n) {
     
-    char error[PCAP_ERRBUF_SIZE];
+    char error[PCAP_ERRBUF_SIZE] {};
     pcap_t* pcap = pcap_open_live(name.c_str(), snapLen, true, timeout, error);
     if (pcap == NULL) {
         throw runtime_error(error);
     }
+    if (pcap_datalink(pcap) != DLT_EN10MB) {
+        throw runtime_error("Link-layer type not IEEE 802.3 Ethernet");
+    }
     
-    const unsigned char * packet;
+    const unsigned char * packet = NULL;
     struct pcap_pkthdr header;
     for (int i = 0; i < n; ++i) {
         packet = pcap_next(pcap, &header);
-        cout << "Packet header size: " << header.len << endl;
-        cout << "Data link type: " << pcap_datalink(pcap) << endl;
     }
     
     pcap_close(pcap);
-    
-    return 0;
+    return (int) packets.size();
 }
 
 
