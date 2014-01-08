@@ -21,13 +21,24 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 #include "host.h"
+using namespace std;
+
+static const int MAC_LENGTH = 6;
+static const int ETHERTYPE_LENGTH = 2;
+static const int IPV4_LENGTH = 4;
+static const int IPV6_LENGTH = 16;
 
 class Packet {
 private:
-    Host host;
-    
+    unsigned char srcMac[MAC_LENGTH] {};
+    unsigned char dstMac[MAC_LENGTH] {};
+    unsigned char addr4[IPV4_LENGTH] {};
+    unsigned char addr6[IPV6_LENGTH] {};
+    string hexStr(unsigned char *, int);
 public:
-    const Host getHost();
+    Packet(const unsigned char *);
 };

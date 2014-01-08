@@ -55,6 +55,7 @@ const vector<Packet> Device::getPackets() {
     return packets;
 }
 
+
 //
 // overload the ostream << operator for Device
 //
@@ -75,6 +76,7 @@ int Device::capture(int n) {
         throw runtime_error(error);
     }
     if (pcap_datalink(pcap) != DLT_EN10MB) {
+        pcap_close(pcap);
         throw runtime_error("Link-layer type not IEEE 802.3 Ethernet");
     }
     
@@ -82,11 +84,11 @@ int Device::capture(int n) {
     struct pcap_pkthdr header;
     for (int i = 0; i < n; ++i) {
         packet = pcap_next(pcap, &header);
+        if (packet != NULL) {
+            Packet p(packet);
+        }
     }
     
     pcap_close(pcap);
     return (int) packets.size();
 }
-
-
-

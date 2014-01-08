@@ -34,6 +34,8 @@ private:
     string description;
     bool loopback;
     vector<Packet> packets;
+    static string src(const unsigned char *);
+    static string dst(const unsigned char *);
     static const int snapLen = 256;
     static const int timeout = 1000;
 public:

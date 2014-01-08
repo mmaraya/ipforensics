@@ -22,3 +22,31 @@
 //
 
 #include "packet.h"
+
+Packet::Packet(const unsigned char * p) {
+
+    // extract the source MAC address from the packet
+    int i = 0;
+    for (; i < MAC_LENGTH; ++i) {
+        srcMac[i] = p[i];
+    }
+    
+    // extract the destination MAC address from the packet
+    for (int j = 0; j < MAC_LENGTH; ++j, ++i) {
+        dstMac[j] = p[i];
+    }
+
+    cout << hexStr(srcMac, MAC_LENGTH) << " -> " << hexStr(dstMac, MAC_LENGTH) << endl;
+}
+
+//
+// return the string version of the hexadecimal of len length
+//
+string Packet::hexStr(unsigned char * p, int len) {
+    stringstream ss;
+    for (int i = 0; i < len; ++i) {
+        if (i > 0) ss << ':';
+        ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned char)p[i];
+    }
+    return ss.str();
+}
