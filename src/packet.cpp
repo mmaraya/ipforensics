@@ -35,18 +35,36 @@ Packet::Packet(const unsigned char * p) {
     for (int j = 0; j < MAC_LENGTH; ++j, ++i) {
         dstMac[j] = p[i];
     }
-
-    cout << hexStr(srcMac, MAC_LENGTH) << " -> " << hexStr(dstMac, MAC_LENGTH) << endl;
+    
+    // extract the ethernet type
+    for (int j = 0; j < ETHERTYPE_LENGTH; ++j, ++i) {
+        etherType[j] = p[i];
+    }
+    
+    cout << hexStr(srcMac, MAC_LENGTH) << " -> " << hexStr(dstMac, MAC_LENGTH);
+    cout << ' ' << hexStr(etherType, ETHERTYPE_LENGTH) << endl;
 }
 
 //
-// return the string version of the hexadecimal of len length
+// return the hex version of the unsigned char *
 //
 string Packet::hexStr(unsigned char * p, int len) {
     stringstream ss;
     for (int i = 0; i < len; ++i) {
         if (i > 0) ss << ':';
         ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned char)p[i];
+    }
+    return ss.str();
+}
+
+//
+// return the hex version of the unsigned short
+//
+string Packet::hexStr(unsigned short * p, int len) {
+    stringstream ss;
+    for (int i = 0; i < len; ++i) {
+        if (i > 0) ss << ':';
+        ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned short)p[i];
     }
     return ss.str();
 }

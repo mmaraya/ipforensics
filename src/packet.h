@@ -36,9 +36,11 @@ class Packet {
 private:
     unsigned char srcMac[MAC_LENGTH] {};
     unsigned char dstMac[MAC_LENGTH] {};
+    unsigned short etherType[ETHERTYPE_LENGTH] {};
     unsigned char addr4[IPV4_LENGTH] {};
     unsigned char addr6[IPV6_LENGTH] {};
     string hexStr(unsigned char *, int);
+    string hexStr(unsigned short *, int);
 public:
     Packet(const unsigned char *);
 };

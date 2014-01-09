@@ -55,7 +55,6 @@ const vector<Packet> Device::getPackets() {
     return packets;
 }
 
-
 //
 // overload the ostream << operator for Device
 //
