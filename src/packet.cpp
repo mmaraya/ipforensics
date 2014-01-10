@@ -26,23 +26,39 @@
 Packet::Packet(const unsigned char * p) {
 
     // extract the source MAC address from the packet
-    int i = 0;
-    for (; i < MAC_LENGTH; ++i) {
-        srcMac[i] = p[i];
+    for (int i = PACKET_OFFSET_SRC_MAC; i < PACKET_OFFSET_SRC_MAC + MAC_LENGTH; ++i) {
+        srcMac[i - PACKET_OFFSET_SRC_MAC] = p[i];
     }
     
     // extract the destination MAC address from the packet
-    for (int j = 0; j < MAC_LENGTH; ++j, ++i) {
-        dstMac[j] = p[i];
+    for (int i = PACKET_OFFSET_DST_MAC; i < PACKET_OFFSET_DST_MAC + MAC_LENGTH; ++i) {
+        dstMac[i - PACKET_OFFSET_DST_MAC] = p[i];
     }
     
     // extract the ethernet type
-    for (int j = 0; j < ETHERTYPE_LENGTH; ++j, ++i) {
-        etherType[j] = p[i];
+    for (int i = PACKET_OFFSET_ETHERTYPE; i < PACKET_OFFSET_ETHERTYPE + ETHERTYPE_LENGTH; ++i) {
+        etherType[i - PACKET_OFFSET_ETHERTYPE] = p[i];
     }
     
     cout << hexStr(srcMac, MAC_LENGTH) << " -> " << hexStr(dstMac, MAC_LENGTH);
     cout << ' ' << hexStr(etherType, ETHERTYPE_LENGTH) << endl;
+
+    // extract IPv4 address
+    if (etherType[0] == ETHERTYPE_IPV4[0] && etherType[1] == ETHERTYPE_IPV4[1]) {
+        for (int i = PACKET_OFFFSET_IPV4; i < PACKET_OFFFSET_IPV4 + IPV4_LENGTH; ++i) {
+            ipv4[i - PACKET_OFFFSET_IPV4] = p[i];
+        }
+        cout << "IPv4 Address: " << intStr(ipv4, IPV4_LENGTH) << endl;
+    }
+    
+    // extract IPv6 address
+    if (etherType[0] == ETHERTYPE_IPV6[0] && etherType[1] == ETHERTYPE_IPV6[1]) {
+        for (int i = PACKET_OFFFSET_IPV6; i < PACKET_OFFFSET_IPV6 + IPV6_LENGTH; ++i) {
+            ipv6[i - PACKET_OFFFSET_IPV6] = p[i];
+        }
+        cout << "IPv6 Address: " << hexStr(ipv6, IPV6_LENGTH) << endl;
+    }
+    
 }
 
 //
@@ -65,6 +81,18 @@ string Packet::hexStr(unsigned short * p, int len) {
     for (int i = 0; i < len; ++i) {
         if (i > 0) ss << ':';
         ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned short)p[i];
+    }
+    return ss.str();
+}
+
+//
+// return the integer version of the unsigned char *
+//
+string Packet::intStr(unsigned char * p, int len) {
+    stringstream ss;
+    for (int i = 0; i < len; ++i) {
+        if (i > 0) ss << '.';
+        ss << (int)(unsigned char)p[i];
     }
     return ss.str();
 }

@@ -27,19 +27,27 @@
 #include "host.h"
 using namespace std;
 
-static const int MAC_LENGTH = 6;
-static const int ETHERTYPE_LENGTH = 2;
-static const int IPV4_LENGTH = 4;
-static const int IPV6_LENGTH = 16;
+static const int PACKET_OFFSET_SRC_MAC {0};
+static const int PACKET_OFFSET_DST_MAC {6};
+static const int MAC_LENGTH {6};
+static const int PACKET_OFFSET_ETHERTYPE {12};
+static const int ETHERTYPE_LENGTH {2};
+static const int PACKET_OFFFSET_IPV4 {26};
+static const int IPV4_LENGTH {4};
+static const int PACKET_OFFFSET_IPV6 {22};
+static const int IPV6_LENGTH {16};
+static const unsigned char ETHERTYPE_IPV4[ETHERTYPE_LENGTH] {0x08, 0x00};
+static const unsigned char ETHERTYPE_IPV6[ETHERTYPE_LENGTH] {0x86, 0xDD};
 
 class Packet {
 private:
     unsigned char srcMac[MAC_LENGTH] {};
     unsigned char dstMac[MAC_LENGTH] {};
     unsigned short etherType[ETHERTYPE_LENGTH] {};
-    unsigned char addr4[IPV4_LENGTH] {};
-    unsigned char addr6[IPV6_LENGTH] {};
+    unsigned char ipv4[IPV4_LENGTH] {};
+    unsigned char ipv6[IPV6_LENGTH] {};
     string hexStr(unsigned char *, int);
+    string intStr(unsigned char *, int);
     string hexStr(unsigned short *, int);
 public:
     Packet(const unsigned char *);
