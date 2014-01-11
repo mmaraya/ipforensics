@@ -33,8 +33,7 @@ public:
     vector<Device> getDevices();
     void loadDevices();
     void addDevice(Device);
-    template <typename T> static string str(const T *, int);
-    string hexStr(unsigned char *, int);
-    string intStr(unsigned char *, int);
-    string hexStr(unsigned short *, int);
+    static string hexStr(unsigned char *, int);
+    static string intStr(unsigned char *, int);
+    static string hexStr(unsigned short *, int);
 };

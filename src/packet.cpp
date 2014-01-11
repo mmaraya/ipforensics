@@ -40,40 +40,54 @@ Packet::Packet(const unsigned char * p) {
         etherType[i - PACKET_OFFSET_ETHERTYPE] = p[i];
     }
     
-    // extract IPv4 address
+    // extract IPv4 source and destination addresses
     if (etherType[0] == ETHERTYPE_IPV4[0] && etherType[1] == ETHERTYPE_IPV4[1]) {
-        for (int i = PACKET_OFFFSET_IPV4; i < PACKET_OFFFSET_IPV4 + IPV4_LENGTH; ++i) {
-            ipv4[i - PACKET_OFFFSET_IPV4] = p[i];
+        for (int i = PACKET_OFFFSET_IPV4_SRC; i < PACKET_OFFFSET_IPV4_SRC + IPV4_LENGTH; ++i) {
+            srcV4[i - PACKET_OFFFSET_IPV4_SRC] = p[i];
+        }
+        for (int i = PACKET_OFFFSET_IPV4_DST; i < PACKET_OFFFSET_IPV4_DST + IPV4_LENGTH; ++i) {
+            dstV4[i - PACKET_OFFFSET_IPV4_DST] = p[i];
         }
     }
     
-    // extract IPv6 address
+    // extract IPv6 source and destination addresses
     if (etherType[0] == ETHERTYPE_IPV6[0] && etherType[1] == ETHERTYPE_IPV6[1]) {
-        for (int i = PACKET_OFFFSET_IPV6; i < PACKET_OFFFSET_IPV6 + IPV6_LENGTH; ++i) {
-            ipv6[i - PACKET_OFFFSET_IPV6] = p[i];
+        for (int i = PACKET_OFFFSET_IPV6_SRC; i < PACKET_OFFFSET_IPV6_SRC + IPV6_LENGTH; ++i) {
+            srcV6[i - PACKET_OFFFSET_IPV6_SRC] = p[i];
+        }
+        for (int i = PACKET_OFFFSET_IPV6_DST; i < PACKET_OFFFSET_IPV6_DST + IPV6_LENGTH; ++i) {
+            dstV6[i - PACKET_OFFFSET_IPV6_DST] = p[i];
         }
     }
     
 }
 
-unsigned char * Packet::src() {
+unsigned char * Packet::getSrcMac() {
     return srcMac;
 }
 
-unsigned char * Packet::dst() {
+unsigned char * Packet::getDstMac() {
     return dstMac;
 }
 
-unsigned short * Packet::type() {
+unsigned short * Packet::getType() {
     return etherType;
 }
 
-unsigned char * Packet::v4() {
-    return ipv4;
+unsigned char * Packet::getSrcV4() {
+    return srcV4;
 }
 
-unsigned char * Packet::v6() {
-    return ipv6;
+unsigned char * Packet::getDstV4() {
+    return dstV4;
+}
+
+unsigned char * Packet::getSrcV6() {
+    return srcV6;
+}
+
+unsigned char * Packet::getDstV6() {
+    return dstV6;
 }
 
 

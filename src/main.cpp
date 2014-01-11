@@ -74,7 +74,23 @@ int main(const int argc, const char * argv[]) {
     // display accepted run-time parameters
     cout << "Using \'" << device.getName() << "\' to capture " << packetCount << " packet(s)." << endl;
     
+    // capture packets and display them
     device.capture(packetCount);
+    for (Packet p : device.getPackets()) {
+        cout << IPForensics::hexStr(p.getSrcMac(), MAC_LENGTH) << " -> ";
+        cout << IPForensics::hexStr(p.getDstMac(), MAC_LENGTH) << ' ';
+        cout << IPForensics::hexStr(p.getType(), ETHERTYPE_LENGTH) << ' ';
+        if (p.getType()[0] == ETHERTYPE_IPV4[0] && p.getType()[1] == ETHERTYPE_IPV4[1]) {
+            cout << IPForensics::intStr(p.getSrcV4(), IPV4_LENGTH) << " -> ";
+            cout << IPForensics::intStr(p.getDstV4(), IPV4_LENGTH);
+        }
+        if (p.getType()[0] == ETHERTYPE_IPV6[0] && p.getType()[1] == ETHERTYPE_IPV6[1]) {
+            cout << IPForensics::hexStr(p.getSrcV6(), IPV6_LENGTH) << " -> ";
+            cout << IPForensics::hexStr(p.getDstV6(), IPV6_LENGTH);
+        }
+        cout << endl;
+    }
+    cout << device.getPackets().size() << " packet(s) captured." << endl;
     
     return 0;
 }

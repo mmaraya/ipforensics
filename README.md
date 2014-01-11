@@ -1,7 +1,7 @@
 ![ipforensics logo](ipforensics.png "ipforensics")
 ==================================================
 
-ipforensics is a network administration utility that reports the Internet Protocol version used by the devices on your local network segment: IPv4, IPv6, or both.  If you're planning an IPv6 migration, this utility will tell you which devices need to be moved over. 
+ipforensics is a network administration utility that passively determines the Internet Protocol version used by the devices on your local network segment: IPv4, IPv6, or both.  If you're planning an IPv6 migration, this utility will tell you which devices need to be moved over. 
 
 Supported Platforms
 -------------------

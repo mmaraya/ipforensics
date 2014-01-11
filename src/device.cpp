@@ -84,7 +84,7 @@ int Device::capture(int n) {
     for (int i = 0; i < n; ++i) {
         packet = pcap_next(pcap, &header);
         if (packet != NULL) {
-            Packet p(packet);
+            packets.push_back(Packet(packet));
         }
     }
     
