@@ -40,15 +40,11 @@ Packet::Packet(const unsigned char * p) {
         etherType[i - PACKET_OFFSET_ETHERTYPE] = p[i];
     }
     
-    cout << hexStr(srcMac, MAC_LENGTH) << " -> " << hexStr(dstMac, MAC_LENGTH);
-    cout << ' ' << hexStr(etherType, ETHERTYPE_LENGTH) << endl;
-
     // extract IPv4 address
     if (etherType[0] == ETHERTYPE_IPV4[0] && etherType[1] == ETHERTYPE_IPV4[1]) {
         for (int i = PACKET_OFFFSET_IPV4; i < PACKET_OFFFSET_IPV4 + IPV4_LENGTH; ++i) {
             ipv4[i - PACKET_OFFFSET_IPV4] = p[i];
         }
-        cout << "IPv4 Address: " << intStr(ipv4, IPV4_LENGTH) << endl;
     }
     
     // extract IPv6 address
@@ -56,43 +52,28 @@ Packet::Packet(const unsigned char * p) {
         for (int i = PACKET_OFFFSET_IPV6; i < PACKET_OFFFSET_IPV6 + IPV6_LENGTH; ++i) {
             ipv6[i - PACKET_OFFFSET_IPV6] = p[i];
         }
-        cout << "IPv6 Address: " << hexStr(ipv6, IPV6_LENGTH) << endl;
     }
     
 }
 
-//
-// return the hex version of the unsigned char *
-//
-string Packet::hexStr(unsigned char * p, int len) {
-    stringstream ss;
-    for (int i = 0; i < len; ++i) {
-        if (i > 0) ss << ':';
-        ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned char)p[i];
-    }
-    return ss.str();
+unsigned char * Packet::src() {
+    return srcMac;
 }
 
-//
-// return the hex version of the unsigned short
-//
-string Packet::hexStr(unsigned short * p, int len) {
-    stringstream ss;
-    for (int i = 0; i < len; ++i) {
-        if (i > 0) ss << ':';
-        ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned short)p[i];
-    }
-    return ss.str();
+unsigned char * Packet::dst() {
+    return dstMac;
 }
 
-//
-// return the integer version of the unsigned char *
-//
-string Packet::intStr(unsigned char * p, int len) {
-    stringstream ss;
-    for (int i = 0; i < len; ++i) {
-        if (i > 0) ss << '.';
-        ss << (int)(unsigned char)p[i];
-    }
-    return ss.str();
+unsigned short * Packet::type() {
+    return etherType;
 }
+
+unsigned char * Packet::v4() {
+    return ipv4;
+}
+
+unsigned char * Packet::v6() {
+    return ipv6;
+}
+
+

@@ -58,3 +58,51 @@ void IPForensics::loadDevices() {
     pcap_freealldevs(alldevsp);
     return;
 }
+
+//
+// return the string representation of the supplied type
+//
+template <typename T> string IPForensics::str(const T * p, int len) {
+    stringstream ss;
+    for (int i = 0; i < len; ++i) {
+        if (i > 0) ss << ':';
+        ss << uppercase << hex << setw(2) << setfill('0') << (int)(T)p[i];
+    }
+    return ss.str();
+}
+
+//
+// return the hex version of the unsigned char *
+//
+string IPForensics::hexStr(unsigned char * p, int len) {
+    stringstream ss;
+    for (int i = 0; i < len; ++i) {
+        if (i > 0) ss << ':';
+        ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned char)p[i];
+    }
+    return ss.str();
+}
+
+//
+// return the hex version of the unsigned short
+//
+string IPForensics::hexStr(unsigned short * p, int len) {
+    stringstream ss;
+    for (int i = 0; i < len; ++i) {
+        if (i > 0) ss << ':';
+        ss << uppercase << hex << setw(2) << setfill('0') << (int)(unsigned short)p[i];
+    }
+    return ss.str();
+}
+
+//
+// return the integer version of the unsigned char *
+//
+string IPForensics::intStr(unsigned char * p, int len) {
+    stringstream ss;
+    for (int i = 0; i < len; ++i) {
+        if (i > 0) ss << '.';
+        ss << (int)(unsigned char)p[i];
+    }
+    return ss.str();
+}

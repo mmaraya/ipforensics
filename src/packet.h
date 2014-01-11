@@ -46,9 +46,12 @@ private:
     unsigned short etherType[ETHERTYPE_LENGTH] {};
     unsigned char ipv4[IPV4_LENGTH] {};
     unsigned char ipv6[IPV6_LENGTH] {};
-    string hexStr(unsigned char *, int);
-    string intStr(unsigned char *, int);
-    string hexStr(unsigned short *, int);
 public:
     Packet(const unsigned char *);
+    unsigned char * src();
+    unsigned char * dst();
+    unsigned short * type();
+    unsigned char * v4();
+    unsigned char * v6();
 };
+
