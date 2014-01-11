@@ -23,4 +23,4 @@
 
 #include <iostream>
 #include "ip4and6.h"
-using namespace std;
+using namespace ipf;

@@ -75,22 +75,22 @@ int main(const int argc, const char * argv[]) {
     cout << "Using \'" << device.getName() << "\' to capture " << packetCount << " packet(s)." << endl;
     
     // capture packets and display them
-    device.capture(packetCount);
+    int count = device.capture(packetCount);
     for (Packet p : device.getPackets()) {
-        cout << IPForensics::hexStr(p.getSrcMac(), MAC_LENGTH) << " -> ";
-        cout << IPForensics::hexStr(p.getDstMac(), MAC_LENGTH) << ' ';
-        cout << IPForensics::hexStr(p.getType(), ETHERTYPE_LENGTH) << ' ';
-        if (p.getType()[0] == ETHERTYPE_IPV4[0] && p.getType()[1] == ETHERTYPE_IPV4[1]) {
-            cout << IPForensics::intStr(p.getSrcV4(), IPV4_LENGTH) << " -> ";
-            cout << IPForensics::intStr(p.getDstV4(), IPV4_LENGTH);
+        cout << IPForensics::hexStr(p.getSrcMac(), kLengthMAC) << " -> ";
+        cout << IPForensics::hexStr(p.getDstMac(), kLengthMAC) << ' ';
+        cout << IPForensics::hexStr(p.getType(), kLengthEtherType) << ' ';
+        if (p.getType()[0] == kEtherTypeIPv4[0] && p.getType()[1] == kEtherTypeIPv4[1]) {
+            cout << IPForensics::intStr(p.getSrcV4(), kLengthIPv4) << " -> ";
+            cout << IPForensics::intStr(p.getDstV4(), kLengthIPv4);
         }
-        if (p.getType()[0] == ETHERTYPE_IPV6[0] && p.getType()[1] == ETHERTYPE_IPV6[1]) {
-            cout << IPForensics::hexStr(p.getSrcV6(), IPV6_LENGTH) << " -> ";
-            cout << IPForensics::hexStr(p.getDstV6(), IPV6_LENGTH);
+        if (p.getType()[0] == kEtherTypeIPv6[0] && p.getType()[1] == kEtherTypeIPv6[1]) {
+            cout << IPForensics::hexStr(p.getSrcV6(), kLengthIPv6) << " -> ";
+            cout << IPForensics::hexStr(p.getDstV6(), kLengthIPv6);
         }
         cout << endl;
     }
-    cout << device.getPackets().size() << " packet(s) captured." << endl;
+    cout << count << " packet(s) captured." << endl;
     
     return 0;
 }

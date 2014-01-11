@@ -22,41 +22,42 @@
 //
 
 #include "packet.h"
+using namespace ipf;
 
 Packet::Packet(const unsigned char * p) {
 
     // extract the source MAC address from the packet
-    for (int i = PACKET_OFFSET_SRC_MAC; i < PACKET_OFFSET_SRC_MAC + MAC_LENGTH; ++i) {
-        srcMac[i - PACKET_OFFSET_SRC_MAC] = p[i];
+    for (int i = kOffsetMACSrc; i < kOffsetMACSrc + kLengthMAC; ++i) {
+        srcMac[i - kOffsetMACSrc] = p[i];
     }
     
     // extract the destination MAC address from the packet
-    for (int i = PACKET_OFFSET_DST_MAC; i < PACKET_OFFSET_DST_MAC + MAC_LENGTH; ++i) {
-        dstMac[i - PACKET_OFFSET_DST_MAC] = p[i];
+    for (int i = kOffsetMACDst; i < kOffsetMACDst + kLengthMAC; ++i) {
+        dstMac[i - kOffsetMACDst] = p[i];
     }
     
     // extract the ethernet type
-    for (int i = PACKET_OFFSET_ETHERTYPE; i < PACKET_OFFSET_ETHERTYPE + ETHERTYPE_LENGTH; ++i) {
-        etherType[i - PACKET_OFFSET_ETHERTYPE] = p[i];
+    for (int i = kOffsetEtherType; i < kOffsetEtherType + kLengthEtherType; ++i) {
+        etherType[i - kOffsetEtherType] = p[i];
     }
     
     // extract IPv4 source and destination addresses
-    if (etherType[0] == ETHERTYPE_IPV4[0] && etherType[1] == ETHERTYPE_IPV4[1]) {
-        for (int i = PACKET_OFFFSET_IPV4_SRC; i < PACKET_OFFFSET_IPV4_SRC + IPV4_LENGTH; ++i) {
-            srcV4[i - PACKET_OFFFSET_IPV4_SRC] = p[i];
+    if (etherType[0] == kEtherTypeIPv4[0] && etherType[1] == kEtherTypeIPv4[1]) {
+        for (int i = kOffsetIPv4Src; i < kOffsetIPv4Src + kLengthIPv4; ++i) {
+            srcV4[i - kOffsetIPv4Src] = p[i];
         }
-        for (int i = PACKET_OFFFSET_IPV4_DST; i < PACKET_OFFFSET_IPV4_DST + IPV4_LENGTH; ++i) {
-            dstV4[i - PACKET_OFFFSET_IPV4_DST] = p[i];
+        for (int i = kOffsetIPv4Dst; i < kOffsetIPv4Dst + kLengthIPv4; ++i) {
+            dstV4[i - kOffsetIPv4Dst] = p[i];
         }
     }
     
     // extract IPv6 source and destination addresses
-    if (etherType[0] == ETHERTYPE_IPV6[0] && etherType[1] == ETHERTYPE_IPV6[1]) {
-        for (int i = PACKET_OFFFSET_IPV6_SRC; i < PACKET_OFFFSET_IPV6_SRC + IPV6_LENGTH; ++i) {
-            srcV6[i - PACKET_OFFFSET_IPV6_SRC] = p[i];
+    if (etherType[0] == kEtherTypeIPv6[0] && etherType[1] == kEtherTypeIPv6[1]) {
+        for (int i = kOffsetIPv6Src; i < kOffsetIPv6Src + kLengthIPv6; ++i) {
+            srcV6[i - kOffsetIPv6Src] = p[i];
         }
-        for (int i = PACKET_OFFFSET_IPV6_DST; i < PACKET_OFFFSET_IPV6_DST + IPV6_LENGTH; ++i) {
-            dstV6[i - PACKET_OFFFSET_IPV6_DST] = p[i];
+        for (int i = kOffsetIPv6Dst; i < kOffsetIPv6Dst + kLengthIPv6; ++i) {
+            dstV6[i - kOffsetIPv6Dst] = p[i];
         }
     }
     

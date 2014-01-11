@@ -27,31 +27,35 @@
 #include "host.h"
 using namespace std;
 
-static const int PACKET_OFFSET_SRC_MAC {0};
-static const int PACKET_OFFSET_DST_MAC {6};
-static const int MAC_LENGTH {6};
-static const int PACKET_OFFSET_ETHERTYPE {12};
-static const int ETHERTYPE_LENGTH {2};
-static const int PACKET_OFFFSET_IPV4_SRC {26};
-static const int PACKET_OFFFSET_IPV4_DST {30};
-static const int IPV4_LENGTH {4};
-static const int PACKET_OFFFSET_IPV6_SRC {22};
-static const int PACKET_OFFFSET_IPV6_DST {38};
-static const int IPV6_LENGTH {16};
-static const unsigned char ETHERTYPE_IPV4[ETHERTYPE_LENGTH] {0x08, 0x00};
-static const unsigned char ETHERTYPE_IPV6[ETHERTYPE_LENGTH] {0x86, 0xDD};
+namespace ipf {
+    const int kLengthMAC        {6};
+    const int kLengthEtherType  {2};
+    const int kLengthIPv4       {4};
+    const int kLengthIPv6       {16};
+    const int kOffsetMACSrc     {0};
+    const int kOffsetMACDst     {6};
+    const int kOffsetEtherType  {12};
+    const int kOffsetIPv4Src    {26};
+    const int kOffsetIPv4Dst    {30};
+    const int kOffsetIPv6Src    {22};
+    const int kOffsetIPv6Dst    {38};
+    const unsigned char kEtherTypeIPv4[kLengthEtherType] {0x08, 0x00};
+    const unsigned char kEtherTypeIPv6[kLengthEtherType] {0x86, 0xDD};
+}
 
 class Packet {
 private:
-    unsigned char srcMac[MAC_LENGTH] {};
-    unsigned char dstMac[MAC_LENGTH] {};
-    unsigned short etherType[ETHERTYPE_LENGTH] {};
-    unsigned char srcV4[IPV4_LENGTH] {};
-    unsigned char dstV4[IPV4_LENGTH] {};
-    unsigned char srcV6[IPV6_LENGTH] {};
-    unsigned char dstV6[IPV6_LENGTH] {};
+    unsigned char srcMac[ipf::kLengthMAC] {};
+    unsigned char dstMac[ipf::kLengthMAC] {};
+    unsigned short etherType[ipf::kLengthEtherType] {};
+    unsigned char srcV4[ipf::kLengthIPv4] {};
+    unsigned char dstV4[ipf::kLengthIPv4] {};
+    unsigned char srcV6[ipf::kLengthIPv6] {};
+    unsigned char dstV6[ipf::kLengthIPv6] {};
 public:
     Packet(const unsigned char *);
+    bool ipv4();
+    bool ipv6();
     unsigned char * getSrcMac();
     unsigned char * getDstMac();
     unsigned short * getType();
