@@ -3,94 +3,106 @@
 //
 // Copyright (c) 2014 Michael Maraya
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 //
 
 #include "main.h"
 
 int main(const int argc, const char * argv[]) {
-    
-    // check for device name supplied in command-line arguments
-    string deviceName;
-    if (argc > 1) {
-        deviceName = argv[1];
-    }
-    
-    // check for number of packets to capture in command-line arguments
-    int packetCount {10};
-    if (argc > 2) {
-        try {
-            packetCount = stoi(argv[2]);
-        } catch (exception const &e) {
-            cout << "Could not convert \'" << argv[2] << "\' into a number: " << e.what() << endl;
-            return 1;
-        }
-    }
-    
-    // load packet capture device list from system
-    IPForensics ip;
+  
+  // check for device name supplied in command-line arguments
+  string device_name;
+  if (argc > 1) {
+    device_name = argv[1];
+  }
+  
+  // check for number of packets to capture in command-line arguments
+  int packetCount {50};
+  if (argc > 2) {
     try {
-        ip.loadDevices();
+      packetCount = stoi(argv[2]);
     } catch (exception const &e) {
-        cout << "Could not query system for packet capture devices: " << e.what() << endl;
+      cout << "Could not convert \'" << argv[2] << "\' into a number: " << e.what() << endl;
+      return 1;
     }
-
-    // select device to use
-    Device device;
-    for (Device d : ip.getDevices()) {
-        if (deviceName == d.getName()) {
-            device = d;
-        } else {
-            if (device.getName().empty() && !d.isLoopback()) {
-                device = d;
-            }
-        }
+  }
+  
+  // load packet capture device list from system
+  IPForensics ip;
+  try {
+    ip.load_devices();
+  } catch (exception const &e) {
+    cout << "Could not query system for packet capture devices: " << e.what() << endl;
+  }
+  
+  // select device to use
+  Device device;
+  for (Device d : ip.devices()) {
+    if (device_name == d.getName()) {
+      device = d;
+    } else {
+      if (device.getName().empty() && !d.isLoopback()) {
+        device = d;
+      }
     }
-    if (deviceName != device.getName()) {
-        cout << "Invalid packet capture device \'" << deviceName << "\'. ";
-        cout << "Valid device(s):";
-        for (Device d: ip.getDevices()) {
-            cout << ' ' << d.getName();
-        }
-        cout << endl;
-        return 1;
+  }
+  if (device_name != device.getName()) {
+    cout << "Invalid packet capture device \'" << device_name << "\'. ";
+    cout << "Valid device(s):";
+    for (Device d: ip.devices()) {
+      cout << ' ' << d.getName();
     }
-    
-    // display accepted run-time parameters
-    cout << "Using \'" << device.getName() << "\' to capture " << packetCount << " packet(s)." << endl;
-    
-    // capture packets and display them
-    int count = device.capture(packetCount);
-    for (Packet p : device.getPackets()) {
-        cout << IPForensics::hexStr(p.getSrcMac(), kLengthMAC) << " -> ";
-        cout << IPForensics::hexStr(p.getDstMac(), kLengthMAC) << ' ';
-        cout << IPForensics::hexStr(p.getType(), kLengthEtherType) << ' ';
-        if (p.getType()[0] == kEtherTypeIPv4[0] && p.getType()[1] == kEtherTypeIPv4[1]) {
-            cout << IPForensics::intStr(p.getSrcV4(), kLengthIPv4) << " -> ";
-            cout << IPForensics::intStr(p.getDstV4(), kLengthIPv4);
-        }
-        if (p.getType()[0] == kEtherTypeIPv6[0] && p.getType()[1] == kEtherTypeIPv6[1]) {
-            cout << IPForensics::hexStr(p.getSrcV6(), kLengthIPv6) << " -> ";
-            cout << IPForensics::hexStr(p.getDstV6(), kLengthIPv6);
-        }
-        cout << endl;
+    cout << endl;
+    return 1;
+  }
+  
+  // display accepted run-time parameters
+  cout << "Using \'" << device.getName() << "\' to capture " << packetCount << " packet(s)." << endl;
+  
+  // capture packets
+  int actual_packet_count = device.capture(packetCount);
+  
+  // display packets captured
+  vector<Packet> packets = device.getPackets();
+  for (Packet p : packets) {
+    cout << ipf::hexStr(p.mac_src(), kLengthMAC) << " -> ";
+    cout << ipf::hexStr(p.mac_dst(), kLengthMAC) << ' ';
+    cout << ipf::hexStr(p.ether_type(), kLengthEtherType) << ' ';
+    if (p.ipv4()) {
+      cout << ipf::intStr(p.ipv4_src(), kLengthIPv4) << " -> ";
+      cout << ipf::intStr(p.ipv4_dst(), kLengthIPv4);
     }
-    cout << count << " packet(s) captured." << endl;
-    
-    return 0;
+    if (p.ipv6()) {
+      cout << ipf::hexStr(p.ipv6_src(), kLengthIPv6) << " -> ";
+      cout << ipf::hexStr(p.ipv6_dst(), kLengthIPv6);
+    }
+    cout << endl;
+  }
+  cout << actual_packet_count << " packet(s) captured." << endl;
+  
+  // extract hosts from packets
+  ip.load_hosts(packets);
+  
+  // display hosts
+  for (Host h : ip.hosts()) {
+    cout << h << endl;
+  }
+  
+  return 0;
 }
