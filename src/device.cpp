@@ -26,43 +26,41 @@
 
 Device::Device() {}
 
-Device::Device(string n, string d="", bool l=false) {
-  name = n;
-  description = d;
-  loopback = l;
+Device::Device(const string name, const string desc="", const bool l=false) {
+  name_ = name;
+  desc_ = desc;
+  loopback_ = l;
 }
 
-const string Device::getName() const {
-  return name;
+const string Device::name() const {
+  return name_;
 }
 
-void Device::setName(string str) {
-  name = str;
+void Device::set_name(const string name) {
+  name_ = name;
 }
 
-const string Device::getDescription() const {
-  return description;
+const string Device::desc() const {
+  return desc_;
 }
 
-void Device::setDescription(string str) {
-  description = str;
+void Device::set_desc(const string desc) {
+  desc_ = desc;
 }
 
-const bool Device::isLoopback() const {
-  return loopback;
+const bool Device::loopback() const {
+  return loopback_;
 }
 
-const vector<Packet> Device::getPackets() {
-  return packets;
+const vector<Packet> Device::packets() {
+  return packets_;
 }
 
 //
 // overload the ostream << operator for Device
 //
 ostream &operator<<(ostream &out, const Device &d) {
-  out << d.getName() << ":";
-  out << d.getDescription() << ":";
-  out << (d.isLoopback()?"LOOPBACK":"");
+  out << d.name() << ":" << d.desc() << ":" << (d.loopback() ? "LOOPBACK" : "");
   return out;
 }
 
@@ -70,10 +68,11 @@ ostream &operator<<(ostream &out, const Device &d) {
 // Read n packets from this device and load into packet list
 // Return the number of packets actually read
 //
-int Device::capture(int n) {
+int Device::capture(const int n) {
   
   char error[PCAP_ERRBUF_SIZE] {};
-  pcap_t* pcap = pcap_open_live(name.c_str(), snapLen, true, timeout, error);
+  pcap_t* pcap = pcap_open_live(name_.c_str(), ipf::kSnapLength, true,
+                                ipf::kTimeout, error);
   if (pcap == NULL) {
     throw runtime_error(error);
   }
@@ -87,10 +86,10 @@ int Device::capture(int n) {
   for (int i = 0; i < n; ++i) {
     packet = pcap_next(pcap, &header);
     if (packet != NULL) {
-      packets.push_back(Packet(packet));
+      packets_.push_back(Packet(packet));
     }
   }
   
   pcap_close(pcap);
-  return (int) packets.size();
+  return (int) packets_.size();
 }

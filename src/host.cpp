@@ -26,6 +26,7 @@
 
 //
 // return the hex version of the unsigned char *
+// TODO: Format IPv6 addresses using IETF RFC 5952
 //
 string ipf::hexStr(unsigned char * p, int len) {
   stringstream ss;

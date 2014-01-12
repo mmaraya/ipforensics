@@ -30,6 +30,8 @@
 using namespace std;
 
 namespace ipf {
+  const int kSnapLength       {256};
+  const int kTimeout          {1000};
   const int kLengthMAC        {6};
   const int kLengthEtherType  {2};
   const int kLengthIPv4       {4};

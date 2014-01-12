@@ -54,32 +54,32 @@ int main(const int argc, const char * argv[]) {
   // select device to use
   Device device;
   for (Device d : ip.devices()) {
-    if (device_name == d.getName()) {
+    if (device_name == d.name()) {
       device = d;
     } else {
-      if (device.getName().empty() && !d.isLoopback()) {
+      if (device.name().empty() && !d.loopback()) {
         device = d;
       }
     }
   }
-  if (device_name != device.getName()) {
+  if (device_name != device.name()) {
     cout << "Invalid packet capture device \'" << device_name << "\'. ";
     cout << "Valid device(s):";
     for (Device d: ip.devices()) {
-      cout << ' ' << d.getName();
+      cout << ' ' << d.name();
     }
     cout << endl;
     return 1;
   }
   
   // display accepted run-time parameters
-  cout << "Using \'" << device.getName() << "\' to capture " << packetCount << " packet(s)." << endl;
+  cout << "Using \'" << device.name() << "\' to capture " << packetCount << " packet(s)." << endl;
   
   // capture packets
   int actual_packet_count = device.capture(packetCount);
   
   // display packets captured
-  vector<Packet> packets = device.getPackets();
+  vector<Packet> packets = device.packets();
   for (Packet p : packets) {
     cout << ipf::hexStr(p.mac_src(), kLengthMAC) << " -> ";
     cout << ipf::hexStr(p.mac_dst(), kLengthMAC) << ' ';

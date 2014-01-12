@@ -31,26 +31,20 @@ using namespace std;
 
 class Device {
 private:
-  string name;
-  string description;
-  bool loopback;
-  vector<Packet> packets;
-  static string src(const unsigned char *);
-  static string dst(const unsigned char *);
-  static const int snapLen = 256;
-  static const int timeout = 1000;
+  string name_;
+  string desc_;
+  bool loopback_;
+  vector<Packet> packets_;
 public:
   Device();
-  Device(string, string, bool);
-  
-  const string getName() const;
-  void setName(string);
-  const string getDescription() const;
-  void setDescription(string);
-  const bool isLoopback() const;
-  const vector<Packet> getPackets();
-  
-  int capture(int);
+  Device(const string, const string, const bool);
+  const string name() const;
+  const string desc() const;
+  const bool loopback() const;
+  const vector<Packet> packets();
+  void set_name(const string);
+  void set_desc(const string);
+  int capture(const int);
 };
 
 ostream &operator<<(ostream &out, const Device &d);
