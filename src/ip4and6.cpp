@@ -68,7 +68,7 @@ void IPForensics::load_devices() {
 //
 void IPForensics::load_hosts(const vector<Packet> packets) {
   for (Packet p : packets) {
-    string mac = ipf::hexStr(p.mac_src(), ipf::kLengthMAC);
+    string mac = p.mac_src().str();
     set<Host>::iterator it = hosts_.find(mac);
 
     if (it != hosts_.end()) {
@@ -87,7 +87,7 @@ void IPForensics::load_hosts(const vector<Packet> packets) {
     } else {
 
       // create new host and add to set
-      Host h = Host(ipf::hexStr(p.mac_src(), ipf::kLengthMAC));
+      Host h = Host(p.mac_src().str());
       if (p.ipv4()) {
         h.set_ipv4(ipf::intStr(p.ipv4_src(), ipf::kLengthIPv4));
       }

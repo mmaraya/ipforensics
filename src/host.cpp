@@ -22,44 +22,8 @@
 // SOFTWARE.
 //
 
+#include <iomanip>
 #include "host.h"
-
-//
-// return the hex version of the unsigned char *
-// TODO: Format IPv6 addresses using IETF RFC 5952
-//
-string ipf::hexStr(unsigned char * p, int len) {
-  stringstream ss;
-  for (int i = 0; i < len; ++i) {
-    if (i > 0) ss << ':';
-    ss << hex << setw(2) << setfill('0') << (int)(unsigned char)p[i];
-  }
-  return ss.str();
-}
-
-//
-// return the hex version of the unsigned short
-//
-string ipf::hexStr(unsigned short * p, int len) {
-  stringstream ss;
-  for (int i = 0; i < len; ++i) {
-    if (i > 0) ss << ':';
-    ss << hex << setw(2) << setfill('0') << (int)(unsigned short)p[i];
-  }
-  return ss.str();
-}
-
-//
-// return the integer version of the unsigned char *
-//
-string ipf::intStr(unsigned char * p, int len) {
-  stringstream ss;
-  for (int i = 0; i < len; ++i) {
-    if (i > 0) ss << '.';
-    ss << (int)(unsigned char)p[i];
-  }
-  return ss.str();
-}
 
 Host::Host(const string mac) {
   mac_ = mac;

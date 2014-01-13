@@ -33,7 +33,7 @@ int main(const int argc, const char * argv[]) {
   }
   
   // check for number of packets to capture in command-line arguments
-  int packetCount {50};
+  int packetCount {5};
   if (argc > 2) {
     try {
       packetCount = stoi(argv[2]);
@@ -81,8 +81,8 @@ int main(const int argc, const char * argv[]) {
   // display packets captured
   vector<Packet> packets = device.packets();
   for (Packet p : packets) {
-    cout << ipf::hexStr(p.mac_src(), kLengthMAC) << " -> ";
-    cout << ipf::hexStr(p.mac_dst(), kLengthMAC) << ' ';
+    cout << p.mac_src().str() << " -> ";
+    cout << p.mac_dst().str() << ' ';
     cout << ipf::hexStr(p.ether_type(), kLengthEtherType) << ' ';
     if (p.ipv4()) {
       cout << ipf::intStr(p.ipv4_src(), kLengthIPv4) << " -> ";

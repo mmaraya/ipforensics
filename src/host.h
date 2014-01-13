@@ -22,33 +22,11 @@
 // SOFTWARE.
 //
 
-#include <iomanip>
 #include <iostream>
 #include <ostream>
-#include <sstream>
 #include <string>
+#include "address.h"
 using namespace std;
-
-namespace ipf {
-  const int kSnapLength       {256};
-  const int kTimeout          {1000};
-  const int kLengthMAC        {6};
-  const int kLengthEtherType  {2};
-  const int kLengthIPv4       {4};
-  const int kLengthIPv6       {16};
-  const int kOffsetMACSrc     {6};
-  const int kOffsetMACDst     {0};
-  const int kOffsetEtherType  {12};
-  const int kOffsetIPv4Src    {26};
-  const int kOffsetIPv4Dst    {30};
-  const int kOffsetIPv6Src    {22};
-  const int kOffsetIPv6Dst    {38};
-  const unsigned char kEtherTypeIPv4[kLengthEtherType] {0x08, 0x00};
-  const unsigned char kEtherTypeIPv6[kLengthEtherType] {0x86, 0xDD};
-  string hexStr(unsigned char *, int);
-  string intStr(unsigned char *, int);
-  string hexStr(unsigned short *, int);
-}
 
 class Host {
  private:

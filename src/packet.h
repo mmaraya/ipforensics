@@ -28,8 +28,8 @@ using namespace std;
 
 class Packet {
 private:
-  unsigned char mac_src_[ipf::kLengthMAC] {};
-  unsigned char mac_dst_[ipf::kLengthMAC] {};
+  MACAddress mac_src_;
+  MACAddress mac_dst_;
   unsigned short ether_type_[ipf::kLengthEtherType] {};
   unsigned char ipv4_src_[ipf::kLengthIPv4] {};
   unsigned char ipv4_dst_[ipf::kLengthIPv4] {};
@@ -39,8 +39,8 @@ public:
   Packet(const unsigned char *);
   bool ipv4();
   bool ipv6();
-  unsigned char * mac_src();
-  unsigned char * mac_dst();
+  MACAddress mac_src();
+  MACAddress mac_dst();
   unsigned short * ether_type();
   unsigned char * ipv4_src();
   unsigned char * ipv4_dst();

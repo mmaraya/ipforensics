@@ -28,14 +28,18 @@ using namespace ipf;
 Packet::Packet(const unsigned char * p) {
   
   // extract the source MAC address from the packet
+  vector<unsigned char> mac_src;
   for (int i = kOffsetMACSrc; i < kOffsetMACSrc + kLengthMAC; ++i) {
-    mac_src_[i - kOffsetMACSrc] = p[i];
+    mac_src.push_back(p[i]);
   }
+  mac_src_.set_address(mac_src);
   
   // extract the destination MAC address from the packet
+  vector<unsigned char> mac_dst;
   for (int i = kOffsetMACDst; i < kOffsetMACDst + kLengthMAC; ++i) {
-    mac_dst_[i - kOffsetMACDst] = p[i];
+    mac_dst.push_back(p[i]);
   }
+  mac_dst_.set_address(mac_dst);
   
   // extract the ethernet type
   for (int i = kOffsetEtherType; i < kOffsetEtherType + kLengthEtherType; ++i) {
@@ -64,11 +68,11 @@ Packet::Packet(const unsigned char * p) {
   
 }
 
-unsigned char * Packet::mac_src() {
+MACAddress Packet::mac_src() {
   return mac_src_;
 }
 
-unsigned char * Packet::mac_dst() {
+MACAddress Packet::mac_dst() {
   return mac_dst_;
 }
 
