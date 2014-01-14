@@ -85,8 +85,7 @@ int main(const int argc, const char * argv[]) {
     cout << p.mac_dst().str() << ' ';
     cout << ipf::hexStr(p.ether_type(), kLengthEtherType) << ' ';
     if (p.ipv4()) {
-      cout << ipf::intStr(p.ipv4_src(), kLengthIPv4) << " -> ";
-      cout << ipf::intStr(p.ipv4_dst(), kLengthIPv4);
+      cout << p.ipv4_src().str() << " -> " << p.ipv4_dst().str();
     }
     if (p.ipv6()) {
       cout << ipf::hexStr(p.ipv6_src(), kLengthIPv6) << " -> ";

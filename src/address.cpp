@@ -24,6 +24,13 @@
 
 #include "address.h"
 
+Address::Address() {
+}
+
+Address::Address(vector<unsigned char> address) {
+  address_ = address;
+}
+
 vector<unsigned char> Address::address() {
   return address_;
 }
@@ -36,15 +43,24 @@ MACAddress::MACAddress() {
   address_ = vector<unsigned char> (ipf::kLengthMAC);
 }
 
-MACAddress::MACAddress(vector<unsigned char> address) {
-  address_ = address;
-}
-
 string MACAddress::str() {
   stringstream ss;
   for (int i = 0; i < ipf::kLengthMAC; ++i) {
     if (i > 0) ss << ':';
     ss << hex << setw(2) << setfill('0') << (int)(unsigned char)address_[i];
+  }
+  return ss.str();
+}
+
+IPv4Address::IPv4Address() {
+  address_ = vector<unsigned char> (ipf::kLengthIPv4);
+}
+
+string IPv4Address::str() {
+  stringstream ss;
+  for (int i = 0; i < ipf::kLengthIPv4; ++i) {
+    if (i > 0) ss << '.';
+    ss << (int)(unsigned char)address_[i];
   }
   return ss.str();
 }
@@ -74,15 +90,4 @@ string ipf::hexStr(const unsigned short * p, const int len) {
   return ss.str();
 }
 
-//
-// return the integer version of the unsigned char *
-//
-string ipf::intStr(const unsigned char * p, const int len) {
-  stringstream ss;
-  for (int i = 0; i < len; ++i) {
-    if (i > 0) ss << '.';
-    ss << (int)(unsigned char)p[i];
-  }
-  return ss.str();
-}
 

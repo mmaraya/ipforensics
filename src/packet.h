@@ -31,8 +31,8 @@ private:
   MACAddress mac_src_;
   MACAddress mac_dst_;
   unsigned short ether_type_[ipf::kLengthEtherType] {};
-  unsigned char ipv4_src_[ipf::kLengthIPv4] {};
-  unsigned char ipv4_dst_[ipf::kLengthIPv4] {};
+  IPv4Address ipv4_src_ {};
+  IPv4Address ipv4_dst_ {};
   unsigned char ipv6_src_[ipf::kLengthIPv6] {};
   unsigned char ipv6_dst_[ipf::kLengthIPv6] {};
 public:
@@ -42,8 +42,8 @@ public:
   MACAddress mac_src();
   MACAddress mac_dst();
   unsigned short * ether_type();
-  unsigned char * ipv4_src();
-  unsigned char * ipv4_dst();
+  IPv4Address ipv4_src();
+  IPv4Address ipv4_dst();
   unsigned char * ipv6_src();
   unsigned char * ipv6_dst();
 };

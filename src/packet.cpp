@@ -46,14 +46,21 @@ Packet::Packet(const unsigned char * p) {
     ether_type_[i - kOffsetEtherType] = p[i];
   }
   
-  // extract IPv4 source and destination addresses
   if (ipv4()) {
+
+    // extract IPv4 source addresses
+    vector<unsigned char> ipv4_src;
     for (int i = kOffsetIPv4Src; i < kOffsetIPv4Src + kLengthIPv4; ++i) {
-      ipv4_src_[i - kOffsetIPv4Src] = p[i];
+      ipv4_src.push_back(p[i]);
     }
+    ipv4_src_.set_address(ipv4_src);
+    
+    // extract IPv4 destination addresses
+    vector<unsigned char> ipv4_dst;
     for (int i = kOffsetIPv4Dst; i < kOffsetIPv4Dst + kLengthIPv4; ++i) {
-      ipv4_dst_[i - kOffsetIPv4Dst] = p[i];
+      ipv4_dst.push_back(p[i]);
     }
+    ipv4_dst_.set_address(ipv4_dst);
   }
   
   // extract IPv6 source and destination addresses
@@ -80,11 +87,11 @@ unsigned short * Packet::ether_type() {
   return ether_type_;
 }
 
-unsigned char * Packet::ipv4_src() {
+IPv4Address Packet::ipv4_src() {
   return ipv4_src_;
 }
 
-unsigned char * Packet::ipv4_dst() {
+IPv4Address Packet::ipv4_dst() {
   return ipv4_dst_;
 }
 

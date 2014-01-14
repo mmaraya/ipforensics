@@ -55,6 +55,8 @@ class Address {
  protected:
   vector<unsigned char> address_;
  public:
+  Address();
+  Address(vector<unsigned char> address);
   vector<unsigned char> address();
   void set_address(vector<unsigned char>);
   virtual string str() = 0;
@@ -64,7 +66,7 @@ class MACAddress : public Address {
  private:
  public:
   MACAddress();
-  MACAddress(vector<unsigned char>);
+  MACAddress(vector<unsigned char> address) : Address(address) {};
   virtual string str() override;
 };
 
@@ -72,7 +74,7 @@ class IPv4Address : public Address {
  private:
  public:
   IPv4Address();
-  IPv4Address(vector<unsigned char>);
+  IPv4Address(vector<unsigned char> address) : Address(address) {};
   virtual string str() override;
 };
 
@@ -80,6 +82,6 @@ class IPv6Address : public Address {
 private:
 public:
   IPv6Address();
-  IPv6Address(vector<unsigned char>);
+  IPv6Address(vector<unsigned char> address) : Address(address) {};
   virtual string str();
 };
