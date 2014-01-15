@@ -63,14 +63,21 @@ Packet::Packet(const unsigned char * p) {
     ipv4_dst_.set_address(ipv4_dst);
   }
   
-  // extract IPv6 source and destination addresses
   if (ipv6()) {
+
+    // extract IPv6 source addresses
+    vector<unsigned char> ipv6_src;
     for (int i = kOffsetIPv6Src; i < kOffsetIPv6Src + kLengthIPv6; ++i) {
-      ipv6_src_[i - kOffsetIPv6Src] = p[i];
+      ipv6_src.push_back(p[i]);
     }
+    ipv6_src_.set_address(ipv6_src);
+
+    // extract IPv6 destination addresses
+    vector<unsigned char> ipv6_dst;
     for (int i = kOffsetIPv6Dst; i < kOffsetIPv6Dst + kLengthIPv6; ++i) {
-      ipv6_dst_[i - kOffsetIPv6Dst] = p[i];
+      ipv6_dst.push_back(p[i]);
     }
+    ipv6_dst_.set_address(ipv6_dst);
   }
   
 }
@@ -95,11 +102,11 @@ IPv4Address Packet::ipv4_dst() {
   return ipv4_dst_;
 }
 
-unsigned char * Packet::ipv6_src() {
+IPv6Address Packet::ipv6_src() {
   return ipv6_src_;
 }
 
-unsigned char * Packet::ipv6_dst() {
+IPv6Address Packet::ipv6_dst() {
   return ipv6_dst_;
 }
 

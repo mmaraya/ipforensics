@@ -33,8 +33,8 @@ private:
   unsigned short ether_type_[ipf::kLengthEtherType] {};
   IPv4Address ipv4_src_ {};
   IPv4Address ipv4_dst_ {};
-  unsigned char ipv6_src_[ipf::kLengthIPv6] {};
-  unsigned char ipv6_dst_[ipf::kLengthIPv6] {};
+  IPv6Address ipv6_src_ {};
+  IPv6Address ipv6_dst_ {};
 public:
   Packet(const unsigned char *);
   bool ipv4();
@@ -44,7 +44,7 @@ public:
   unsigned short * ether_type();
   IPv4Address ipv4_src();
   IPv4Address ipv4_dst();
-  unsigned char * ipv6_src();
-  unsigned char * ipv6_dst();
+  IPv6Address ipv6_src();
+  IPv6Address ipv6_dst();
 };
 

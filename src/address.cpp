@@ -65,6 +65,21 @@ string IPv4Address::str() {
   return ss.str();
 }
 
+IPv6Address::IPv6Address() {
+  address_ = vector<unsigned char> (ipf::kLengthIPv6);
+}
+
+string IPv6Address::str() {
+  stringstream ss;
+  for (int i = 0; i < ipf::kLengthIPv6; ++i) {
+    if ((i > 1) && (i % 2 == 0)) ss << ':';
+    if (i % 2 == 1)
+      ss << hex << setw(2) << setfill('0');
+    ss << (int)(unsigned char)address_[i];
+  }
+  return ss.str();
+}
+
 //
 // return the hex version of the unsigned char *
 // TODO: Format IPv6 addresses using IETF RFC 5952

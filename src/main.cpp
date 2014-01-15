@@ -33,7 +33,7 @@ int main(const int argc, const char * argv[]) {
   }
   
   // check for number of packets to capture in command-line arguments
-  int packetCount {5};
+  int packetCount {25};
   if (argc > 2) {
     try {
       packetCount = stoi(argv[2]);
@@ -88,8 +88,7 @@ int main(const int argc, const char * argv[]) {
       cout << p.ipv4_src().str() << " -> " << p.ipv4_dst().str();
     }
     if (p.ipv6()) {
-      cout << ipf::hexStr(p.ipv6_src(), kLengthIPv6) << " -> ";
-      cout << ipf::hexStr(p.ipv6_dst(), kLengthIPv6);
+      cout << p.ipv6_src().str() << " -> " << p.ipv6_dst().str();
     }
     cout << endl;
   }
