@@ -30,14 +30,14 @@ using namespace std;
 
 class Host {
  private:
-  string mac_;
+  MACAddress mac_;
   string ipv4_;
   string ipv6_;
  public:
-  Host(const string);
-  Host(const string, const string, const string);
+  Host(const MACAddress);
+  Host(const MACAddress, const string, const string);
   bool operator<(const Host&) const;
-  string mac() const;
+  MACAddress mac() const;
   string ipv4() const;
   string ipv6() const;
   void set_ipv4(const string);

@@ -25,21 +25,21 @@
 #include <iomanip>
 #include "host.h"
 
-Host::Host(const string mac) {
+Host::Host(const MACAddress mac) {
   mac_ = mac;
 }
 
-Host::Host(const string mac, const string ipv4, const string ipv6) {
+Host::Host(const MACAddress mac, const string ipv4, const string ipv6) {
   mac_ = mac;
   ipv4_ = ipv4;
   ipv6_ = ipv6;
 }
 
 bool Host::operator<(const Host &rhs) const {
-  return (this->mac().compare(rhs.mac()) > 0);
+  return (this->mac().str().compare(rhs.mac().str()) > 0);
 }
 
-string Host::mac() const {
+MACAddress Host::mac() const {
   return mac_;
 }
 
@@ -60,6 +60,6 @@ void Host::set_ipv6(const string ipv6) {
 }
 
 ostream &operator<<(ostream &out, const Host &h) {
-  out << h.mac() << ' ' << h.ipv4() << ' ' << h.ipv6();
+  out << h.mac().str() << ' ' << h.ipv4() << ' ' << h.ipv6();
   return out;
 }
