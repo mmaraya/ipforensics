@@ -45,8 +45,6 @@ namespace ipf {
   const int kOffsetIPv6Dst    {38};
   const unsigned char kEtherTypeIPv4[kLengthEtherType] {0x08, 0x00};
   const unsigned char kEtherTypeIPv6[kLengthEtherType] {0x86, 0xDD};
-  string hexStr(const unsigned char*, const int);
-  string intStr(const unsigned char*, const int);
   string hexStr(const unsigned short*, const int);
 }
 
@@ -83,5 +81,5 @@ private:
 public:
   IPv6Address();
   IPv6Address(vector<unsigned char> address) : Address(address) {};
-  virtual string str();
+  virtual string str() override;
 };

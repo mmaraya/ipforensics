@@ -71,22 +71,9 @@ IPv6Address::IPv6Address() {
 
 string IPv6Address::str() {
   stringstream ss;
-  for (int i = 0; i < ipf::kLengthIPv6; ++i) {
-    if ((i > 1) && (i % 2 == 0)) ss << ':';
-    ss << hex << setw(2) << setfill('0') << (int)(unsigned char)address_[i];
-  }
-  return ss.str();
-}
-
-//
-// return the hex version of the unsigned char *
-// TODO: Format IPv6 addresses using IETF RFC 5952
-//
-string ipf::hexStr(const unsigned char * p, const int len) {
-  stringstream ss;
-  for (int i = 0; i < len; ++i) {
+  for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
     if (i > 0) ss << ':';
-    ss << hex << setw(2) << setfill('0') << (int)(unsigned char)p[i];
+    ss << hex << (unsigned short)(address_[i] << 8 | address_[i+1]);
   }
   return ss.str();
 }
