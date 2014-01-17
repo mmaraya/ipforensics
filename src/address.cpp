@@ -40,40 +40,43 @@ void Address::set_address(vector<unsigned char> address) {
 }
 
 MACAddress::MACAddress() {
-  address_ = vector<unsigned char> (ipf::kLengthMAC);
 }
 
 string MACAddress::str() {
   stringstream ss;
-  for (int i = 0; i < ipf::kLengthMAC; ++i) {
-    if (i > 0) ss << ':';
-    ss << hex << setw(2) << setfill('0') << (int)(unsigned char)address_[i];
+  if (!address_.empty()) {
+    for (int i = 0; i < ipf::kLengthMAC; ++i) {
+      if (i > 0) ss << ':';
+      ss << hex << setw(2) << setfill('0') << (int)(unsigned char)address_[i];
+    }
   }
   return ss.str();
 }
 
 IPv4Address::IPv4Address() {
-  address_ = vector<unsigned char> (ipf::kLengthIPv4);
 }
 
 string IPv4Address::str() {
   stringstream ss;
-  for (int i = 0; i < ipf::kLengthIPv4; ++i) {
-    if (i > 0) ss << '.';
-    ss << (int)(unsigned char)address_[i];
+  if (!address_.empty()) {
+    for (int i = 0; i < ipf::kLengthIPv4; ++i) {
+      if (i > 0) ss << '.';
+      ss << (int)(unsigned char)address_[i];
+    }
   }
   return ss.str();
 }
 
 IPv6Address::IPv6Address() {
-  address_ = vector<unsigned char> (ipf::kLengthIPv6);
 }
 
 string IPv6Address::str() {
   stringstream ss;
-  for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
-    if (i > 0) ss << ':';
-    ss << hex << (unsigned short)(address_[i] << 8 | address_[i+1]);
+  if (!address_.empty()) {
+    for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
+      if (i > 0) ss << ':';
+      ss << hex << (unsigned short)(address_[i] << 8 | address_[i+1]);
+    }
   }
   return ss.str();
 }

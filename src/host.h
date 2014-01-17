@@ -32,16 +32,16 @@ class Host {
  private:
   MACAddress mac_;
   IPv4Address ipv4_;
-  string ipv6_;
+  IPv6Address ipv6_;
  public:
   Host(const MACAddress);
-  Host(const MACAddress, const IPv4Address, const string);
+  Host(const MACAddress, const IPv4Address, const IPv6Address);
   bool operator<(const Host&) const;
   MACAddress mac() const;
   IPv4Address ipv4() const;
-  string ipv6() const;
+  IPv6Address ipv6() const;
   void set_ipv4(const IPv4Address);
-  void set_ipv6(const string);
+  void set_ipv6(const IPv6Address);
 };
 
 ostream &operator<<(ostream &out, const Host &h);

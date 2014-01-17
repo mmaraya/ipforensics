@@ -29,10 +29,10 @@ Host::Host(const MACAddress mac) {
   mac_ = mac;
 }
 
-Host::Host(const MACAddress mac, const IPv4Address ipv4, const string ipv6) {
+Host::Host(const MACAddress mac, const IPv4Address v4, const IPv6Address v6) {
   mac_ = mac;
-  ipv4_ = ipv4;
-  ipv6_ = ipv6;
+  ipv4_ = v4;
+  ipv6_ = v6;
 }
 
 bool Host::operator<(const Host &rhs) const {
@@ -51,15 +51,15 @@ void Host::set_ipv4(const IPv4Address ipv4) {
   ipv4_ = ipv4;
 }
 
-string Host::ipv6() const {
+IPv6Address Host::ipv6() const {
   return ipv6_;
 }
 
-void Host::set_ipv6(const string ipv6) {
+void Host::set_ipv6(const IPv6Address ipv6) {
   ipv6_ = ipv6;
 }
 
 ostream &operator<<(ostream &out, const Host &h) {
-  out << h.mac().str() << ' ' << h.ipv4().str() << ' ' << h.ipv6();
+  out << h.mac().str() << ' ' << h.ipv4().str() << ' ' << h.ipv6().str();
   return out;
 }
