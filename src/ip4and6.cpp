@@ -75,8 +75,8 @@ void IPForensics::load_hosts(const vector<Packet> packets) {
       // replace existing host in set with new host
       Host h = *it;
       hosts_.erase(it);
-      if (h.ipv4().empty() && p.ipv4()) {
-        h = Host(p.mac_src(), p.ipv4_src().str(), h.ipv6());
+      if (h.ipv4().str().empty() && p.ipv4()) {
+        h = Host(p.mac_src(), p.ipv4_src(), h.ipv6());
       }
       if (h.ipv6().empty() && p.ipv6()) {
         h = Host(p.mac_src(), h.ipv4(), p.ipv6_src().str());
@@ -88,7 +88,7 @@ void IPForensics::load_hosts(const vector<Packet> packets) {
       // create new host and add to set
       Host h = Host(p.mac_src());
       if (p.ipv4()) {
-        h.set_ipv4(p.ipv4_src().str());
+        h.set_ipv4(p.ipv4_src());
       }
       if (p.ipv6()) {
         h.set_ipv6(p.ipv6_src().str());
