@@ -38,7 +38,8 @@ int main(const int argc, const char * argv[]) {
     try {
       packetCount = stoi(argv[2]);
     } catch (exception const &e) {
-      cout << "Could not convert \'" << argv[2] << "\' into a number: " << e.what() << endl;
+      cout << "Could not convert \'" << argv[2] << "\' into a number: ";
+      cout << e.what() << endl;
       return 1;
     }
   }
@@ -48,7 +49,8 @@ int main(const int argc, const char * argv[]) {
   try {
     ip.load_devices();
   } catch (exception const &e) {
-    cout << "Could not query system for packet capture devices: " << e.what() << endl;
+    cout << "Could not query system for packet capture devices: ";
+    cout << e.what() << endl;
   }
   
   // select device to use
@@ -83,14 +85,13 @@ int main(const int argc, const char * argv[]) {
   // display packets captured
   vector<Packet> packets = device.packets();
   for (Packet p : packets) {
-    cout << p.mac_src().str() << " -> ";
-    cout << p.mac_dst().str() << ' ';
+    cout << p.mac_src() << " -> " << p.mac_dst() << ' ';
     cout << ipf::hexStr(p.ether_type(), kLengthEtherType) << ' ';
     if (p.ipv4()) {
-      cout << p.ipv4_src().str() << " -> " << p.ipv4_dst().str();
+      cout << p.ipv4_src() << " -> " << p.ipv4_dst();
     }
     if (p.ipv6()) {
-      cout << p.ipv6_src().str() << " -> " << p.ipv6_dst().str();
+      cout << p.ipv6_src() << " -> " << p.ipv6_dst();
     }
     cout << endl;
   }
