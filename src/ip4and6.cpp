@@ -43,16 +43,22 @@ void IPForensics::add_device(Device d) {
 // Loads all available packet capture devices into the list
 //
 void IPForensics::load_devices() {
-  pcap_if_t* alldevsp;
+
   char error[PCAP_ERRBUF_SIZE];
-  
+  pcap_if_t* alldevsp;
+
   if (pcap_findalldevs(&alldevsp, error) == 0) {
     pcap_if_t* devp = alldevsp;
     while (devp != NULL) {
       Device d = Device();
+      unsigned int net {}, mask {};
       d.set_name((devp->name == NULL) ? "" : devp->name);
       d.set_desc((devp->description == NULL) ? "" : devp->description);
       d.set_loopback(devp->flags & PCAP_IF_LOOPBACK);
+      if (pcap_lookupnet(d.name().c_str(), &net, &mask, error) == 0) {
+        d.set_net(IPv4Address(net));
+        d.set_mask(IPv4Address(mask));
+      }
       add_device(d);
       devp = devp->next;
     }

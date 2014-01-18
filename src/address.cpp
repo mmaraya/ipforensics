@@ -42,7 +42,7 @@ void Address::set_address(vector<unsigned char> address) {
 MACAddress::MACAddress() {
 }
 
-string MACAddress::str() {
+string MACAddress::str() const {
   stringstream ss;
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthMAC; ++i) {
@@ -56,7 +56,14 @@ string MACAddress::str() {
 IPv4Address::IPv4Address() {
 }
 
-string IPv4Address::str() {
+IPv4Address::IPv4Address(const unsigned int addr) {
+  address_ = vector<unsigned char>(ipf::kLengthIPv4);
+  for (int i = 0; i < ipf::kLengthIPv4; ++i) {
+    address_[i] = addr >> (8 * i);
+  }
+}
+
+string IPv4Address::str() const {
   stringstream ss;
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv4; ++i) {
@@ -70,7 +77,7 @@ string IPv4Address::str() {
 IPv6Address::IPv6Address() {
 }
 
-string IPv6Address::str() {
+string IPv6Address::str() const {
   stringstream ss;
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
@@ -79,6 +86,11 @@ string IPv6Address::str() {
     }
   }
   return ss.str();
+}
+
+ostream & operator<<(ostream &out, const Address &a) {
+  out << a.str();
+  return out;
 }
 
 //

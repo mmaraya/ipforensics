@@ -54,8 +54,16 @@ const IPv4Address Device::net() const {
   return net_;
 }
 
+void Device::set_net(const IPv4Address net) {
+  net_ = net;
+}
+
 const IPv4Address Device::mask() const {
   return mask_;
+}
+
+void Device::set_mask(const IPv4Address mask) {
+  mask_ = mask;
 }
 
 const vector<Packet> Device::packets() {

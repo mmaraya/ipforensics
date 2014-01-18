@@ -73,7 +73,9 @@ int main(const int argc, const char * argv[]) {
   }
   
   // display accepted run-time parameters
-  cout << "Using \'" << device.name() << "\' to capture " << packetCount << " packet(s)." << endl;
+  cout << "Using \'" << device.name() << "\' with network address ";
+  cout << device.net() << " and network mask " << device.mask();
+  cout << " to capture " << packetCount << " packet(s)." << endl;
   
   // capture packets
   int actual_packet_count = device.capture(packetCount);

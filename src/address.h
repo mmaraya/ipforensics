@@ -57,7 +57,7 @@ class Address {
   Address(vector<unsigned char> address);
   vector<unsigned char> address();
   void set_address(vector<unsigned char>);
-  virtual string str() = 0;
+  virtual string str() const = 0 ;
 };
 
 class MACAddress : public Address {
@@ -65,15 +65,16 @@ class MACAddress : public Address {
  public:
   MACAddress();
   MACAddress(vector<unsigned char> address) : Address(address) {};
-  virtual string str() override;
+  virtual string str() const override;
 };
 
 class IPv4Address : public Address {
  private:
  public:
   IPv4Address();
+  IPv4Address(const unsigned int);
   IPv4Address(vector<unsigned char> address) : Address(address) {};
-  virtual string str() override;
+  virtual string str() const override;
 };
 
 class IPv6Address : public Address {
@@ -81,5 +82,7 @@ private:
 public:
   IPv6Address();
   IPv6Address(vector<unsigned char> address) : Address(address) {};
-  virtual string str() override;
+  virtual string str() const override;
 };
+
+ostream &operator<<(ostream &out, const Address &a);
