@@ -23,5 +23,6 @@
 //
 
 #include <iostream>
+#include <iterator>
 #include "ip4and6.h"
 using namespace ipf;

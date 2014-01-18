@@ -24,23 +24,56 @@
 
 #include "main.h"
 
-int main(const int argc, const char * argv[]) {
+//
+// display program usage
+//
+void usage() {
+  cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
+  cout << ipf::kMinorVersion << "\n\n";
+  cout << "usage: " << ipf::kProgramName << " [-h] [-d device] [-n packets]";
+  cout << endl;
+}
+
+//
+// ipforensics
+//
+int main(int argc, char * argv[]) {
   
-  // check for device name supplied in command-line arguments
-  string device_name;
-  if (argc > 1) {
-    device_name = argv[1];
+  // load arguments into vector<string> so we can use std::find
+  vector<string> args;
+  vector<string>::iterator it;
+  for (int i = 1; i < argc; ++i) {
+    args.push_back(argv[i]);
   }
   
-  // check for number of packets to capture in command-line arguments
-  int packetCount {25};
-  if (argc > 2) {
-    try {
-      packetCount = stoi(argv[2]);
-    } catch (exception const &e) {
-      cout << "Could not convert \'" << argv[2] << "\' into a number: ";
-      cout << e.what() << endl;
-      return 1;
+  // display help
+  it = find(args.begin(), args.end(), "-h");
+  if (it != args.end()) {
+    usage();
+    return 0;
+  }
+  
+  // use -d device
+  string device_name {};
+  it = find(args.begin(), args.end(), "-d");
+  if (it != args.end()) {
+    if (next(it) != args.end()) {
+      device_name = *next(it);
+    }
+  }
+  
+  // capture -n packets
+  int packetCount {10};
+  it = find(args.begin(), args.end(), "-n");
+  if (it != args.end()) {
+    if (next(it) != args.end()) {
+      try {
+        packetCount = stoi(*next(it));
+      } catch (exception const &e) {
+        cout << "Could not convert \'-n " << *next(it) << "\' into a number: ";
+        cout << e.what() << endl;
+        return 1;
+      }
     }
   }
   
