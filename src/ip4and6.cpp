@@ -49,10 +49,11 @@ void IPForensics::load_devices() {
   if (pcap_findalldevs(&alldevsp, error) == 0) {
     pcap_if_t* devp = alldevsp;
     while (devp != NULL) {
-      string name = (devp->name == NULL) ? "" : devp->name;
-      string description = (devp->description == NULL) ? "" : devp->description;
-      bool loopback = devp->flags & PCAP_IF_LOOPBACK;
-      add_device(Device(name, description, loopback));
+      Device d = Device();
+      d.set_name((devp->name == NULL) ? "" : devp->name);
+      d.set_desc((devp->description == NULL) ? "" : devp->description);
+      d.set_loopback(devp->flags & PCAP_IF_LOOPBACK);
+      add_device(d);
       devp = devp->next;
     }
   } else {

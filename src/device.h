@@ -34,16 +34,22 @@ private:
   string name_;
   string desc_;
   bool loopback_;
+  IPv4Address net_;
+  IPv4Address mask_;
   vector<Packet> packets_;
 public:
   Device();
-  Device(const string, const string, const bool);
   const string name() const;
   const string desc() const;
   const bool loopback() const;
+  const IPv4Address net() const;
+  const IPv4Address mask() const;
   const vector<Packet> packets();
   void set_name(const string);
   void set_desc(const string);
+  void set_loopback(const bool);
+  void set_net(const IPv4Address);
+  void set_mask(const IPv4Address);
   int capture(const int);
 };
 

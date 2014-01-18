@@ -26,12 +26,6 @@
 
 Device::Device() {}
 
-Device::Device(const string name, const string desc="", const bool l=false) {
-  name_ = name;
-  desc_ = desc;
-  loopback_ = l;
-}
-
 const string Device::name() const {
   return name_;
 }
@@ -50,6 +44,18 @@ void Device::set_desc(const string desc) {
 
 const bool Device::loopback() const {
   return loopback_;
+}
+
+void Device::set_loopback(const bool loopback) {
+  loopback_ = loopback;
+}
+
+const IPv4Address Device::net() const {
+  return net_;
+}
+
+const IPv4Address Device::mask() const {
+  return mask_;
 }
 
 const vector<Packet> Device::packets() {
