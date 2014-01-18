@@ -30,6 +30,9 @@
 using namespace std;
 
 namespace ipf {
+  const string kProgramName   {"ipforensics"};
+  const int kMajorVersion     {0};
+  const int kMinorVersion     {5};
   const int kSnapLength       {256};
   const int kTimeout          {1000};
   const int kLengthMAC        {6};
