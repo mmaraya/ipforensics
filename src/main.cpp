@@ -97,6 +97,8 @@ int main(int argc, char * argv[]) {
       }
     }
   }
+  
+  // exit if no device specified or invalid
   if (device_name != device.name()) {
     cout << "Invalid packet capture device \'" << device_name << "\'. ";
     cout << "Valid device(s):";
@@ -137,6 +139,4 @@ int main(int argc, char * argv[]) {
   for (Host h : ip.hosts()) {
     cout << h << endl;
   }
-  
-  return 0;
 }

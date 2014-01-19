@@ -67,7 +67,6 @@ void IPForensics::load_devices() {
     throw runtime_error(error);
   }
   pcap_freealldevs(alldevsp);
-  return;
 }
 
 //
@@ -76,33 +75,18 @@ void IPForensics::load_devices() {
 void IPForensics::load_hosts(const vector<Packet> packets) {
   for (Packet p : packets) {
     set<Host>::iterator it = hosts_.find(p.mac_src());
-
+    // replace or add host
     if (it != hosts_.end()) {
-
       // replace existing host in set with new host
       Host h = *it;
+      h.set_ipv4(p.ipv4() ? p.ipv4_src() : h.ipv4());
+      h.set_ipv6(p.ipv6() ? p.ipv6_src() : h.ipv6());
       hosts_.erase(it);
-      if (h.ipv4().str().empty() && p.ipv4()) {
-        h = Host(p.mac_src(), p.ipv4_src(), h.ipv6());
-      }
-      if (h.ipv6().str().empty() && p.ipv6()) {
-        h = Host(p.mac_src(), h.ipv4(), p.ipv6_src());
-      }
       hosts_.insert(h);
-
     } else {
-
-      // create new host and add to set
-      Host h = Host(p.mac_src());
-      if (p.ipv4()) {
-        h.set_ipv4(p.ipv4_src());
-      }
-      if (p.ipv6()) {
-        h.set_ipv6(p.ipv6_src());
-      }
-      hosts_.insert(h);
+      // add new host
+      hosts_.insert(Host(p.mac_src(), p.ipv4_src(), p.ipv6_src()));
     }
   }
-  return;
 }
 
