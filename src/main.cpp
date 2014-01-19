@@ -135,6 +135,7 @@ int main(int argc, char * argv[]) {
   ip.load_hosts(device);
   
   // display hosts
+  cout << ipf::kNormalHeader << endl;
   for (Host h : ip.hosts()) {
     cout << h << endl;
   }

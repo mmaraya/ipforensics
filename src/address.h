@@ -48,6 +48,9 @@ namespace ipf {
   const int kOffsetIPv6Dst    {38};
   const unsigned char kEtherTypeIPv4[kLengthEtherType] {0x08, 0x00};
   const unsigned char kEtherTypeIPv6[kLengthEtherType] {0x86, 0xDD};
+  const string kCSVHeader {"MAC Address,IPv4 Address,IPv6 Address"};
+  const string kNormalHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
+    + string(17,'=') + ' ' + string(15,'=') + ' ' + string(39,'=')};
   string hexStr(const unsigned short*, const int);
 }
 
