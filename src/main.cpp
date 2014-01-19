@@ -118,8 +118,7 @@ int main(int argc, char * argv[]) {
   int actual_packet_count = device.capture(packetCount);
   
   // display packets captured
-  vector<Packet> packets = device.packets();
-  for (Packet p : packets) {
+  for (Packet p : device.packets()) {
     cout << p.mac_src() << " -> " << p.mac_dst() << ' ';
     cout << ipf::hexStr(p.ether_type(), kLengthEtherType) << ' ';
     if (p.ipv4()) {
@@ -132,8 +131,8 @@ int main(int argc, char * argv[]) {
   }
   cout << actual_packet_count << " packet(s) captured." << endl;
   
-  // extract hosts from packets
-  ip.load_hosts(packets);
+  // extract hosts
+  ip.load_hosts(device);
   
   // display hosts
   for (Host h : ip.hosts()) {

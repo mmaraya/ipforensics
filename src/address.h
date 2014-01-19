@@ -58,7 +58,7 @@ class Address {
  public:
   Address();
   Address(vector<unsigned char> address);
-  vector<unsigned char> address();
+  vector<unsigned char> address() const;
   void set_address(vector<unsigned char>);
   virtual string str() const = 0 ;
 };
@@ -78,6 +78,7 @@ class IPv4Address : public Address {
   IPv4Address(const unsigned int);
   IPv4Address(vector<unsigned char> address) : Address(address) {};
   virtual string str() const override;
+  bool mask(IPv4Address, IPv4Address);
 };
 
 class IPv6Address : public Address {
@@ -87,5 +88,7 @@ public:
   IPv6Address(vector<unsigned char> address) : Address(address) {};
   virtual string str() const override;
 };
+
+bool operator==(const Address &a, const Address &b);
 
 ostream &operator<<(ostream &out, const Address &a);

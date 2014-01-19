@@ -37,5 +37,5 @@ class IPForensics {
   set<Host> hosts();
   void load_devices();
   void add_device(Device);
-  void load_hosts(const vector<Packet>);
+  void load_hosts(Device);
 };

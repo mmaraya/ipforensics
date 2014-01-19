@@ -31,12 +31,25 @@ Address::Address(vector<unsigned char> address) {
   address_ = address;
 }
 
-vector<unsigned char> Address::address() {
+vector<unsigned char> Address::address() const {
   return address_;
 }
 
 void Address::set_address(vector<unsigned char> address) {
   address_ = address;
+}
+
+ostream & operator<<(ostream &out, const Address &a) {
+  out << a.str();
+  return out;
+}
+
+bool operator==(const Address &a, const Address &b) {
+  if (a.address().size() != b.address().size()) return false;
+  for (int i = 0; i < a.address().size(); ++i) {
+    if (a.address()[i] != b.address()[i]) return false;
+  }
+  return true;
 }
 
 MACAddress::MACAddress() {
@@ -74,6 +87,17 @@ string IPv4Address::str() const {
   return ss.str();
 }
 
+//
+// return true if this IP address is within the supplied subnet
+//
+bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) {
+  IPv4Address subnet = IPv4Address(0);
+  for (int i = 0; i < ipf::kLengthIPv4; ++i) {
+    subnet.address_[i] = address_[i] & mask.address_[i];
+  }
+  return (subnet == addr);
+}
+
 IPv6Address::IPv6Address() {
 }
 
@@ -86,11 +110,6 @@ string IPv6Address::str() const {
     }
   }
   return ss.str();
-}
-
-ostream & operator<<(ostream &out, const Address &a) {
-  out << a.str();
-  return out;
 }
 
 //

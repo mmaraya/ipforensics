@@ -72,20 +72,23 @@ void IPForensics::load_devices() {
 //
 // Loads all unique hosts from supplied vector<Packet>
 //
-void IPForensics::load_hosts(const vector<Packet> packets) {
-  for (Packet p : packets) {
+void IPForensics::load_hosts(Device d) {
+  for (Packet p : d.packets()) {
     set<Host>::iterator it = hosts_.find(p.mac_src());
-    // replace or add host
-    if (it != hosts_.end()) {
+    if (it == hosts_.end()) {
+      // add new host
+      if (p.ipv6() || (p.ipv4() && p.ipv4_src().mask(d.net(), d.mask()))) {
+        hosts_.insert(Host(p.mac_src(), p.ipv4_src(), p.ipv6_src()));
+      }
+    } else {
       // replace existing host in set with new host
       Host h = *it;
       h.set_ipv4(p.ipv4() ? p.ipv4_src() : h.ipv4());
       h.set_ipv6(p.ipv6() ? p.ipv6_src() : h.ipv6());
       hosts_.erase(it);
-      hosts_.insert(h);
-    } else {
-      // add new host
-      hosts_.insert(Host(p.mac_src(), p.ipv4_src(), p.ipv6_src()));
+      if (p.ipv6() || (p.ipv4() && h.ipv4().mask(d.net(), d.mask()))) {
+        hosts_.insert(h);
+      }
     }
   }
 }
