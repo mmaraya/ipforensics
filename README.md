@@ -11,7 +11,7 @@ ipforensics is expected to run on Linux, Mac OS X, UNIX and Windows
 Status
 ------
 
-ipforensics compiles and runs under Mac OS X 10.9.1 using XCode 5.0.2 with libpcap.  A makefile is under development. 
+ipforensics compiles and runs under Mac OS X 10.9.1. Linux testing is next. 
 
 License
 -------
