@@ -37,9 +37,11 @@ LD_FLAGS  := -l$(LIB_FILES)
 all: $(BIN_DIR)/$(PROGRAM)
 
 $(BIN_DIR)/$(PROGRAM): $(OBJ_FILES)
+	@mkdir -p $(@D)
 	$(CC) $(LD_FLAGS) -o $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(@D)
 	$(CC) $(CC_FLAGS) -c -o $@ $<
 
 .PHONY: clean
