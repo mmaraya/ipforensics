@@ -27,19 +27,19 @@
 Address::Address() {
 }
 
-Address::Address(vector<unsigned char> address) {
+Address::Address(std::vector<unsigned char> address) {
   address_ = address;
 }
 
-vector<unsigned char> Address::address() const {
+std::vector<unsigned char> Address::address() const {
   return address_;
 }
 
-void Address::set_address(vector<unsigned char> address) {
+void Address::set_address(std::vector<unsigned char> address) {
   address_ = address;
 }
 
-ostream & operator<<(ostream &out, const Address &a) {
+std::ostream & operator<<(std::ostream &out, const Address &a) {
   out << a.str();
   return out;
 }
@@ -55,12 +55,12 @@ bool operator==(const Address &a, const Address &b) {
 MACAddress::MACAddress() {
 }
 
-string MACAddress::str() const {
-  stringstream ss;
+std::string MACAddress::str() const {
+  std::stringstream ss;
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthMAC; ++i) {
       if (i > 0) ss << ':';
-      ss << hex << setw(2) << setfill('0') << (int)(unsigned char)address_[i];
+      ss << std::hex << std::setw(2) << std::setfill('0') << (int)(unsigned char)address_[i];
     }
   }
   return ss.str();
@@ -70,14 +70,14 @@ IPv4Address::IPv4Address() {
 }
 
 IPv4Address::IPv4Address(const unsigned int addr) {
-  address_ = vector<unsigned char>(ipf::kLengthIPv4);
+  address_ = std::vector<unsigned char>(ipf::kLengthIPv4);
   for (int i = 0; i < ipf::kLengthIPv4; ++i) {
     address_[i] = addr >> (8 * i);
   }
 }
 
-string IPv4Address::str() const {
-  stringstream ss;
+std::string IPv4Address::str() const {
+  std::stringstream ss;
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv4; ++i) {
       if (i > 0) ss << '.';
@@ -101,12 +101,12 @@ bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) {
 IPv6Address::IPv6Address() {
 }
 
-string IPv6Address::str() const {
-  stringstream ss;
+std::string IPv6Address::str() const {
+  std::stringstream ss;
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
       if (i > 0) ss << ':';
-      ss << hex << (unsigned short)(address_[i] << 8 | address_[i+1]);
+      ss << std::hex << (unsigned short)(address_[i] << 8 | address_[i+1]);
     }
   }
   return ss.str();
@@ -115,11 +115,11 @@ string IPv6Address::str() const {
 //
 // return the hex version of the unsigned short
 //
-string ipf::hexStr(const unsigned short * p, const int len) {
-  stringstream ss;
+std::string ipf::hexStr(const unsigned short * p, const int len) {
+  std::stringstream ss;
   for (int i = 0; i < len; ++i) {
     if (i > 0) ss << ':';
-    ss << hex << setw(2) << setfill('0') << (int)(unsigned short)p[i];
+    ss << std::hex << std::setw(2) << std::setfill('0') << (int)(unsigned short)p[i];
   }
   return ss.str();
 }

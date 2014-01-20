@@ -24,11 +24,11 @@
 
 #include "ip4and6.h"
 
-vector<Device> IPForensics::devices() {
+std::vector<Device> IPForensics::devices() {
   return devices_;
 }
 
-set<Host> IPForensics::hosts() {
+std::set<Host> IPForensics::hosts() {
   return hosts_;
 }
 
@@ -64,7 +64,7 @@ void IPForensics::load_devices() {
     }
   } else {
     pcap_freealldevs(alldevsp);
-    throw runtime_error(error);
+    throw std::runtime_error(error);
   }
   pcap_freealldevs(alldevsp);
 }
@@ -74,7 +74,7 @@ void IPForensics::load_devices() {
 //
 void IPForensics::load_hosts(Device d) {
   for (Packet p : d.packets()) {
-    set<Host>::iterator it = hosts_.find(p.mac_src());
+    std::set<Host>::iterator it = hosts_.find(p.mac_src());
     if (it == hosts_.end()) {
       // add new host
       if (p.ipv6() || (p.ipv4() && p.ipv4_src().mask(d.net(), d.mask()))) {

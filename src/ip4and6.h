@@ -30,11 +30,11 @@
 
 class IPForensics {
  private:
-  vector<Device> devices_;
-  set<Host> hosts_;
+  std::vector<Device> devices_;
+  std::set<Host> hosts_;
  public:
-  vector<Device> devices();
-  set<Host> hosts();
+  std::vector<Device> devices();
+  std::set<Host> hosts();
   void load_devices();
   void add_device(Device);
   void load_hosts(Device);

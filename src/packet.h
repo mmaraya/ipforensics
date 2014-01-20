@@ -24,7 +24,6 @@
 
 #include <iostream>
 #include "host.h"
-using namespace std;
 
 class Packet {
 private:

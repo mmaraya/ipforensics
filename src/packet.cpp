@@ -23,41 +23,40 @@
 //
 
 #include "packet.h"
-using namespace ipf;
 
 Packet::Packet(const unsigned char * p) {
   
   // extract the source MAC address from the packet
-  vector<unsigned char> mac_src;
-  for (int i = kOffsetMACSrc; i < kOffsetMACSrc + kLengthMAC; ++i) {
+  std::vector<unsigned char> mac_src;
+  for (int i = ipf::kOffsetMACSrc; i < ipf::kOffsetMACSrc + ipf::kLengthMAC; ++i) {
     mac_src.push_back(p[i]);
   }
   mac_src_.set_address(mac_src);
   
   // extract the destination MAC address from the packet
-  vector<unsigned char> mac_dst;
-  for (int i = kOffsetMACDst; i < kOffsetMACDst + kLengthMAC; ++i) {
+  std::vector<unsigned char> mac_dst;
+  for (int i = ipf::kOffsetMACDst; i < ipf::kOffsetMACDst + ipf::kLengthMAC; ++i) {
     mac_dst.push_back(p[i]);
   }
   mac_dst_.set_address(mac_dst);
   
   // extract the ethernet type
-  for (int i = kOffsetEtherType; i < kOffsetEtherType + kLengthEtherType; ++i) {
-    ether_type_[i - kOffsetEtherType] = p[i];
+  for (int i = ipf::kOffsetEtherType; i < ipf::kOffsetEtherType + ipf::kLengthEtherType; ++i) {
+    ether_type_[i - ipf::kOffsetEtherType] = p[i];
   }
   
   if (ipv4()) {
 
     // extract IPv4 source addresses
-    vector<unsigned char> ipv4_src;
-    for (int i = kOffsetIPv4Src; i < kOffsetIPv4Src + kLengthIPv4; ++i) {
+    std::vector<unsigned char> ipv4_src;
+    for (int i = ipf::kOffsetIPv4Src; i < ipf::kOffsetIPv4Src + ipf::kLengthIPv4; ++i) {
       ipv4_src.push_back(p[i]);
     }
     ipv4_src_.set_address(ipv4_src);
     
     // extract IPv4 destination addresses
-    vector<unsigned char> ipv4_dst;
-    for (int i = kOffsetIPv4Dst; i < kOffsetIPv4Dst + kLengthIPv4; ++i) {
+    std::vector<unsigned char> ipv4_dst;
+    for (int i = ipf::kOffsetIPv4Dst; i < ipf::kOffsetIPv4Dst + ipf::kLengthIPv4; ++i) {
       ipv4_dst.push_back(p[i]);
     }
     ipv4_dst_.set_address(ipv4_dst);
@@ -66,15 +65,15 @@ Packet::Packet(const unsigned char * p) {
   if (ipv6()) {
 
     // extract IPv6 source addresses
-    vector<unsigned char> ipv6_src;
-    for (int i = kOffsetIPv6Src; i < kOffsetIPv6Src + kLengthIPv6; ++i) {
+    std::vector<unsigned char> ipv6_src;
+    for (int i = ipf::kOffsetIPv6Src; i < ipf::kOffsetIPv6Src + ipf::kLengthIPv6; ++i) {
       ipv6_src.push_back(p[i]);
     }
     ipv6_src_.set_address(ipv6_src);
 
     // extract IPv6 destination addresses
-    vector<unsigned char> ipv6_dst;
-    for (int i = kOffsetIPv6Dst; i < kOffsetIPv6Dst + kLengthIPv6; ++i) {
+    std::vector<unsigned char> ipv6_dst;
+    for (int i = ipf::kOffsetIPv6Dst; i < ipf::kOffsetIPv6Dst + ipf::kLengthIPv6; ++i) {
       ipv6_dst.push_back(p[i]);
     }
     ipv6_dst_.set_address(ipv6_dst);
@@ -114,16 +113,16 @@ IPv6Address Packet::ipv6_dst() {
 // return true if this packet contains IPv4
 //
 bool Packet::ipv4() {
-  return (ether_type_[0] == kEtherTypeIPv4[0] &&
-          ether_type_[1] == kEtherTypeIPv4[1]);
+  return (ether_type_[0] == ipf::kEtherTypeIPv4[0] &&
+          ether_type_[1] == ipf::kEtherTypeIPv4[1]);
 }
 
 //
 // return true if this packet contains IPv6
 //
 bool Packet::ipv6() {
-  return (ether_type_[0] == kEtherTypeIPv6[0] &&
-          ether_type_[1] == kEtherTypeIPv6[1]);
+  return (ether_type_[0] == ipf::kEtherTypeIPv6[0] &&
+          ether_type_[1] == ipf::kEtherTypeIPv6[1]);
 }
 
 
