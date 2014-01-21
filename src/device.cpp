@@ -26,19 +26,19 @@
 
 Device::Device() {}
 
-const string Device::name() const {
+const std::string Device::name() const {
   return name_;
 }
 
-void Device::set_name(const string name) {
+void Device::set_name(const std::string name) {
   name_ = name;
 }
 
-const string Device::desc() const {
+const std::string Device::desc() const {
   return desc_;
 }
 
-void Device::set_desc(const string desc) {
+void Device::set_desc(const std::string desc) {
   desc_ = desc;
 }
 
@@ -66,14 +66,14 @@ void Device::set_mask(const IPv4Address mask) {
   mask_ = mask;
 }
 
-const vector<Packet> Device::packets() {
+const std::vector<Packet> Device::packets() {
   return packets_;
 }
 
 //
 // overload the ostream << operator for Device
 //
-ostream &operator<<(ostream &out, const Device &d) {
+std::ostream &operator<<(std::ostream &out, const Device &d) {
   out << d.name() << ":" << d.desc() << ":" << (d.loopback() ? "LOOPBACK" : "");
   return out;
 }
@@ -88,11 +88,11 @@ int Device::capture(const int n) {
   pcap_t* pcap = pcap_open_live(name_.c_str(), ipf::kSnapLength, true,
                                 ipf::kTimeout, error);
   if (pcap == NULL) {
-    throw runtime_error(error);
+    throw std::runtime_error(error);
   }
   if (pcap_datalink(pcap) != DLT_EN10MB) {
     pcap_close(pcap);
-    throw runtime_error("Link-layer type not IEEE 802.3 Ethernet");
+    throw std::runtime_error("Link-layer type not IEEE 802.3 Ethernet");
   }
   
   const unsigned char * packet = NULL;

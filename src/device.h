@@ -28,30 +28,29 @@
 #include <pcap/bpf.h>
 #include <stdexcept>
 #include "packet.h"
-using namespace std;
 
 class Device {
 private:
-  string name_;
-  string desc_;
+  std::string name_;
+  std::string desc_;
   bool loopback_;
   IPv4Address net_;
   IPv4Address mask_;
-  vector<Packet> packets_;
+  std::vector<Packet> packets_;
 public:
   Device();
-  const string name() const;
-  const string desc() const;
+  const std::string name() const;
+  const std::string desc() const;
   const bool loopback() const;
   const IPv4Address net() const;
   const IPv4Address mask() const;
-  const vector<Packet> packets();
-  void set_name(const string);
-  void set_desc(const string);
+  const std::vector<Packet> packets();
+  void set_name(const std::string);
+  void set_desc(const std::string);
   void set_loopback(const bool);
   void set_net(const IPv4Address);
   void set_mask(const IPv4Address);
   int capture(const int);
 };
 
-ostream &operator<<(ostream &out, const Device &d);
+std::ostream &operator<<(std::ostream &out, const Device &d);

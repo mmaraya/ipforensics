@@ -28,10 +28,10 @@
 // display program usage
 //
 void usage() {
-  cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
-  cout << ipf::kMinorVersion << "\n\n";
-  cout << "usage: " << ipf::kProgramName << " [-h] [-d device] [-n packets]";
-  cout << endl;
+  std::cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
+  std::cout << ipf::kMinorVersion << "\n\n";
+  std::cout << "usage: " << ipf::kProgramName << " [-h] [-d device] [-n packets]";
+  std::cout << std::endl;
 }
 
 //
@@ -40,8 +40,8 @@ void usage() {
 int main(int argc, char * argv[]) {
   
   // load arguments into vector<string> so we can use std::find
-  vector<string> args;
-  vector<string>::iterator it;
+  std::vector<std::string> args;
+  std::vector<std::string>::iterator it;
   for (int i = 1; i < argc; ++i) {
     args.push_back(argv[i]);
   }
@@ -54,7 +54,7 @@ int main(int argc, char * argv[]) {
   }
   
   // use -d device
-  string device_name {};
+  std::string device_name {};
   it = find(args.begin(), args.end(), "-d");
   if (it != args.end()) {
     if (next(it) != args.end()) {
@@ -69,9 +69,9 @@ int main(int argc, char * argv[]) {
     if (next(it) != args.end()) {
       try {
         packetCount = stoi(*next(it));
-      } catch (exception const &e) {
-        cout << "Could not convert \'-n " << *next(it) << "\' into a number: ";
-        cout << e.what() << endl;
+      } catch (std::exception const &e) {
+        std::cout << "Could not convert \'-n " << *next(it) << "\' into a number: ";
+        std::cout << e.what() << std::endl;
         return 1;
       }
     }
@@ -81,9 +81,9 @@ int main(int argc, char * argv[]) {
   IPForensics ip;
   try {
     ip.load_devices();
-  } catch (exception const &e) {
-    cout << "Could not query system for packet capture devices: ";
-    cout << e.what() << endl;
+  } catch (std::exception const &e) {
+    std::cout << "Could not query system for packet capture devices: ";
+    std::cout << e.what() << std::endl;
   }
   
   // select device to use
@@ -100,43 +100,43 @@ int main(int argc, char * argv[]) {
   
   // exit if no device specified or invalid
   if (device_name != device.name()) {
-    cout << "Invalid packet capture device \'" << device_name << "\'. ";
-    cout << "Valid device(s):";
+    std::cout << "Invalid packet capture device \'" << device_name << "\'. ";
+    std::cout << "Valid device(s):";
     for (Device d: ip.devices()) {
-      cout << ' ' << d.name();
+      std::cout << ' ' << d.name();
     }
-    cout << endl;
+    std::cout << std::endl;
     return 1;
   }
   
   // display accepted run-time parameters
-  cout << "Using \'" << device.name() << "\' with network address ";
-  cout << device.net() << " and network mask " << device.mask();
-  cout << " to capture " << packetCount << " packet(s)." << endl;
+  std::cout << "Using \'" << device.name() << "\' with network address ";
+  std::cout << device.net() << " and network mask " << device.mask();
+  std::cout << " to capture " << packetCount << " packet(s)." << std::endl;
   
   // capture packets
   int actual_packet_count = device.capture(packetCount);
   
   // display packets captured
   for (Packet p : device.packets()) {
-    cout << p.mac_src() << " -> " << p.mac_dst() << ' ';
-    cout << ipf::hexStr(p.ether_type(), kLengthEtherType) << ' ';
+    std::cout << p.mac_src() << " -> " << p.mac_dst() << ' ';
+    std::cout << ipf::hexStr(p.ether_type(), ipf::kLengthEtherType) << ' ';
     if (p.ipv4()) {
-      cout << p.ipv4_src() << " -> " << p.ipv4_dst();
+      std::cout << p.ipv4_src() << " -> " << p.ipv4_dst();
     }
     if (p.ipv6()) {
-      cout << p.ipv6_src() << " -> " << p.ipv6_dst();
+      std::cout << p.ipv6_src() << " -> " << p.ipv6_dst();
     }
-    cout << endl;
+    std::cout << std::endl;
   }
-  cout << actual_packet_count << " packet(s) captured." << endl;
+  std::cout << actual_packet_count << " packet(s) captured." << std::endl;
   
   // extract hosts
   ip.load_hosts(device);
   
   // display hosts
-  cout << ipf::kNormalHeader << endl;
+  std::cout << ipf::kNormalHeader << std::endl;
   for (Host h : ip.hosts()) {
-    cout << h << endl;
+    std::cout << h << std::endl;
   }
 }

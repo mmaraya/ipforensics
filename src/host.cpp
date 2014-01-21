@@ -59,13 +59,13 @@ void Host::set_ipv6(const IPv6Address ipv6) {
   ipv6_ = ipv6;
 }
 
-ostream &operator<<(ostream &out, const Host &h) {
-  string mac = h.mac().str();
-  string ipv4 = h.ipv4().str();
-  string ipv6 = h.ipv6().str();
-  out << left << setfill(' ');
-  out << setw(18) << mac;
-  out << setw(16) << ipv4;
-  out << setw(39) << ipv6;
+std::ostream &operator<<(std::ostream &out, const Host &h) {
+  std::string mac = h.mac().str();
+  std::string ipv4 = h.ipv4().str();
+  std::string ipv6 = h.ipv6().str();
+  out << std::left << std::setfill(' ');
+  out << std::setw(18) << mac;
+  out << std::setw(16) << ipv4;
+  out << std::setw(39) << ipv6;
   return out;
 }

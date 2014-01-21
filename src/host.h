@@ -26,7 +26,6 @@
 #include <ostream>
 #include <string>
 #include "address.h"
-using namespace std;
 
 class Host {
  private:
@@ -44,4 +43,4 @@ class Host {
   void set_ipv6(const IPv6Address);
 };
 
-ostream &operator<<(ostream &out, const Host &h);
+std::ostream &operator<<(std::ostream &out, const Host &h);
