@@ -46,7 +46,7 @@ std::ostream & operator<<(std::ostream &out, const Address &a) {
 
 bool operator==(const Address &a, const Address &b) {
   if (a.address().size() != b.address().size()) return false;
-  for (int i = 0; i < a.address().size(); ++i) {
+  for (unsigned int i = 0; i < a.address().size(); ++i) {
     if (a.address()[i] != b.address()[i]) return false;
   }
   return true;
