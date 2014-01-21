@@ -22,6 +22,7 @@
 // SOFTWARE.
 //
 
+#include <algorithm>
 #include <iostream>
 #include <iterator>
 #include "ip4and6.h"
