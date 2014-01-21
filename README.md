@@ -6,12 +6,12 @@ ipforensics is a network administration utility that uses network packet capture
 Supported Platforms
 -------------------
 
-ipforensics is expected to run on Linux, Mac OS X, UNIX and Windows
+ipforensics runs on Linux and Mac OS X. Support for UNIX and Windows is in progress.
 
 Status
 ------
 
-ipforensics compiles and runs under Mac OS X 10.9.1. Linux testing is next. 
+ipforensics compiles and runs under Mac OS X 10.9.1 and Linux with gcc 4.8 or higher.  It is dependent on libpcap-dev.
 
 License
 -------
