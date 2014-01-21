@@ -26,6 +26,7 @@
 #include <vector>
 #include <pcap.h>
 #include <pcap/bpf.h>
+#include <stdexcept>
 #include "packet.h"
 using namespace std;
 
