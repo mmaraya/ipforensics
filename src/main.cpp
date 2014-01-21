@@ -30,7 +30,7 @@
 void usage() {
   std::cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
   std::cout << ipf::kMinorVersion << "\n\n";
-  std::cout << "usage: " << ipf::kProgramName << " [-h] [-d device] [-n packets]";
+  std::cout << "usage: " << ipf::kProgramName << " [-hv] [-d device] [-n packets]";
   std::cout << std::endl;
 }
 
@@ -46,11 +46,18 @@ int main(int argc, char * argv[]) {
     args.push_back(argv[i]);
   }
   
-  // display help
+  // display -h help
   it = find(args.begin(), args.end(), "-h");
   if (it != args.end()) {
     usage();
     return 0;
+  }
+
+  // verbose displays
+  bool verbose {};
+  it = find(args.begin(), args.end(), "-v");
+  if (it != args.end()) {
+    verbose = true;
   }
   
   // use -d device
@@ -110,26 +117,22 @@ int main(int argc, char * argv[]) {
   }
   
   // display accepted run-time parameters
-  std::cout << "Using \'" << device.name() << "\' with network address ";
-  std::cout << device.net() << " and network mask " << device.mask();
-  std::cout << " to capture " << packetCount << " packet(s)." << std::endl;
+  if (verbose) {
+    std::cout << "Using \'" << device.name() << "\' with network address ";
+    std::cout << device.net() << " and network mask " << device.mask();
+    std::cout << " to capture " << packetCount << " packet(s)." << std::endl;
+  }
   
   // capture packets
   int actual_packet_count = device.capture(packetCount);
   
   // display packets captured
-  for (Packet p : device.packets()) {
-    std::cout << p.mac_src() << " -> " << p.mac_dst() << ' ';
-    std::cout << ipf::hexStr(p.ether_type(), ipf::kLengthEtherType) << ' ';
-    if (p.ipv4()) {
-      std::cout << p.ipv4_src() << " -> " << p.ipv4_dst();
+  if (verbose) {
+    for (Packet p : device.packets()) {
+      std::cout << p << std::endl;
     }
-    if (p.ipv6()) {
-      std::cout << p.ipv6_src() << " -> " << p.ipv6_dst();
-    }
-    std::cout << std::endl;
+    std::cout << actual_packet_count << " packet(s) captured." << std::endl;
   }
-  std::cout << actual_packet_count << " packet(s) captured." << std::endl;
   
   // extract hosts
   ip.load_hosts(device);

@@ -36,14 +36,16 @@ private:
   IPv6Address ipv6_dst_ {};
 public:
   Packet(const unsigned char *);
-  bool ipv4();
-  bool ipv6();
-  MACAddress mac_src();
-  MACAddress mac_dst();
+  bool ipv4() const;
+  bool ipv6() const;
+  MACAddress mac_src() const;
+  MACAddress mac_dst() const;
   unsigned short * ether_type();
-  IPv4Address ipv4_src();
-  IPv4Address ipv4_dst();
-  IPv6Address ipv6_src();
-  IPv6Address ipv6_dst();
+  IPv4Address ipv4_src() const;
+  IPv4Address ipv4_dst() const;
+  IPv6Address ipv6_src() const;
+  IPv6Address ipv6_dst() const;
 };
+
+std::ostream &operator<<(std::ostream &out, const Packet &p);
 

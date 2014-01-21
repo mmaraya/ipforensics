@@ -81,11 +81,11 @@ Packet::Packet(const unsigned char * p) {
   
 }
 
-MACAddress Packet::mac_src() {
+MACAddress Packet::mac_src() const {
   return mac_src_;
 }
 
-MACAddress Packet::mac_dst() {
+MACAddress Packet::mac_dst() const {
   return mac_dst_;
 }
 
@@ -93,26 +93,26 @@ unsigned short * Packet::ether_type() {
   return ether_type_;
 }
 
-IPv4Address Packet::ipv4_src() {
+IPv4Address Packet::ipv4_src() const {
   return ipv4_src_;
 }
 
-IPv4Address Packet::ipv4_dst() {
+IPv4Address Packet::ipv4_dst() const {
   return ipv4_dst_;
 }
 
-IPv6Address Packet::ipv6_src() {
+IPv6Address Packet::ipv6_src() const {
   return ipv6_src_;
 }
 
-IPv6Address Packet::ipv6_dst() {
+IPv6Address Packet::ipv6_dst() const {
   return ipv6_dst_;
 }
 
 //
 // return true if this packet contains IPv4
 //
-bool Packet::ipv4() {
+bool Packet::ipv4() const {
   return (ether_type_[0] == ipf::kEtherTypeIPv4[0] &&
           ether_type_[1] == ipf::kEtherTypeIPv4[1]);
 }
@@ -120,9 +120,20 @@ bool Packet::ipv4() {
 //
 // return true if this packet contains IPv6
 //
-bool Packet::ipv6() {
+bool Packet::ipv6() const {
   return (ether_type_[0] == ipf::kEtherTypeIPv6[0] &&
           ether_type_[1] == ipf::kEtherTypeIPv6[1]);
+}
+
+std::ostream &operator<<(std::ostream &out, const Packet &p) {
+  out << p.mac_src() << " -> " << p.mac_dst() << ' ';
+  if (p.ipv4()) {
+    out << p.ipv4_src() << " -> " << p.ipv4_dst();
+  }
+  if (p.ipv6()) {
+    out << p.ipv6_src() << " -> " << p.ipv6_dst();
+  }
+  return out;
 }
 
 
