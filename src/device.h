@@ -24,7 +24,7 @@
 
 #include <iostream>
 #include <vector>
-#include <pcap.h>
+#include <pcap/pcap.h>
 #include <pcap/bpf.h>
 #include <stdexcept>
 #include "packet.h"
