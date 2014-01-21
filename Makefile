@@ -29,16 +29,16 @@ OBJ_DIR   := obj
 BIN_DIR   := bin
 CPP_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
-LIB_FILES := pcap
+LIB_FILES := -lpcap
 CC        := g++
 CC_FLAGS  := -g -Wall -std=c++11
-LD_FLAGS  := -l$(LIB_FILES)
+LD_FLAGS  := 
 
 all: $(BIN_DIR)/$(PROGRAM)
 
 $(BIN_DIR)/$(PROGRAM): $(OBJ_FILES)
 	@mkdir -p $(@D)
-	$(CC) $(LD_FLAGS) -o $@ $^
+	$(CC) $(LD_FLAGS) -o $@ $^ $(LIB_FILES)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
