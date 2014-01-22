@@ -2,5 +2,7 @@ language: cpp
 compiler:
   - gcc
   - clang
+before_script: 
+  - sudo apt-get install libpcap-dev
 script: make
 
