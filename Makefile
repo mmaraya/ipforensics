@@ -31,7 +31,7 @@ CPP_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
 LIB_FILES := -lpcap
 CC        := g++
-CC_FLAGS  := -g -Wall -std=c++11
+CC_FLAGS  := -g -Wall -std=c++0x
 LD_FLAGS  := 
 
 all: $(BIN_DIR)/$(PROGRAM)
