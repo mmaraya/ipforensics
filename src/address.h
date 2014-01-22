@@ -70,7 +70,7 @@ class MACAddress : public Address {
  public:
   MACAddress();
   MACAddress(std::vector<unsigned char> address) : Address(address) {};
-  virtual std::string str() const;
+  virtual std::string str() const override;
 };
 
 class IPv4Address : public Address {
@@ -79,7 +79,7 @@ class IPv4Address : public Address {
   IPv4Address();
   IPv4Address(const unsigned int);
   IPv4Address(std::vector<unsigned char> address) : Address(address) {};
-  virtual std::string str() const;
+  virtual std::string str() const override;
   bool mask(IPv4Address, IPv4Address);
 };
 
@@ -88,7 +88,7 @@ private:
 public:
   IPv6Address();
   IPv6Address(std::vector<unsigned char> address) : Address(address) {};
-  virtual std::string str() const;
+  virtual std::string str() const override;
 };
 
 bool operator==(const Address &a, const Address &b);
