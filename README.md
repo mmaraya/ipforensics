@@ -1,17 +1,12 @@
 ![ipforensics logo](ipforensics.png "ipforensics")
 ==================================================
 
-ipforensics is a network administration utility that uses network packet capture to passively determine the Internet Protocol versions used by the devices on your local network segment: IPv4, IPv6, or both.  If you're planning an IPv6 migration, this utility will tell you which devices need to be moved over.
+ipforensics is a command-line interface network administration utility that uses network packet capture to passively determine the Internet Protocol versions used by the devices on your local network segment: IPv4, IPv6, or both.
 
-Status [![Build Status](https://travis-ci.org/mmaraya/ipforensics.png?branch=master)](https://travis-ci.org/mmaraya/ipforensics)
-------
-
-ipforensics compiles and runs under Mac OS X 10.9.1 and Linux with gcc 4.8 or higher.  It is dependent on libpcap-dev.
-
-Supported Platforms
+Supported Platforms [![Build Status](https://travis-ci.org/mmaraya/ipforensics.png?branch=master)](https://travis-ci.org/mmaraya/ipforensics)
 -------------------
 
-ipforensics runs on Linux and Mac OS X. Support for UNIX and Windows is in progress.
+ipforensics is built upon `libpcap` and runs on Linux with `gcc 4.8` and Mac OS X with `clang 3.3`. Support for UNIX and Windows is under development.
 
 License
 -------
