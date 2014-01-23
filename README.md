@@ -6,7 +6,7 @@ ipforensics is a command-line interface network administration utility that uses
 Supported Platforms [![Build Status](https://travis-ci.org/mmaraya/ipforensics.png?branch=master)](https://travis-ci.org/mmaraya/ipforensics)
 -------------------
 
-ipforensics is built upon `libpcap` and runs on Linux with `gcc 4.8` and Mac OS X with `clang 3.3`. Support for UNIX and Windows is under development.
+ipforensics is built upon `libpcap` and compiles on Linux with `gcc 4.8` and Mac OS X with `clang 3.3`. Support for UNIX and Windows is under development.
 
 License
 -------
