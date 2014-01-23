@@ -29,7 +29,7 @@ class Packet {
 private:
   MACAddress mac_src_;
   MACAddress mac_dst_;
-  unsigned short ether_type_[ipf::kLengthEtherType] {};
+  unsigned short ether_type_ {};
   IPv4Address ipv4_src_ {};
   IPv4Address ipv4_dst_ {};
   IPv6Address ipv6_src_ {};
@@ -40,7 +40,7 @@ public:
   bool ipv6() const;
   MACAddress mac_src() const;
   MACAddress mac_dst() const;
-  unsigned short * ether_type();
+  unsigned short ether_type() const;
   IPv4Address ipv4_src() const;
   IPv4Address ipv4_dst() const;
   IPv6Address ipv6_src() const;

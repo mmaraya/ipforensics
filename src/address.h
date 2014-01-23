@@ -35,7 +35,6 @@ namespace ipf {
   const int kSnapLength       {256};
   const int kTimeout          {1000};
   const int kLengthMAC        {6};
-  const int kLengthEtherType  {2};
   const int kLengthIPv4       {4};
   const int kLengthIPv6       {16};
   const int kOffsetMACSrc     {6};
@@ -45,8 +44,8 @@ namespace ipf {
   const int kOffsetIPv4Dst    {30};
   const int kOffsetIPv6Src    {22};
   const int kOffsetIPv6Dst    {38};
-  const unsigned char kEtherTypeIPv4[kLengthEtherType] {0x08, 0x00};
-  const unsigned char kEtherTypeIPv6[kLengthEtherType] {0x86, 0xDD};
+  const unsigned short kEtherTypeIPv4 {0x0800};
+  const unsigned short kEtherTypeIPv6 {0x86DD};
   const std::string kCSVHeader {"MAC Address,IPv4 Address,IPv6 Address"};
   const std::string kNormalHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
     + std::string(17,'=') + ' ' + std::string(15,'=') + ' ' + std::string(39,'=')};
