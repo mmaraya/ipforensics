@@ -38,4 +38,6 @@ class IPForensics {
   void load_devices();
   void add_device(Device);
   void load_hosts(Device);
+  void add_host(MACAddress, IPv4Address, IPv4Address, IPv4Address, IPv6Address);
+  void update_host(std::set<Host>::iterator, IPv4Address, IPv6Address);
 };

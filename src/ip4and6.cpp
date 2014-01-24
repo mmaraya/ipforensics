@@ -74,22 +74,45 @@ void IPForensics::load_devices() {
 //
 void IPForensics::load_hosts(Device d) {
   for (Packet p : d.packets()) {
+    // add the source host
     std::set<Host>::iterator it = hosts_.find(p.mac_src());
     if (it == hosts_.end()) {
-      // add new host
-      if (p.ipv6() || (p.ipv4() && p.ipv4_src().mask(d.net(), d.mask()))) {
-        hosts_.insert(Host(p.mac_src(), p.ipv4_src(), p.ipv6_src()));
-      }
+      add_host(p.mac_src(), d.net(), d.mask(), p.ipv4_src(), p.ipv6_src());
     } else {
-      // replace existing host in set with new host
-      Host h = *it;
-      h.set_ipv4(p.ipv4() ? p.ipv4_src() : h.ipv4());
-      h.set_ipv6(p.ipv6() ? p.ipv6_src() : h.ipv6());
-      hosts_.erase(it);
-      if (p.ipv6() || (p.ipv4() && h.ipv4().mask(d.net(), d.mask()))) {
-        hosts_.insert(h);
-      }
+      update_host(it, p.ipv4_src(), p.ipv6_src());
+    }
+    // add the destination host
+    it = hosts_.find(p.mac_dst());
+    if (it == hosts_.end()) {
+      add_host(p.mac_dst(), d.net(), d.mask(), p.ipv4_dst(), p.ipv6_dst());
+    } else {
+      update_host(it, p.ipv4_dst(), p.ipv6_dst());
     }
   }
 }
 
+//
+// Add IPv6 host or IPv4 host within our subnet
+//
+void IPForensics::add_host(MACAddress mac, IPv4Address net, IPv4Address mask,
+                           IPv4Address ipv4, IPv6Address ipv6) {
+  if (!ipv6.address().empty() || ipv4.mask(net, mask)) {
+    hosts_.insert(Host(mac, ipv4, ipv6));
+  }
+}
+
+//
+// Update existing host record with new packet information
+//
+void IPForensics::update_host(std::set<Host>::iterator it, IPv4Address ipv4,
+                              IPv6Address ipv6) {
+  Host h = *it;
+  if (h.ipv4().address().empty() && !ipv4.address().empty()) {
+    h.set_ipv4(ipv4);
+  }
+  if (h.ipv6().address().empty() && !ipv6.address().empty()) {
+    h.set_ipv6(ipv6);
+  }
+  hosts_.erase(it);
+  hosts_.insert(h);
+}
