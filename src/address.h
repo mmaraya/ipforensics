@@ -46,6 +46,8 @@ namespace ipf {
   const int kOffsetIPv6Dst    {38};
   const unsigned short kEtherTypeIPv4 {0x0800};
   const unsigned short kEtherTypeIPv6 {0x86DD};
+  const std::string kBroadcastMAC {"ff:ff:ff:ff:ff:ff"};
+  const std::string kBroadcastIPv4 {"255.255.255.255"};
   const std::string kCSVHeader {"MAC Address,IPv4 Address,IPv6 Address"};
   const std::string kNormalHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
     + std::string(17,'=') + ' ' + std::string(15,'=') + ' ' + std::string(39,'=')};

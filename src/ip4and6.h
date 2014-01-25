@@ -32,12 +32,13 @@ class IPForensics {
  private:
   std::vector<Device> devices_;
   std::set<Host> hosts_;
+  void add_host(MACAddress, IPv4Address, IPv6Address);
+  void update_host(std::set<Host>::iterator, IPv4Address, IPv6Address);
+  void clean_hosts(Device);
  public:
   std::vector<Device> devices();
   std::set<Host> hosts();
   void load_devices();
   void add_device(Device);
   void load_hosts(Device);
-  void add_host(MACAddress, IPv4Address, IPv4Address, IPv4Address, IPv6Address);
-  void update_host(std::set<Host>::iterator, IPv4Address, IPv6Address);
 };

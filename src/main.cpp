@@ -131,7 +131,8 @@ int main(int argc, char * argv[]) {
     for (Packet p : device.packets()) {
       std::cout << p << std::endl;
     }
-    std::cout << actual_packet_count << " packet(s) captured." << std::endl;
+    std::cout << std::dec << actual_packet_count << " packet(s) captured.";
+    std::cout << std::endl;
   }
   
   // extract hosts

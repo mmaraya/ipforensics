@@ -77,28 +77,26 @@ void IPForensics::load_hosts(Device d) {
     // add the source host
     std::set<Host>::iterator it = hosts_.find(p.mac_src());
     if (it == hosts_.end()) {
-      add_host(p.mac_src(), d.net(), d.mask(), p.ipv4_src(), p.ipv6_src());
+      add_host(p.mac_src(), p.ipv4_src(), p.ipv6_src());
     } else {
       update_host(it, p.ipv4_src(), p.ipv6_src());
     }
     // add the destination host
     it = hosts_.find(p.mac_dst());
     if (it == hosts_.end()) {
-      add_host(p.mac_dst(), d.net(), d.mask(), p.ipv4_dst(), p.ipv6_dst());
+      add_host(p.mac_dst(), p.ipv4_dst(), p.ipv6_dst());
     } else {
       update_host(it, p.ipv4_dst(), p.ipv6_dst());
     }
   }
+  clean_hosts(d);
 }
 
 //
-// Add IPv6 host or IPv4 host within our subnet
+// Add IPv4 or IPv6 host
 //
-void IPForensics::add_host(MACAddress mac, IPv4Address net, IPv4Address mask,
-                           IPv4Address ipv4, IPv6Address ipv6) {
-  if (!ipv6.address().empty() || ipv4.mask(net, mask)) {
-    hosts_.insert(Host(mac, ipv4, ipv6));
-  }
+void IPForensics::add_host(MACAddress mac, IPv4Address ipv4, IPv6Address ipv6) {
+  hosts_.insert(Host(mac, ipv4, ipv6));
 }
 
 //
@@ -115,4 +113,28 @@ void IPForensics::update_host(std::set<Host>::iterator it, IPv4Address ipv4,
   }
   hosts_.erase(it);
   hosts_.insert(h);
+}
+
+//
+// Remove broadcast, multicast and non-local hosts
+//
+void IPForensics::clean_hosts(Device device) {
+  std::set<Host>::iterator it;
+  for (it = hosts_.begin(); it != hosts_.end(); ) {
+    Host host = *it;
+    bool remove {false};
+    if (host.mac().str() == ipf::kBroadcastMAC) remove = true;
+    if (!host.ipv4().address().empty()) {
+      if (host.ipv4().str() == ipf::kBroadcastIPv4) remove = true;
+      if (!host.ipv4().mask(device.net(), device.mask())) remove = true;
+    }
+    if (!host.ipv6().address().empty()) {
+      if (host.ipv6().address()[0] == 0xFF) remove = true;
+    }
+    if (remove) {
+      hosts_.erase(it++);
+    } else {
+      ++it;
+    }
+  }
 }
