@@ -32,11 +32,28 @@ std::set<Host> IPForensics::hosts() {
   return hosts_;
 }
 
-//
-// Add device to the list
-//
-void IPForensics::add_device(Device d) {
-  devices_.push_back(d);
+std::string IPForensics::device() {
+  return device_;
+}
+
+std::string IPForensics::filename() {
+  return filename_;
+}
+
+int IPForensics::packet_count() {
+  return packet_count_;
+}
+
+void IPForensics::set_device(std::string device) {
+  device_ = device;
+}
+
+void IPForensics::set_filename(std::string filename) {
+  filename_ = filename;
+}
+
+void IPForensics::set_packet_count(int packet_count) {
+  packet_count_ = packet_count;
 }
 
 //
@@ -59,7 +76,7 @@ void IPForensics::load_devices() {
         d.set_net(IPv4Address(net));
         d.set_mask(IPv4Address(mask));
       }
-      add_device(d);
+      devices_.push_back(d);
       devp = devp->next;
     }
   } else {

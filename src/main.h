@@ -26,3 +26,7 @@
 #include <iostream>
 #include <iterator>
 #include "ip4and6.h"
+
+void usage();
+int load_from_file(IPForensics *, bool);
+int load_from_device(IPForensics *, bool);
