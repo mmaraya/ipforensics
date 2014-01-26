@@ -31,7 +31,7 @@
 namespace ipf {
   const std::string kProgramName   {"ipforensics"};
   const int kMajorVersion     {0};
-  const int kMinorVersion     {5};
+  const int kMinorVersion     {8};
   const int kSnapLength       {256};
   const int kTimeout          {1000};
   const int kLengthMAC        {6};
@@ -46,8 +46,9 @@ namespace ipf {
   const int kOffsetIPv6Dst    {38};
   const unsigned short kEtherTypeIPv4 {0x0800};
   const unsigned short kEtherTypeIPv6 {0x86DD};
-  const std::string kBroadcastMAC {"ff:ff:ff:ff:ff:ff"};
+  const unsigned char kMulticastIPv4 {0xE};
   const std::string kBroadcastIPv4 {"255.255.255.255"};
+  const std::string kBroadcastMAC {"ff:ff:ff:ff:ff:ff"};
   const std::string kCSVHeader {"MAC Address,IPv4 Address,IPv6 Address"};
   const std::string kNormalHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
     + std::string(17,'=') + ' ' + std::string(15,'=') + ' ' + std::string(39,'=')};

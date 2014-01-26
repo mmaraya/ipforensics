@@ -35,15 +35,17 @@ class IPForensics {
   std::string device_;
   std::string filename_;
   int packet_count_;
+  std::vector<Packet> packets_;
   void add_host(MACAddress, IPv4Address, IPv6Address);
   void update_host(std::set<Host>::iterator, IPv4Address, IPv6Address);
-  void clean_hosts(Device);
+  void clean_hosts(IPv4Address*, IPv4Address*);
  public:
   std::vector<Device> devices();
   std::set<Host> hosts();
   std::string device();
   std::string filename();
   int packet_count();
+  std::vector<Packet> packets();
   void set_device(std::string);
   void set_filename(std::string);
   void set_packet_count(int);

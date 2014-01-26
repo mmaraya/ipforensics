@@ -27,6 +27,7 @@
 #include <iterator>
 #include "ip4and6.h"
 
+bool verbose {};
 void usage();
-int load_from_file(IPForensics *, bool);
-int load_from_device(IPForensics *, bool);
+int load_from_file(IPForensics *);
+int load_from_device(IPForensics *);

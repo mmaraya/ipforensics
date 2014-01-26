@@ -44,7 +44,6 @@ int main(int argc, char * argv[]) {
   }
 
   // verbose displays
-  bool verbose {};
   it = find(args.begin(), args.end(), "-v");
   if (it != args.end()) {
     verbose = true;
@@ -89,10 +88,16 @@ int main(int argc, char * argv[]) {
   int packets_loaded {0};
   if (filename.empty()) {
     ip.set_device(device_name);
-    packets_loaded = load_from_device(&ip, verbose);
+    packets_loaded = load_from_device(&ip);
   } else {
     ip.set_filename(filename);
-    packets_loaded = load_from_file(&ip, verbose);
+    packets_loaded = load_from_file(&ip);
+  }
+  
+  // display packet count captured
+  if (verbose) {
+    std::cout << std::dec << packets_loaded << " packet(s) read.";
+    std::cout << std::endl;
   }
   
   // display hosts
@@ -109,14 +114,14 @@ void usage() {
   std::cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
   std::cout << ipf::kMinorVersion << "\n\n";
   std::cout << "usage: " << ipf::kProgramName;
-  std::cout << " [-hv] [-d device] [-n packets] [-f filenme]";
+  std::cout << " [-hv] [-d device] [-n packets] [-f filename]";
   std::cout << std::endl;
 }
 
 //
 // load packets from capture device
 //
-int load_from_device(IPForensics *ip, bool verbose) {
+int load_from_device(IPForensics *ip) {
   
   // load packet capture device list from system
   try {
@@ -149,7 +154,7 @@ int load_from_device(IPForensics *ip, bool verbose) {
     return 1;
   }
   
-  // display accepted run-time parameters
+  // display run-time parameters
   if (verbose) {
     std::cout << "Using \'" << device.name() << "\' with network address ";
     std::cout << device.net() << " and network mask " << device.mask();
@@ -164,8 +169,6 @@ int load_from_device(IPForensics *ip, bool verbose) {
     for (Packet p : device.packets()) {
       std::cout << p << std::endl;
     }
-    std::cout << std::dec << packet_count << " packet(s) captured.";
-    std::cout << std::endl;
   }
   
   // extract hosts
@@ -176,6 +179,24 @@ int load_from_device(IPForensics *ip, bool verbose) {
 //
 // load packets from pcap file
 //
-int load_from_file(IPForensics *ip, bool verbose) {
-  return 0;
+int load_from_file(IPForensics *ip) {
+
+  // display run-time parameters
+  if (verbose) {
+    std::cout << "Reading " << ip->packet_count() << " packet(s) from ";
+    std::cout << '\'' << ip->filename() << '\'' << std::endl;
+  }
+  
+  // extract packets and hosts from file
+  ip->load_hosts(ip->filename());
+  
+  // display packets read
+  if (verbose) {
+    for (Packet p : ip->packets()) {
+      std::cout << p << std::endl;
+    }
+  }
+  
+  // return number of packets read
+  return int (ip->packets().size());
 }

@@ -44,6 +44,10 @@ int IPForensics::packet_count() {
   return packet_count_;
 }
 
+std::vector<Packet> IPForensics::packets() {
+  return packets_;
+}
+
 void IPForensics::set_device(std::string device) {
   device_ = device;
 }
@@ -87,7 +91,7 @@ void IPForensics::load_devices() {
 }
 
 //
-// Loads all unique hosts from supplied vector<Packet>
+// Loads all unique hosts from packets captured by device
 //
 void IPForensics::load_hosts(Device d) {
   for (Packet p : d.packets()) {
@@ -106,7 +110,61 @@ void IPForensics::load_hosts(Device d) {
       update_host(it, p.ipv4_dst(), p.ipv6_dst());
     }
   }
-  clean_hosts(d);
+  IPv4Address net = d.net(), mask = d.mask();
+  clean_hosts(&net, &mask);
+}
+
+//
+// Loads all unique hosts from user-supplied pcap file
+//
+void IPForensics::load_hosts(std::string filename) {
+ 
+  // open the filename
+  char error[PCAP_ERRBUF_SIZE] {};
+  pcap_t* pcap = pcap_open_offline(filename.c_str(), error);
+  if (pcap == NULL) {
+    throw std::runtime_error(error);
+  }
+  
+  // exit if the data link is not Ethernet
+  if (pcap_datalink(pcap) != DLT_EN10MB) {
+    pcap_close(pcap);
+    throw std::runtime_error("Link-layer type not IEEE 802.3 Ethernet");
+  }
+  
+  // read the packets from the file
+  const unsigned char * packet = NULL;
+  struct pcap_pkthdr header;
+  for (int i = 0; i < packet_count_; ++i) {
+    packet = pcap_next(pcap, &header);
+    if (packet != NULL) {
+      packets_.push_back(Packet(packet));
+    }
+  }
+  
+  // close the packet capture
+  pcap_close(pcap);
+  
+  // extract hosts from packets
+  for (Packet p : packets_) {
+    // add the source host
+    std::set<Host>::iterator it = hosts_.find(p.mac_src());
+    if (it == hosts_.end()) {
+      add_host(p.mac_src(), p.ipv4_src(), p.ipv6_src());
+    } else {
+      update_host(it, p.ipv4_src(), p.ipv6_src());
+    }
+    // add the destination host
+    it = hosts_.find(p.mac_dst());
+    if (it == hosts_.end()) {
+      add_host(p.mac_dst(), p.ipv4_dst(), p.ipv6_dst());
+    } else {
+      update_host(it, p.ipv4_dst(), p.ipv6_dst());
+    }
+  }
+
+  // remove meaningless hosts
+  clean_hosts(nullptr, nullptr);
 }
 
 //
@@ -135,16 +193,25 @@ void IPForensics::update_host(std::set<Host>::iterator it, IPv4Address ipv4,
 //
 // Remove broadcast, multicast and non-local hosts
 //
-void IPForensics::clean_hosts(Device device) {
+void IPForensics::clean_hosts(IPv4Address* net, IPv4Address *mask) {
   std::set<Host>::iterator it;
   for (it = hosts_.begin(); it != hosts_.end(); ) {
     Host host = *it;
     bool remove {false};
+    // remove MAC broadcast addresses
     if (host.mac().str() == ipf::kBroadcastMAC) remove = true;
     if (!host.ipv4().address().empty()) {
+      // remove IPv4 broadcast addresses
       if (host.ipv4().str() == ipf::kBroadcastIPv4) remove = true;
-      if (!host.ipv4().mask(device.net(), device.mask())) remove = true;
+      // remove IPv4 multicast addresses
+      unsigned char prefix = host.ipv4().address()[0] >> 4;
+      if ((prefix & ipf::kMulticastIPv4) == ipf::kMulticastIPv4) remove = true;
+      // remove addresses that are not within our subnet (if using device)
+      if (net != nullptr) {
+        if (!host.ipv4().mask(*net, *mask)) remove = true;
+      }
     }
+    // remove IPv6 multicast addresses
     if (!host.ipv6().address().empty()) {
       if (host.ipv6().address()[0] == 0xFF) remove = true;
     }
