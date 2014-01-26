@@ -6,18 +6,17 @@ ipforensics is a network administration utility that conducts a passive inventor
 Supported Platforms [![Build Status](https://travis-ci.org/mmaraya/ipforensics.png?branch=master)](https://travis-ci.org/mmaraya/ipforensics)
 -------------------
 
-ipforensics is built upon `libpcap` and compiles on Linux with `gcc 4.8` and Mac OS X with `clang 3.3`. Support for UNIX and Windows is under development.
+ipforensics is written in C++11 and requires the libpcap packet capture library.  It compiles on Linux with gcc 4.8 or higher and on Mac OS X with clang 3.3 or higher. Support for UNIX and Windows is planned.
 
 Usage
 -----
 
-ipforensics [-hv] [-d device] [-f filename] [-n packets]
-
--h: display usage
--v: verbose display
--d device: packet capture device to use
--f filename: read packets from pcap file
--n packets: number of packets to read or capture
+    ipforensics [-hv] [-d device] [-f filename] [-n packets]
+    -h: display usage
+    -v: verbose display
+    -d device: packet capture device to use
+    -f filename: read packets from pcap file
+    -n packets: number of packets to read or capture
 
 License
 -------
