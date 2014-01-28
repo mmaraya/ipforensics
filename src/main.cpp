@@ -38,7 +38,7 @@ int main(int argc, char * argv[]) {
   
   // display -h help
   it = find(args.begin(), args.end(), "-h");
-  if (it != args.end()) {
+  if ((argc == 1) || (it != args.end())) {
     usage();
     return 0;
   }
@@ -94,6 +94,11 @@ int main(int argc, char * argv[]) {
     packets_loaded = load_from_file(&ip);
   }
   
+  // exit if error encountered
+  if (packets_loaded < 0) {
+    return packets_loaded;
+  }
+  
   // display packet count captured
   if (verbose) {
     std::cout << std::dec << packets_loaded << " packet(s) read.";
@@ -114,8 +119,12 @@ void usage() {
   std::cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
   std::cout << ipf::kMinorVersion << "\n\n";
   std::cout << "usage: " << ipf::kProgramName;
-  std::cout << " [-hv] [-d device] [-n packets] [-f filename]";
-  std::cout << std::endl;
+  std::cout << " [-hv] [-d device] [-n packets] [-f filename]" << std::endl;
+  std::cout << "-h           display usage" << std::endl;
+  std::cout << "-v           verbose display" << std::endl;
+  std::cout << "-d device    packet capture device to use" << std::endl;
+  std::cout << "-f filename  read packets from pcap file" << std::endl;
+  std::cout << "-n packets   number of packets to read or capture" << std::endl;
 }
 
 //
@@ -136,29 +145,26 @@ int load_from_device(IPForensics *ip) {
   for (Device d : ip->devices()) {
     if (ip->device() == d.name()) {
       device = d;
-    } else {
-      if (device.name().empty() && !d.loopback()) {
-        device = d;
-      }
     }
   }
   
-  // exit if no device specified or invalid
-  if (ip->device() != device.name()) {
+  // exit if invalid device specified
+  if (!ip->device().empty() && (ip->device() != device.name())) {
     std::cout << "Invalid packet capture device \'" << ip->device() << "\'. ";
     std::cout << "Valid device(s):";
     for (Device d: ip->devices()) {
-      std::cout << ' ' << d.name();
+      std::cout << '\'' << d.name() << "' ";
     }
     std::cout << std::endl;
-    return 1;
+    return -1;
   }
   
   // display run-time parameters
   if (verbose) {
     std::cout << "Using \'" << device.name() << "\' with network address ";
     std::cout << device.net() << " and network mask " << device.mask();
-    std::cout << " to capture " << ip->packet_count() << " packet(s)." << std::endl;
+    std::cout << " to capture " << ip->packet_count() << " packet(s).";
+    std::cout << std::endl;
   }
   
   // capture packets
