@@ -135,10 +135,20 @@ void IPForensics::load_hosts(std::string filename) {
   // read the packets from the file
   const unsigned char * packet = NULL;
   struct pcap_pkthdr header;
-  for (int i = 0; i < packet_count_; ++i) {
+  
+  // if packet_count_ is set, read specified number of packets only
+  if (packet_count_ > 0) {
+    for (int i = 0; i < packet_count_; ++i) {
+      packet = pcap_next(pcap, &header);
+      if (packet != NULL) {
+        packets_.push_back(Packet(packet));
+      }
+    }
+  } else { // if packet_count_ is not set, read all packets
     packet = pcap_next(pcap, &header);
-    if (packet != NULL) {
+    while (packet != NULL) {
       packets_.push_back(Packet(packet));
+      packet = pcap_next(pcap, &header);
     }
   }
   

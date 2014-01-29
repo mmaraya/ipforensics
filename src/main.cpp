@@ -59,7 +59,7 @@ int main(int argc, char * argv[]) {
   }
   
   // capture -n packets
-  int packet_count {10};
+  int packet_count {};
   it = find(args.begin(), args.end(), "-n");
   if (it != args.end()) {
     if (next(it) != args.end()) {
@@ -189,8 +189,13 @@ int load_from_file(IPForensics *ip) {
 
   // display run-time parameters
   if (verbose) {
-    std::cout << "Reading " << ip->packet_count() << " packet(s) from ";
-    std::cout << '\'' << ip->filename() << '\'' << std::endl;
+    std::cout << "Reading ";
+    if (ip->packet_count() == 0)
+      std::cout << "all";
+    else
+      std::cout << ip->packet_count();
+    std::cout << " packet(s) from " << '\'' << ip->filename() << '\'';
+    std::cout << std::endl;
   }
   
   // extract packets and hosts from file
