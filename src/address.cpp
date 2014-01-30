@@ -44,12 +44,16 @@ std::ostream & operator<<(std::ostream &out, const Address &a) {
   return out;
 }
 
-bool operator==(const Address &a, const Address &b) {
-  if (a.address().size() != b.address().size()) return false;
-  for (unsigned int i = 0; i < a.address().size(); ++i) {
-    if (a.address()[i] != b.address()[i]) return false;
+bool Address::operator==(const Address &b) const {
+  if (address().size() != b.address().size()) return false;
+  for (unsigned int i = 0; i < address().size(); ++i) {
+    if (address()[i] != b.address()[i]) return false;
   }
   return true;
+}
+
+bool Address::operator!=(const Address &b) const {
+  return !(*this == b);
 }
 
 MACAddress::MACAddress() {
