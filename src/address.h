@@ -96,7 +96,7 @@ class MACAddress : public Address {
 };
 
 /**
- *  @brief Internet Protocol version 4 address
+ *  @brief Internet Protocol version 4 (IPv4) address
  *
  *  IPv4Address is a descendant of the Address class and is used to store and
  *  display the four decimals that make up an IPv4 address using the familiar 
@@ -114,7 +114,7 @@ class IPv4Address : public Address {
 };
 
 /**
- *  @brief Internet Protocol version 6 address
+ *  @brief Internet Protocol version 6 (IPv6) address
  *
  *  IPv6Address is a descendant of the Address class and is used to store
  *  128-bit Internet Protocol version 6 addresses and display them as eight
@@ -122,7 +122,6 @@ class IPv4Address : public Address {
  *  abbreviation capabilities are provided in this version.
  */
 class IPv6Address : public Address {
-private:
 public:
   IPv6Address();
   IPv6Address(std::vector<unsigned char> address) : Address(address) {};

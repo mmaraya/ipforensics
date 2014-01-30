@@ -40,8 +40,7 @@ void Address::set_address(std::vector<unsigned char> address) {
 }
 
 std::ostream & operator<<(std::ostream &out, const Address &a) {
-  out << a.str();
-  return out;
+  return (out << a.str());
 }
 
 bool Address::operator==(const Address &b) const {
