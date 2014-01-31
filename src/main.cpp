@@ -106,7 +106,7 @@ int main(int argc, char * argv[]) {
   }
   
   // display hosts
-  std::cout << ipf::kNormalHeader << std::endl;
+  std::cout << ipf::kHeader << std::endl;
   for (Host h : ip.hosts()) {
     std::cout << h << std::endl;
   }

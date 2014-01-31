@@ -33,33 +33,6 @@
 #include <string>
 #include <vector>
 
-namespace ipf {
-  const std::string kProgramName {"ipforensics"};
-  const int kMajorVersion     {0};
-  const int kMinorVersion     {8};
-  const int kSnapLength       {256};
-  const int kTimeout          {1000};
-  const int kLengthMAC        {6};
-  const int kLengthIPv4       {4};
-  const int kLengthIPv6       {16};
-  const int kOffsetMACSrc     {6};
-  const int kOffsetMACDst     {0};
-  const int kOffsetEtherType  {12};
-  const int kOffsetIPv4Src    {26};
-  const int kOffsetIPv4Dst    {30};
-  const int kOffsetIPv6Src    {22};
-  const int kOffsetIPv6Dst    {38};
-  const unsigned short kEtherTypeIPv4 {0x0800};
-  const unsigned short kEtherTypeIPv6 {0x86DD};
-  const unsigned char kMulticastIPv4 {0xE};
-  const std::string kBroadcastIPv4 {"255.255.255.255"};
-  const std::string kBroadcastMAC {"ff:ff:ff:ff:ff:ff"};
-  const std::string kCSVHeader {"MAC Address,IPv4 Address,IPv6 Address"};
-  const std::string kNormalHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
-    + std::string(17,'=') + ' ' + std::string(15,'=') + ' ' + std::string(39,'=')};
-  std::string hexStr(const unsigned short*, const int);
-}
-
 /**
  *  @brief Base class for representing MAC, IPv4 and IPv6 addresses
  *
@@ -129,3 +102,85 @@ public:
 };
 
 std::ostream &operator<<(std::ostream &out, const Address &a);
+
+/**
+ *  IPForensics program-wide constants and utility functions
+ */
+namespace ipf {
+  
+  /** program name */
+  const std::string kProgramName {"ipforensics"};
+  
+  /** program major revision number */
+  const int kMajorVersion {0};
+  
+  /** program minor revision number */
+  const int kMinorVersion {8};
+  
+  /** ethernet frame snapshot length */
+  const int kSnapLength {256};
+  
+  /** number of milliseconds to wait for each network packet */
+  const int kTimeout {1000};
+  
+  /** number of segments in a MAC address */
+  const int kLengthMAC {6};
+  
+  /** number of segments in an IPv4 address */
+  const int kLengthIPv4 {4};
+  
+  /** number of segments in an IPv6 address */
+  const int kLengthIPv6 {16};
+  
+  /** MAC source address packet offset */
+  const int kOffsetMACSrc {6};
+  
+  /** MAC destination address packet offset */
+  const int kOffsetMACDst {0};
+  
+  /** ethertype packet offset */
+  const int kOffsetEtherType {12};
+
+  /** IPv4 source address packet offset */
+  const int kOffsetIPv4Src {26};
+  
+  /** IPv4 destination address packet offset */
+  const int kOffsetIPv4Dst {30};
+  
+  /** IPv6 source address packet offset */
+  const int kOffsetIPv6Src {22};
+  
+  /** IPv6 destination address packet offset */
+  const int kOffsetIPv6Dst {38};
+  
+  /** ethertype for IPv4 */
+  const unsigned short kEtherTypeIPv4 {0x0800};
+  
+  /** ethertype for IPv6 */
+  const unsigned short kEtherTypeIPv6 {0x86DD};
+  
+  /** IPv4 prefix for multicasts */
+  const unsigned char kMulticastIPv4 {0xE};
+
+  /** IPv4 broadcast address */
+  const IPv4Address kBroadcastIPv4 {std::vector<unsigned char> (4, 255)};
+  
+  /** MAC broadcast address */
+  const MACAddress kBroadcastMAC {std::vector<unsigned char> (6, 255)};
+  
+  /** output header for comma-separated values file */
+  const std::string kHeaderCSV {"MAC Address,IPv4 Address,IPv6 Address"};
+
+  /** output header for console display */
+  const std::string kHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
+    + std::string(17,'=') + ' ' + std::string(15,'=') + ' '
+    + std::string(39,'=')};
+  
+  /**
+   *  Convert array of unsigned short vlaues to hexadecimal
+   *  @param array pointer to unsigned short values
+   *  @param length number of elements in the array
+   *  @retval std::string colon-separated groupings of two hexadecimal digits
+   */
+  std::string hexStr(const unsigned short* array, const int length);
+}

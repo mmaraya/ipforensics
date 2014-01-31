@@ -209,10 +209,10 @@ void IPForensics::clean_hosts(IPv4Address* net, IPv4Address *mask) {
     Host host = *it;
     bool remove {false};
     // remove MAC broadcast addresses
-    if (host.mac().str() == ipf::kBroadcastMAC) remove = true;
+    if (host.mac() == ipf::kBroadcastMAC) remove = true;
     if (!host.ipv4().address().empty()) {
       // remove IPv4 broadcast addresses
-      if (host.ipv4().str() == ipf::kBroadcastIPv4) remove = true;
+      if (host.ipv4() == ipf::kBroadcastIPv4) remove = true;
       // remove IPv4 multicast addresses
       unsigned char prefix = host.ipv4().address()[0] >> 4;
       if ((prefix & ipf::kMulticastIPv4) == ipf::kMulticastIPv4) remove = true;
