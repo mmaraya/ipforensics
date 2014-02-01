@@ -78,10 +78,10 @@ std::string MACAddress::str() const {
 IPv4Address::IPv4Address() {
 }
 
-IPv4Address::IPv4Address(const unsigned int addr) {
+IPv4Address::IPv4Address(const unsigned int address) {
   address_ = std::vector<unsigned char>(ipf::kLengthIPv4);
   for (int i = 0; i < ipf::kLengthIPv4; ++i) {
-    address_[i] = addr >> (8 * i);
+    address_[i] = address >> (8 * i);
   }
 }
 
@@ -96,7 +96,7 @@ std::string IPv4Address::str() const {
   return ss.str();
 }
 
-bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) {
+bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) const {
   IPv4Address subnet = IPv4Address(0);
   for (int i = 0; i < ipf::kLengthIPv4; ++i) {
     subnet.address_[i] = address_[i] & mask.address_[i];
@@ -107,6 +107,11 @@ bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) {
 IPv6Address::IPv6Address() {
 }
 
+/**
+ *  @details Limited support is currently provided for shortening the display 
+ *           of IPv6 addresses as specified in RFC 5952
+ *  @todo Fully implement RFC 5952 (http://tools.ietf.org/html/rfc5952)
+ */
 std::string IPv6Address::str() const {
   std::stringstream ss;
   ss << std::hex;
@@ -115,20 +120,6 @@ std::string IPv6Address::str() const {
       if (i > 0) ss << ':';
       ss << (unsigned short)(address_[i] << 8 | address_[i+1]);
     }
-  }
-  return ss.str();
-}
-
-/**
- *  @detail Convert array of unsigned short vlaues to a colon-separated grouping 
- *          of hexadecimal digits, padded with leading zeroes
- */
-std::string ipf::hexStr(const unsigned short* array, const int length) {
-  std::stringstream ss;
-  ss << std::hex << std::setw(2) << std::setfill('0');
-  for (int i = 0; i < length; ++i) {
-    if (i > 0) ss << ':';
-    ss << (int)(unsigned short) array[i];
   }
   return ss.str();
 }
