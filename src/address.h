@@ -43,9 +43,9 @@
 class Address {
  protected:
   /** 
-   *  @brief internal representation of a network address
-   *  @details this is kept protected so descendant classes can modify it
-   *           during construction
+   *  @brief Internal representation of a network address
+   *  @details Descendant classes are expected to set the size and optionally
+   *           the values of the std::vector during construction
    */
   std::vector<unsigned char> address_;
  public:
