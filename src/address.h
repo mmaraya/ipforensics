@@ -42,7 +42,11 @@
  */
 class Address {
  protected:
-  /** collection of addresses as unsigned chars */
+  /** 
+   *  @brief internal representation of a network address
+   *  @details this is kept protected so descendant classes can modify it
+   *           during construction
+   */
   std::vector<unsigned char> address_;
  public:
   Address();
