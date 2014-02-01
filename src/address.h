@@ -42,16 +42,28 @@
  */
 class Address {
  protected:
+  /** collection of addresses as unsigned chars */
   std::vector<unsigned char> address_;
  public:
   Address();
   Address(std::vector<unsigned char> address);
-  bool operator==(const Address &) const;
-  bool operator!=(const Address &) const;
+  bool operator==(const Address&) const;
+  bool operator!=(const Address&) const;
   std::vector<unsigned char> address() const;
   void set_address(std::vector<unsigned char>);
   virtual std::string str() const = 0 ;
 };
+
+/**
+ *  @brief Provide the std::string representation of an Address by overloading
+ *         the << operator for std::ostream
+ *  
+ *  @param out std::ostream output stream
+ *  @param a Address instance to display as an std::string
+ *  @retval pointer to std::ostream that contains the std::string representation
+ *          of this Address
+ */
+std::ostream& operator<<(std::ostream& out, const Address& a);
 
 /**
  *  @brief Media access control (MAC) address
@@ -83,7 +95,16 @@ class IPv4Address : public Address {
   IPv4Address(const unsigned int);
   IPv4Address(std::vector<unsigned char> address) : Address(address) {};
   virtual std::string str() const override;
-  bool mask(IPv4Address, IPv4Address);
+
+  /**
+   *  Tests if this IPv4Address is within the supplied network address and mask
+   *
+   *  @param addr network address to test this IPv4Address against
+   *  @param mask network mask to test this IPv4Address against
+   *  @retval true if this IPv4Address is within the supplied network address 
+   *          (addr) and network mask (mask), false otherwise
+   */
+  bool mask(IPv4Address addr, IPv4Address mask);
 };
 
 /**
@@ -100,8 +121,6 @@ public:
   IPv6Address(std::vector<unsigned char> address) : Address(address) {};
   virtual std::string str() const override;
 };
-
-std::ostream &operator<<(std::ostream &out, const Address &a);
 
 /**
  *  IPForensics program-wide constants and utility functions
@@ -177,7 +196,7 @@ namespace ipf {
     + std::string(39,'=')};
   
   /**
-   *  Convert array of unsigned short vlaues to hexadecimal
+   *  @brief Convert array of unsigned short vlaues to hexadecimal
    *  @param array pointer to unsigned short values
    *  @param length number of elements in the array
    *  @retval std::string colon-separated groupings of two hexadecimal digits

@@ -44,7 +44,7 @@ void Address::set_address(std::vector<unsigned char> address) {
   address_ = address;
 }
 
-std::ostream & operator<<(std::ostream &out, const Address &a) {
+std::ostream& operator<<(std::ostream& out, const Address& a) {
   return (out << a.str());
 }
 
@@ -68,7 +68,8 @@ std::string MACAddress::str() const {
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthMAC; ++i) {
       if (i > 0) ss << ':';
-      ss << std::hex << std::setw(2) << std::setfill('0') << (int)(unsigned char)address_[i];
+      ss << std::hex << std::setw(2) << std::setfill('0');
+      ss << int((unsigned char)address_[i]);
     }
   }
   return ss.str();
@@ -95,12 +96,6 @@ std::string IPv4Address::str() const {
   return ss.str();
 }
 
-/**
- *  Tests if this IPv4Address is within the supplied network address and mask
- *
- *  @return true if this IPv4Address is within the network address and mask,
- *          false otherwise
- */
 bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) {
   IPv4Address subnet = IPv4Address(0);
   for (int i = 0; i < ipf::kLengthIPv4; ++i) {
@@ -114,18 +109,20 @@ IPv6Address::IPv6Address() {
 
 std::string IPv6Address::str() const {
   std::stringstream ss;
+  ss << std::hex;
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
       if (i > 0) ss << ':';
-      ss << std::hex << (unsigned short)(address_[i] << 8 | address_[i+1]);
+      ss << (unsigned short)(address_[i] << 8 | address_[i+1]);
     }
   }
   return ss.str();
 }
 
-//
-// return the hex version of the unsigned short
-//
+/**
+ *  @detail Convert array of unsigned short vlaues to a colon-separated grouping 
+ *          of hexadecimal digits, padded with leading zeroes
+ */
 std::string ipf::hexStr(const unsigned short* array, const int length) {
   std::stringstream ss;
   ss << std::hex << std::setw(2) << std::setfill('0');
