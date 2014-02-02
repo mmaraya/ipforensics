@@ -37,7 +37,7 @@
  *  @brief Base class for representing MAC, IPv4 and IPv6 addresses
  *  @details Address is the base class used by IPForensics to store MAC, IPv4 
  *  and IPv6 addresses.  Address uses a vector of unsigned char and relies on 
- *  descendant classes to set the size of the vector and provide the string 
+ *  descendant classes to set the capacity of the vector and provide the string 
  *  representation.
  */
 class Address {
@@ -45,9 +45,9 @@ class Address {
 
   /**
    *  @brief Internal representation of a network address
-   *  @details Descendant classes are expected to set the size and optionally
-   *           the values of the std::vector during construction.  An empty
-   *           std::vector indicates that the address has not yet been set.
+   *  @details Descendant classes are expected to set the value of the
+   *           std::vector and an empty std::vector indicates that the address 
+   *           has not yet been set.
    */
   std::vector<unsigned char> address_;
 
@@ -279,10 +279,10 @@ namespace ipf {
   const unsigned char kMulticastIPv4 {0xE};
 
   /** IPv4 broadcast address */
-  const IPv4Address kBroadcastIPv4 {std::vector<unsigned char> (4, 255)};
+  const IPv4Address kBroadcastIPv4 {std::vector<unsigned char> (4, 0xFF)};
   
   /** MAC broadcast address */
-  const MACAddress kBroadcastMAC {std::vector<unsigned char> (6, 255)};
+  const MACAddress kBroadcastMAC {std::vector<unsigned char> (6, 0xFF)};
   
   /** output header for comma-separated values file */
   const std::string kHeaderCSV {"MAC Address,IPv4 Address,IPv6 Address"};

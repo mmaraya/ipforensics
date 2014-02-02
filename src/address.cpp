@@ -56,6 +56,11 @@ bool Address::operator==(const Address &b) const {
   return true;
 }
 
+/** 
+ *  @details The implementation of this method simply returns the opposite of
+ *           the Address::operator== method to ensure consistency and reduce
+ *           duplicative code.
+ */
 bool Address::operator!=(const Address &b) const {
   return !(*this == b);
 }
@@ -78,6 +83,11 @@ std::string MACAddress::str() const {
 IPv4Address::IPv4Address() {
 }
 
+/**
+ *  @details The implementation of this method shifts the supplied 32-bit
+ *           unsigned int by 0, 8, 16, and 24 bits to isolate the octets and
+ *           load them into the corresponding unsigned char vector element.
+ */
 IPv4Address::IPv4Address(const unsigned int address) {
   address_ = std::vector<unsigned char>(ipf::kLengthIPv4);
   for (int i = 0; i < ipf::kLengthIPv4; ++i) {
@@ -90,12 +100,19 @@ std::string IPv4Address::str() const {
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv4; ++i) {
       if (i > 0) ss << '.';
-      ss << (int)(unsigned char)address_[i];
+      ss << int((unsigned char)address_[i]);
     }
   }
   return ss.str();
 }
 
+/**
+ *  @details The implementation of this method takes the result of a bitwise
+ *           AND operation between this IPv4Address and the network mask (mask)
+ *           and compares that result against the network address (addr). If the
+ *           two (the result and the network address) are the same, then we know
+ *           that this IPv4Address is within the supplied subnet.
+ */
 bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) const {
   IPv4Address subnet = IPv4Address(0);
   for (int i = 0; i < ipf::kLengthIPv4; ++i) {
