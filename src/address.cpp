@@ -1,6 +1,6 @@
 /**
  *  @file address.cpp
- *  @brief Address class implementation
+ *  @brief Address class hierarchy implementation
  */
 
 /*

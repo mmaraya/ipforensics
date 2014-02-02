@@ -37,7 +37,7 @@
  *  @brief Base class for representing MAC, IPv4 and IPv6 addresses
  *  @details Address is the base class used by IPForensics to store MAC, IPv4 
  *  and IPv6 addresses.  Address uses a vector of unsigned char and relies on 
- *  descendant classes to set the capacity of the vector and provide the string 
+ *  descendant classes to set the elements of the vector and provide the string 
  *  representation.
  */
 class Address {
