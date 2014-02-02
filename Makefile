@@ -34,6 +34,8 @@ CC        := g++
 CC_FLAGS  := -g -Wall -std=c++11
 LD_FLAGS  := 
 
+.PHONY: all clean test
+
 all: $(BIN_DIR)/$(PROGRAM)
 
 $(BIN_DIR)/$(PROGRAM): $(OBJ_FILES)
@@ -44,7 +46,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CC) $(CC_FLAGS) -c -o $@ $<
 
-.PHONY: clean
-
 clean:
 	rm -f $(BIN_DIR)/$(PROGRAM) $(OBJ_DIR)/*.o
+
+test: $(BIN_DIR)/$(PROGRAM)
+	$(BIN_DIR)/$(PROGRAM) -f test/sample.pcap > test/ipf.test
+	diff test/sample.pcap.result test/ipf.test
