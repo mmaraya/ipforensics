@@ -1,26 +1,31 @@
-//
-// The MIT License (MIT)
-//
-// Copyright (c) 2014 Michael Maraya
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
+/**
+ *  @file ip4and6.cpp
+ *  @brief IPForensics class implementation
+ */
+
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Michael Maraya
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include "ip4and6.h"
 
@@ -60,9 +65,6 @@ void IPForensics::set_packet_count(int packet_count) {
   packet_count_ = packet_count;
 }
 
-//
-// Loads all available packet capture devices into the list
-//
 void IPForensics::load_devices() {
 
   char error[PCAP_ERRBUF_SIZE];
@@ -90,33 +92,27 @@ void IPForensics::load_devices() {
   pcap_freealldevs(alldevsp);
 }
 
-//
-// Loads all unique hosts from packets captured by device
-//
-void IPForensics::load_hosts(Device d) {
-  for (Packet p : d.packets()) {
+void IPForensics::load_hosts(Device device) {
+  for (Packet packet : device.packets()) {
     // add the source host
-    std::set<Host>::iterator it = hosts_.find(p.mac_src());
+    auto it = hosts_.find(packet.mac_src());
     if (it == hosts_.end()) {
-      add_host(p.mac_src(), p.ipv4_src(), p.ipv6_src());
+      add_host(packet.mac_src(), packet.ipv4_src(), packet.ipv6_src());
     } else {
-      update_host(it, p.ipv4_src(), p.ipv6_src());
+      update_host(it, packet.ipv4_src(), packet.ipv6_src());
     }
     // add the destination host
-    it = hosts_.find(p.mac_dst());
+    it = hosts_.find(packet.mac_dst());
     if (it == hosts_.end()) {
-      add_host(p.mac_dst(), p.ipv4_dst(), p.ipv6_dst());
+      add_host(packet.mac_dst(), packet.ipv4_dst(), packet.ipv6_dst());
     } else {
-      update_host(it, p.ipv4_dst(), p.ipv6_dst());
+      update_host(it, packet.ipv4_dst(), packet.ipv6_dst());
     }
   }
-  IPv4Address net = d.net(), mask = d.mask();
+  IPv4Address net = device.net(), mask = device.mask();
   clean_hosts(&net, &mask);
 }
 
-//
-// Loads all unique hosts from user-supplied pcap file
-//
 void IPForensics::load_hosts(std::string filename) {
  
   // open the filename
@@ -200,9 +196,12 @@ void IPForensics::update_host(std::set<Host>::iterator it, IPv4Address ipv4,
   hosts_.insert(h);
 }
 
-//
-// Remove broadcast, multicast and non-local hosts
-//
+/**
+ *  @details This helper method removes "fake" hosts from IPForensics::hosts_
+ *           such as multicast and broadcast addresses.
+ *  @todo Move the individual MAC, IPv4 and IPv6 fake host checks into the 
+ *        Address class for better encapsulation.
+ */
 void IPForensics::clean_hosts(IPv4Address* net, IPv4Address *mask) {
   std::set<Host>::iterator it;
   for (it = hosts_.begin(); it != hosts_.end(); ) {
