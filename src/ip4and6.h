@@ -1,5 +1,5 @@
 /**
- *  @file ipforensics.h
+ *  @file ip4and6.h
  *  @brief IPForensics class definitions
  */
 
@@ -33,16 +33,68 @@
 #include <set>
 #include "device.h"
 
+/**
+ *  @brief Main controller class for the IPForensics library, following the 
+ *         model-view-controller software design pattern
+ *  @details IPForensics ties all of the classes in this program together, 
+ *           initializing the data sources (either packet capture device or
+ *           libpcap-format file), reading the packets, and extracting hosts.
+ */
 class IPForensics {
  private:
+  
+  /**
+   *  @brief Collection of network capture devices available from the system
+   *  @details IPForensics::load_devices(Device) must be called to populate this
+   *           variable.  If IPForensics is used to read a packet capture file,
+   *           this variable will not be used and may be kept empty.
+   */
   std::vector<Device> devices_;
+
+  /**
+   *  @brief Collection of hosts, uniquely identified by their MAC addresses
+   */
   std::set<Host> hosts_;
+ 
+  /**
+   *  @brief Name of the network capture device to read packets from
+   */
   std::string device_;
+  
+  /**
+   *  @brief Name of the file to read packets from
+   *  @details File must follow the libpcap file format
+   */
   std::string filename_;
+  
+  /**
+   *  @brief Number of packets to read from the network or file
+   *  @details If reading a file, a value of 0 means read all packets
+   */
   int packet_count_;
+
+  /**
+   *  @brief Packets from the capture device or libpcap file are stored in this
+   *         collection
+   */
   std::vector<Packet> packets_;
-  void add_host(MACAddress, IPv4Address, IPv6Address);
-  void update_host(std::set<Host>::iterator, IPv4Address, IPv6Address);
+  
+  /**
+   *  @brief Adds a new Host to IPForensics::hosts_
+   *  @param mac MACAddress for this new host, this is a mandatory value
+   *  @param ipv4 IPv4Address for this new host, if known
+   *  @param ipv6 IPv6Address for this new host, if known
+   */
+  void add_host(MACAddress mac, IPv4Address ipv4, IPv6Address ipv6);
+  
+  /**
+   *  @brief Sets the IPv4 and/or IPv6 addresses of an existing Host in hosts_
+   *  @param it iterator pointing to the existing Host in hosts_
+   *  @param ipv4 IPv4Address associated with this host
+   *  @param ipv6 IPv6Address associated with this host
+   */
+  void update_host(std::set<Host>::iterator it, IPv4Address ipv4,
+                   IPv6Address ipv6);
 
   /**
    *  @brief Remove broadcast, multicast and non-local hosts from 
@@ -51,6 +103,7 @@ class IPForensics {
    *  @param mask IPv4 network mask used by the capture device
    */
   void clean_hosts(IPv4Address* net, IPv4Address* mask);
+ 
  public:
   std::vector<Device> devices();
   std::set<Host> hosts();
@@ -71,9 +124,9 @@ class IPForensics {
   /**
    *  @brief Extracts all unique hosts from the packets captured on the supplied
    *         Device and enters them into IPForensics::hosts_
-   *  @param filename User-supplied filename of the packet capture file to read
+   *  @param device Network packet device to read packets and extract hosts from
    */
-  void load_hosts(Device);
+  void load_hosts(Device device);
 
   /**
    *  @brief Reads all unique hosts from the user-supplied packet capture file
