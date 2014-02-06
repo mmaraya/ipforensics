@@ -29,27 +29,27 @@
 
 #include "ip4and6.h"
 
-std::vector<Device> IPForensics::devices() {
+std::vector<Device> IPForensics::devices() const {
   return devices_;
 }
 
-std::set<Host> IPForensics::hosts() {
+std::set<Host> IPForensics::hosts() const {
   return hosts_;
 }
 
-std::string IPForensics::device() {
+std::string IPForensics::device() const {
   return device_;
 }
 
-std::string IPForensics::filename() {
+std::string IPForensics::filename() const {
   return filename_;
 }
 
-int IPForensics::packet_count() {
+int IPForensics::packet_count() const {
   return packet_count_;
 }
 
-std::vector<Packet> IPForensics::packets() {
+std::vector<Packet> IPForensics::packets() const {
   return packets_;
 }
 
@@ -113,6 +113,10 @@ void IPForensics::load_hosts(Device device) {
   clean_hosts(&net, &mask);
 }
 
+/**
+ *  @todo Add command-line parameters for IPv4 network address and mask so we 
+ *        can remove broadcast and multicast hosts from the result
+ */
 void IPForensics::load_hosts(std::string filename) {
  
   // open the filename
@@ -173,16 +177,10 @@ void IPForensics::load_hosts(std::string filename) {
   clean_hosts(nullptr, nullptr);
 }
 
-//
-// Add IPv4 or IPv6 host
-//
 void IPForensics::add_host(MACAddress mac, IPv4Address ipv4, IPv6Address ipv6) {
   hosts_.insert(Host(mac, ipv4, ipv6));
 }
 
-//
-// Update existing host record with new packet information
-//
 void IPForensics::update_host(std::set<Host>::iterator it, IPv4Address ipv4,
                               IPv6Address ipv6) {
   Host h = *it;

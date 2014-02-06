@@ -28,9 +28,9 @@
  */
 
 #include <iostream>
-#include <vector>
 #include <pcap/pcap.h>
 #include <set>
+#include <vector>
 #include "device.h"
 
 /**
@@ -105,15 +105,61 @@ class IPForensics {
   void clean_hosts(IPv4Address* net, IPv4Address* mask);
  
  public:
-  std::vector<Device> devices();
-  std::set<Host> hosts();
-  std::string device();
-  std::string filename();
-  int packet_count();
-  std::vector<Packet> packets();
-  void set_device(std::string);
-  void set_filename(std::string);
-  void set_packet_count(int);
+  
+  /**
+   *  @brief Accessor method for the devices_ property
+   *  @retval std::vector of network capture devices available from the system
+   */
+  std::vector<Device> devices() const;
+
+  /**
+   *  @brief Accessor method for the hosts_ property
+   *  @retval std::set of hosts, uniquely identified by their MAC addresses
+   */
+  std::set<Host> hosts() const;
+  
+  /**
+   *  @brief Accessor method for the device_ property
+   *  @retval std::string name of the network capture device being used
+   */
+  std::string device() const;
+
+  /**
+   *  @brief Accessor method for the filename_ property
+   *  @retval std::string name of the file to read packets from
+   */
+  std::string filename() const;
+  
+  /**
+   *  @brief Accessor method for the packet_count_ property
+   *  @retval int number of packets to read from the network or file
+   */
+  int packet_count() const;
+  
+  /**
+   *  @brief Accessor method for the packets_ property
+   *  @retval std::vector packets read from the capture device or file
+   */
+  std::vector<Packet> packets() const;
+  
+  /**
+   *  @brief Mutator method for the device_ property
+   *  @param device Device instance to read packets from
+   */
+  void set_device(std::string device);
+
+  /**
+   *  @brief Mutator method for the filename_ property
+   *  @param filename user-supplied libpcap-formatted file to load packets from
+   */
+  void set_filename(std::string filename);
+  
+  /**
+   *  @brief Mutator method for the packet_count_ property
+   *  @param count number of packets to read from the network or file
+   *  @details If reading a file, a value of 0 is taken to mean read all packets
+   */
+  void set_packet_count(int count);
   
   /**
    *  @brief Queries the system for all available packet capture devices and
