@@ -65,6 +65,13 @@ void IPForensics::set_packet_count(int packet_count) {
   packet_count_ = packet_count;
 }
 
+/**
+ *  @details Loads all available network devices from the host system, setting
+ *           each device's name, description, loopback status, network address
+ *           and network mask
+ *  @throws std::runtime_error if an error is encountered when attempting to 
+ *          list all network devices with the details from libpcap
+ */
 void IPForensics::load_devices() {
 
   char error[PCAP_ERRBUF_SIZE];
@@ -92,8 +99,16 @@ void IPForensics::load_devices() {
   pcap_freealldevs(alldevsp);
 }
 
+/**
+ *  @details Iterates through all the packets in the supplied Device and loads
+ *           the source host and destination host from each packet.  If a host
+ *           detected from the packets already exists in the collection, the
+ *           host is updated with any new information from the packet (the IPv4
+ *           or IPv6 address if not previously found).
+ */
 void IPForensics::load_hosts(Device device) {
   for (Packet packet : device.packets()) {
+    
     // add the source host
     auto it = hosts_.find(packet.mac_src());
     if (it == hosts_.end()) {
@@ -101,6 +116,7 @@ void IPForensics::load_hosts(Device device) {
     } else {
       update_host(it, packet.ipv4_src(), packet.ipv6_src());
     }
+    
     // add the destination host
     it = hosts_.find(packet.mac_dst());
     if (it == hosts_.end()) {
@@ -109,6 +125,8 @@ void IPForensics::load_hosts(Device device) {
       update_host(it, packet.ipv4_dst(), packet.ipv6_dst());
     }
   }
+  
+  // remove multicast and broadcast hosts
   IPv4Address net = device.net(), mask = device.mask();
   clean_hosts(&net, &mask);
 }
