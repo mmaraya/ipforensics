@@ -111,7 +111,8 @@ class Address {
 std::ostream& operator<<(std::ostream& out, const Address& a);
 
 /**
- *  @brief Media access control (MAC) address
+ *  @brief Model class for Media access control (MAC) addresses, following the 
+ *         model-view-controller software design pattern
  *  @details MACAddress is a descendant of the Address class and represents a
  *           6-octet hexadecimal media access control address. It should be 
  *           possible to look up vendor information using this property.
@@ -142,7 +143,8 @@ class MACAddress : public Address {
 };
 
 /**
- *  @brief Internet Protocol version 4 (IPv4) address
+ *  @brief Model class for Internet Protocol version 4 (IPv4) addresses, 
+ *         following the model-view-controller software design pattern
  *  @details IPv4Address is a descendant of the Address class and is used to
  *           store and display the four decimals that make up an IPv4 address 
  *           using the familiar quad-dotted notation.  This class can also be 
@@ -189,8 +191,9 @@ class IPv4Address : public Address {
 };
 
 /**
- *  @brief Internet Protocol version 6 (IPv6) address
- *  @details IPv6Address is a descendant of the Address class and is used to 
+ *  @brief Model class for Internet Protocol version 6 (IPv6) addresses,
+ *         following the model-view-controller software design pattern
+ *  @details IPv6Address is a descendant of the Address class and is used to
  *           store 128-bit Internet Protocol version 6 addresses and display 
  *           them as eight colon-separated groups of four hexadecimal digits.
  */
@@ -219,7 +222,8 @@ class IPv6Address : public Address {
 };
 
 /**
- *  @brief IPForensics program-wide constants and utility functions
+ *  @brief IPForensics namespace for library-wide constants
+ *  @todo Add guards for all headers and move constants into IPForensics header
  */
 namespace ipf {
   
