@@ -1,6 +1,6 @@
 /**
  *  @file host.cpp
- *  @brief Network host class implementation
+ *  @brief Host class implementation
  */
 
 /*

@@ -1,6 +1,6 @@
 /**
  *  @file host.h
- *  @brief Network host class definitions
+ *  @brief Host class definitions
  */
 
 /*
@@ -116,4 +116,4 @@ bool operator<(const Host& lhs, const Host& rhs);
  *  @retval std::ostream address that contains the std::string representation of
  *          this Host
  */
-std::ostream &operator<<(std::ostream &out, const Host &h);
+std::ostream& operator<<(std::ostream& out, const Host& h);
