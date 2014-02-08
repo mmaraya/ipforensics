@@ -36,9 +36,9 @@
 /**
  *  @brief Base class for representing MAC, IPv4 and IPv6 addresses
  *  @details Address is the base class used by IPForensics to store MAC, IPv4 
- *  and IPv6 addresses.  Address uses a vector of unsigned char and relies on 
- *  descendant classes to set the elements of the vector and provide the string 
- *  representation.
+ *           and IPv6 addresses.  Address uses a vector of unsigned char and 
+ *           relies on descendant classes to set the elements of the vector and 
+ *           provide the string representation.
  */
 class Address {
  protected:
@@ -143,12 +143,11 @@ class MACAddress : public Address {
 
 /**
  *  @brief Internet Protocol version 4 (IPv4) address
- *
- *  IPv4Address is a descendant of the Address class and is used to store and
- *  display the four decimals that make up an IPv4 address using the familiar 
- *  quad-dotted notation.  This class can also be used to store IPv4 network
- *  addresses, store network masks, and determine if another IPv4Address is
- *  on the same subnet.
+ *  @details IPv4Address is a descendant of the Address class and is used to
+ *           store and display the four decimals that make up an IPv4 address 
+ *           using the familiar quad-dotted notation.  This class can also be 
+ *           used to store IPv4 network addresses, store network masks, and 
+ *           determine if another IPv4Address is on the same subnet.
  */
 class IPv4Address : public Address {
  public:
