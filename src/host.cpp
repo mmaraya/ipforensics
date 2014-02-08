@@ -40,10 +40,6 @@ Host::Host(const MACAddress mac, const IPv4Address v4, const IPv6Address v6) {
   ipv6_ = v6;
 }
 
-bool operator<(const Host& lhs, const Host& rhs) {
-  return (rhs.mac().str().compare(lhs.mac().str()) > 0);
-}
-
 MACAddress Host::mac() const {
   return mac_;
 }
@@ -52,25 +48,35 @@ IPv4Address Host::ipv4() const {
   return ipv4_;
 }
 
-void Host::set_ipv4(const IPv4Address ipv4) {
-  ipv4_ = ipv4;
-}
-
 IPv6Address Host::ipv6() const {
   return ipv6_;
+}
+
+void Host::set_ipv4(const IPv4Address ipv4) {
+  ipv4_ = ipv4;
 }
 
 void Host::set_ipv6(const IPv6Address ipv6) {
   ipv6_ = ipv6;
 }
 
-std::ostream &operator<<(std::ostream &out, const Host &h) {
-  std::string mac = h.mac().str();
-  std::string ipv4 = h.ipv4().str();
-  std::string ipv6 = h.ipv6().str();
+/**
+ *  @details Uses the std::string.compare() function to compare the characters
+ *           of the MAC address individually from left to right
+ */
+bool operator<(const Host& lhs, const Host& rhs) {
+  return (rhs.mac().str().compare(lhs.mac().str()) > 0);
+}
+
+/**
+ *  @details This method returns the command-line formatted representation of a
+ *           Host and displays the MAC, IPv4 and IPv6 address padded by spaces
+ *           so they align with the column headers in ipf::kHeader.
+ */
+std::ostream& operator<<(std::ostream& out, const Host& h) {
   out << std::left << std::setfill(' ');
-  out << std::setw(18) << mac;
-  out << std::setw(16) << ipv4;
-  out << std::setw(39) << ipv6;
+  out << std::setw(18) << h.mac();
+  out << std::setw(16) << h.ipv4();
+  out << std::setw(39) << h.ipv6();
   return out;
 }
