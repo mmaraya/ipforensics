@@ -104,9 +104,33 @@ class Host {
  *  @brief Overload the < binary infix comparison operator
  *  @details IPForensics::hosts_ stores Hosts as an std::set so this class must
  *           overload the < operator so that the Hosts sort correctly
- *  @todo Overload the >, ==, !=, <=, and >= operators as well
  */
 bool operator<(const Host& lhs, const Host& rhs);
+
+/**
+ *  @brief Overload the > binary infix comparison operator
+ */
+bool operator>(const Host& lhs, const Host& rhs);
+
+/**
+ *  @brief Overload the == binary infix comparison operator
+ */
+bool operator==(const Host& lhs, const Host& rhs);
+
+/**
+ *  @brief Overload the != binary infix comparison operator
+ */
+bool operator!=(const Host& lhs, const Host& rhs);
+
+/**
+ *  @brief Overload the <= binary infix comparison operator
+ */
+bool operator<=(const Host& lhs, const Host& rhs);
+
+/**
+ *  @brief Overload the >= binary infix comparison operator
+ */
+bool operator>=(const Host& lhs, const Host& rhs);
 
 /**
  *  @brief Provide the std::string representation of a Host by overloading the

@@ -62,10 +62,46 @@ void Host::set_ipv6(const IPv6Address ipv6) {
 
 /**
  *  @details Uses the std::string.compare() function to compare the characters
- *           of the MAC address individually from left to right
+ *           of the MAC address
  */
 bool operator<(const Host& lhs, const Host& rhs) {
   return (rhs.mac().str().compare(lhs.mac().str()) > 0);
+}
+
+/**
+ *  @details Returns the opposite of operator< by switching the parameters
+ */
+bool operator>(const Host& lhs, const Host& rhs) {
+  return operator<(rhs, lhs);
+}
+
+/**
+ *  @details Performs an std::string comparison of the string representation of
+ *           the MAC addresses
+ */
+bool operator==(const Host& lhs, const Host& rhs) {
+  return (lhs.mac().str().compare(rhs.mac().str()) == 0);
+}
+
+/**
+ *  @details Returns the opposite of operator==
+ */
+bool operator!=(const Host& lhs, const Host& rhs) {
+  return !operator==(lhs, rhs);
+}
+
+/**
+ *  @details Returns the opposite of operator>
+ */
+bool operator<=(const Host& lhs, const Host& rhs) {
+  return !operator>(lhs, rhs);
+}
+
+/**
+ *  @details Returns the opposite of operator<
+ */
+bool operator>=(const Host& lhs, const Host& rhs) {
+  return !operator<(lhs, rhs);
 }
 
 /**
