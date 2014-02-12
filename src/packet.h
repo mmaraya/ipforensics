@@ -31,31 +31,96 @@
 #include "host.h"
 
 /**
- *  @brief Model class for storing information about a single network node,
+ *  @brief Model class for storing information about a single network packet,
  *         following the model-view-controller software design pattern
- *  @details Host stores the media access control, Internet Protocol version 4,
- *           and Internet Protocol version 6 address information for a single
- *           network node.
+ *  @details Packet stores the media access control, Internet Protocol version 4,
+ *           and Internet Protocol version 6 address information for both the
+ *           network packet source and network packet destination.
  */
 class Packet {
 private:
+  
+  /** Media access control address of the packet source */
   MACAddress mac_src_;
+
+  /** Media access control address of the packet destination */
   MACAddress mac_dst_;
+
+  /** Ethertype contained in the packet */
   unsigned short ether_type_ {};
+
+  /** IPv4 address of the packet source */
   IPv4Address ipv4_src_ {};
+
+  /** IPv4 address of the packet destination */
   IPv4Address ipv4_dst_ {};
+
+  /** IPv6 address of the packet source */
   IPv6Address ipv6_src_ {};
+  
+  /** IPv6 address of the packet destination */
   IPv6Address ipv6_dst_ {};
+
 public:
+
+  /**
+   *  @brief Create a Packet instance using the supplied pcap pointer to the
+   *         packet capture data
+   */
   Packet(const unsigned char *);
+
+  /**
+   *  @brief Does this Packet have IPv4 information
+   *  @retval true if this Packet has IPv4 information, false otherwise
+   */
   bool ipv4() const;
+
+  /**
+   *  @brief Does this Packet have IPv6 information
+   *  @retval true if this Packet has IPv6 information, false otherwise
+   */
   bool ipv6() const;
+
+  /**
+   *  @brief Accessor method for the mac_src_ property
+   *  @retval MACAddress media access control address for the packet source
+   */
   MACAddress mac_src() const;
+
+  /**
+   *  @brief Accessor method for the mac_dst_ property
+   *  @retval MACAddress media access control address for the packet destination
+   */
   MACAddress mac_dst() const;
+
+  /**
+   *  @brief Accessor method for the ether_type_ property
+   *  @retval unsigned short ethertype for this Packet
+   */
   unsigned short ether_type() const;
+
+  /**
+   *  @brief Accessor method for the ipv4_src_ property
+   *  @retval IPv4Address source IPv4 address for this Packet
+   */
   IPv4Address ipv4_src() const;
+
+  /**
+   *  @brief Accessor method for the ipv4_dst_ property
+   *  @retval IPv4Address destination IPv4 address for this Packet
+   */
   IPv4Address ipv4_dst() const;
+
+  /**
+   *  @brief Accessor method for the ipv6_src_ property
+   *  @retval IPv6Address source IPv6 address for this Packet
+   */
   IPv6Address ipv6_src() const;
+
+  /**
+   *  @brief Accessor method for the ipv6_dst_ property
+   *  @retval IPv6Address destination IPv6 address for this Packet
+   */
   IPv6Address ipv6_dst() const;
 };
 
@@ -68,4 +133,3 @@ public:
  *          this Packet
  */
 std::ostream &operator<<(std::ostream &out, const Packet &p);
-
