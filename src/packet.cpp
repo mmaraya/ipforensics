@@ -107,16 +107,10 @@ IPv6Address Packet::ipv6_dst() const {
   return ipv6_dst_;
 }
 
-//
-// return true if this packet contains IPv4
-//
 bool Packet::ipv4() const {
   return (ether_type_ == ipf::kEtherTypeIPv4);
 }
 
-//
-// return true if this packet contains IPv6
-//
 bool Packet::ipv6() const {
   return (ether_type_ == ipf::kEtherTypeIPv6);
 }
