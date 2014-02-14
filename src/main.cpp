@@ -29,10 +29,13 @@
 
 #include "main.h"
 
-//
-// ipforensics
-//
-int main(int argc, char * argv[]) {
+/**
+ *  @brief IPForensics program entry point
+ *  @param argc number of command-line arguments
+ *  @param argv array of command-line arguments
+ *  @retval int returns 0 upon successful program completion, non-zero otherwise
+ */
+int main(int argc, char* argv[]) {
   
   // load arguments into vector<string> so we can use std::find
   std::vector<std::string> args;
@@ -117,9 +120,9 @@ int main(int argc, char * argv[]) {
   }
 }
 
-//
-// display program usage
-//
+/**
+ *  @details Display program name, version, and usage
+ */
 void usage() {
   std::cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
   std::cout << ipf::kMinorVersion << "\n\n";
@@ -132,9 +135,11 @@ void usage() {
   std::cout << "-n packets   number of packets to read or capture" << std::endl;
 }
 
-//
-// load packets from capture device
-//
+/**
+ *  @details The list of available packet devices is loaded from the system and
+ *           matched against the command-line supplied device name.  Packets are
+ *           captured and hosts extracted.
+ */
 int load_from_device(IPForensics *ip) {
   
   // load packet capture device list from system
@@ -187,9 +192,10 @@ int load_from_device(IPForensics *ip) {
   return packet_count;
 }
 
-//
-// load packets from pcap file
-//
+/**
+ *  @details Packets are read from the command-line pcap file and hosts are 
+ *           extracted from the packets.
+ */
 int load_from_file(IPForensics *ip) {
 
   // display run-time parameters

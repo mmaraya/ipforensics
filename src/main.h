@@ -32,7 +32,24 @@
 #include <iterator>
 #include "ip4and6.h"
 
+/** Command-line option to show additional details during program execution */
 bool verbose {};
+
+/**
+ *  @brief Display command-line program usage and options 
+ */
 void usage();
-int load_from_file(IPForensics *);
-int load_from_device(IPForensics *);
+
+/**
+ *  @brief Load packets from command-line supplied pcap file 
+ *  @param ip Main IPForensics program class
+ *  @retval Number of packets read from pcap file or -1 if error detected
+ */
+int load_from_file(IPForensics *ip);
+
+/**
+ *  @brief Load packets from command-line supplied packet capture device
+ *  @param ip Main IPForensics program class
+ *  @retval Number of packets read from capture device  or -1 if error detected
+ */
+int load_from_device(IPForensics *ip);
