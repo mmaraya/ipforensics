@@ -27,68 +27,61 @@
  * SOFTWARE.
  */
 
+#include <string>
+#include <vector>
 #include "device.h"
-
-Device::Device() {}
 
 const std::string Device::name() const {
   return name_;
-}
-
-void Device::set_name(const std::string name) {
-  name_ = name;
 }
 
 const std::string Device::desc() const {
   return desc_;
 }
 
-void Device::set_desc(const std::string desc) {
-  desc_ = desc;
-}
-
 const bool Device::loopback() const {
   return loopback_;
-}
-
-void Device::set_loopback(const bool loopback) {
-  loopback_ = loopback;
 }
 
 const IPv4Address Device::net() const {
   return net_;
 }
 
-void Device::set_net(const IPv4Address net) {
-  net_ = net;
-}
-
 const IPv4Address Device::mask() const {
   return mask_;
-}
-
-void Device::set_mask(const IPv4Address mask) {
-  mask_ = mask;
 }
 
 const std::vector<Packet> Device::packets() {
   return packets_;
 }
 
-//
-// overload the ostream << operator for Device
-//
-std::ostream &operator<<(std::ostream &out, const Device &d) {
-  out << d.name() << ":" << d.desc() << ":" << (d.loopback() ? "LOOPBACK" : "");
-  return out;
+void Device::set_name(const std::string name) {
+  name_ = name;
 }
 
-//
-// Read n packets from this device and load into packet list
-// Return the number of packets actually read
-//
+void Device::set_desc(const std::string desc) {
+  desc_ = desc;
+}
+
+void Device::set_loopback(const bool loopback) {
+  loopback_ = loopback;
+}
+
+void Device::set_net(const IPv4Address net) {
+  net_ = net;
+}
+
+void Device::set_mask(const IPv4Address mask) {
+  mask_ = mask;
+}
+
+/**
+ * @details This method currently only handles Ethernet frames so an exception 
+ *          will be thrown if other types are detected
+ * @throw std::runtime_error if the packet capture could not be opened or if the 
+ *        link-layer header type for the live capture is not IEEE 802.3 Ethernet
+ */
 int Device::capture(const int n) {
-  
   char error[PCAP_ERRBUF_SIZE] {};
   pcap_t* pcap = pcap_open_live(name_.c_str(), ipf::kSnapLength, true,
                                 ipf::kTimeout, error);
@@ -99,7 +92,6 @@ int Device::capture(const int n) {
     pcap_close(pcap);
     throw std::runtime_error("Link-layer type not IEEE 802.3 Ethernet");
   }
-  
   const unsigned char * packet = NULL;
   struct pcap_pkthdr header;
   for (int i = 0; i < n; ++i) {
@@ -108,7 +100,11 @@ int Device::capture(const int n) {
       packets_.push_back(Packet(packet));
     }
   }
-  
   pcap_close(pcap);
-  return (int) packets_.size();
+  return static_cast<int>(packets_.size());
+}
+
+std::ostream &operator<<(std::ostream &out, const Device &d) {
+  out << d.name() << ":" << d.desc() << ":" << (d.loopback() ? "LOOPBACK" : "");
+  return out;
 }
