@@ -30,9 +30,10 @@
 #ifndef IPFORENSICS_IP4AND6_H_
 #define IPFORENSICS_IP4AND6_H_
 
-#include <iostream>
+#include <stdint.h>
 #include <pcap/pcap.h>
 #include <set>
+#include <string>
 #include <vector>
 #include "ipforensics/device.h"
 
@@ -234,19 +235,19 @@ namespace ipf {
   const int kOffsetIPv6Dst {38};
 
   /** ethertype for IPv4 */
-  const unsigned short kEtherTypeIPv4 {0x0800};
+  const uint16_t kEtherTypeIPv4 {0x0800};
 
   /** ethertype for IPv6 */
-  const unsigned short kEtherTypeIPv6 {0x86DD};
+  const uint16_t kEtherTypeIPv6 {0x86DD};
 
   /** IPv4 prefix for multicasts */
-  const unsigned char kMulticastIPv4 {0xE};
+  const uint8_t kMulticastIPv4 {0xE};
 
   /** IPv4 broadcast address */
-  const IPv4Address kBroadcastIPv4 {std::vector<unsigned char> (4, 0xFF)};
+  const IPv4Address kBroadcastIPv4 {std::vector<uint8_t> (4, 0xFF)};
 
   /** MAC broadcast address */
-  const MACAddress kBroadcastMAC {std::vector<unsigned char> (6, 0xFF)};
+  const MACAddress kBroadcastMAC {std::vector<uint8_t> (6, 0xFF)};
 
   /** output header for comma-separated values file */
   const std::string kHeaderCSV {"MAC Address,IPv4 Address,IPv6 Address"};
@@ -255,6 +256,6 @@ namespace ipf {
   const std::string kHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
     + std::string(17, '=') + ' ' + std::string(15, '=') + ' '
     + std::string(39, '=')};
-}
+}  // namespace ipf
 
 #endif  // IPFORENSICS_IP4AND6_H_
