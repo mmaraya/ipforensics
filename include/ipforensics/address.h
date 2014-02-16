@@ -30,9 +30,6 @@
 #ifndef IPFORENSICS_ADDRESS_H_
 #define IPFORENSICS_ADDRESS_H_
 
-#include <iomanip>
-#include <iostream>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -45,7 +42,6 @@
  */
 class Address {
  protected:
-
   /**
    *  @brief Internal representation of a network address
    *  @details Descendant classes are expected to set the value of the
@@ -55,7 +51,6 @@ class Address {
   std::vector<unsigned char> address_;
 
  public:
-
   /**
    *  @brief Descendant classes require the Address class to have a default 
    *         constructor
@@ -66,7 +61,7 @@ class Address {
    *  @brief Creates an Address with the supplied std::vector of unsigned char
    *  @param address replaces the value of the internal property address_
    */
-  Address(std::vector<unsigned char> address);
+  explicit Address(std::vector<unsigned char> address);
 
   /**
    *  @brief Compares the internal contents of this Address against another one
@@ -100,7 +95,7 @@ class Address {
    *         implementation.
    *  @retval std::string representation of this address
    */
-  virtual std::string str() const = 0 ;
+  virtual std::string str() const = 0;
 };
 
 /**
@@ -122,7 +117,6 @@ std::ostream& operator<<(std::ostream& out, const Address& a);
  */
 class MACAddress : public Address {
  public:
-
   /**
    *  @brief Creates a new media access control address with an empty 
    *         Address::address_
@@ -135,7 +129,7 @@ class MACAddress : public Address {
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
    */
-  MACAddress(std::vector<unsigned char> address) : Address(address) {};
+  explicit MACAddress(std::vector<unsigned char> address) : Address(address) {}
 
   /**
    *  @brief Provides a human-readable std::string representation of this media
@@ -156,8 +150,7 @@ class MACAddress : public Address {
  */
 class IPv4Address : public Address {
  public:
- 
-  /**
+   /**
    *  @brief Creates a new IPv4 address with an empty Address::address_
    */
   IPv4Address();
@@ -166,7 +159,7 @@ class IPv4Address : public Address {
    *  @brief Creates a new IPv4 address with the supplied unsigned 32-bit value
    *  @param address 32-bit value to be converted into Address::address_
    */
-  IPv4Address(const unsigned int address);
+  explicit IPv4Address(const unsigned int address);
 
   /**
    *  @brief Creates a new IPv4 address with the supplied std::vector
@@ -174,7 +167,7 @@ class IPv4Address : public Address {
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
    */
-  IPv4Address(std::vector<unsigned char> address) : Address(address) {};
+  explicit IPv4Address(std::vector<unsigned char> address) : Address(address) {}
 
   /**
    *  @brief Provides a human-readable std::string representation of this IPv4
@@ -202,19 +195,18 @@ class IPv4Address : public Address {
  */
 class IPv6Address : public Address {
  public:
-
   /**
    *  @brief Creates a new IPv6 address with an empty Address::address_
    */
   IPv6Address();
-  
+
   /**
    *  @brief Creates a new IPv6 address with the supplied std::vector
    *  @details This constructor invokes the Address ancestor class constructor
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
    */
-  IPv6Address(std::vector<unsigned char> address) : Address(address) {};
+  explicit IPv6Address(std::vector<unsigned char> address) : Address(address) {}
 
   /**
    *  @brief Provides a human-readable std::string representation of this IPv6

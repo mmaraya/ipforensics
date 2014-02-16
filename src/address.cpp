@@ -27,6 +27,8 @@
  * SOFTWARE.
  */
 
+#include <iomanip>
+#include <sstream>
 #include "ipforensics/ip4and6.h"
 #include "ipforensics/address.h"
 
