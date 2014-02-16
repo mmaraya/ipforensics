@@ -27,8 +27,8 @@
  * SOFTWARE.
  */
 
-#ifndef IPFORENSICS_DEVICE_H
-#define IPFORENSICS_DEVICE_H
+#ifndef IPFORENSICS_DEVICE_H_
+#define IPFORENSICS_DEVICE_H_
 
 #include <pcap/pcap.h>
 #include <pcap/bpf.h>
@@ -153,4 +153,4 @@ class Device {
  */
 std::ostream &operator<<(std::ostream &out, const Device &d);
 
-#endif  // IPFORENSICS_DEVICE_H
+#endif  // IPFORENSICS_DEVICE_H_

@@ -27,8 +27,8 @@
  * SOFTWARE.
  */
 
-#ifndef IPFORENSICS_IP4AND6_H
-#define IPFORENSICS_IP4AND6_H
+#ifndef IPFORENSICS_IP4AND6_H_
+#define IPFORENSICS_IP4AND6_H_
 
 #include <iostream>
 #include <pcap/pcap.h>
@@ -45,7 +45,6 @@
  */
 class IPForensics {
  private:
-  
   /**
    *  @brief Collection of network capture devices available from the system
    *  @details IPForensics::load_devices(Device) must be called to populate this
@@ -58,18 +57,18 @@ class IPForensics {
    *  @brief Collection of hosts, uniquely identified by their MAC addresses
    */
   std::set<Host> hosts_;
- 
+
   /**
    *  @brief Name of the network capture device to read packets from
    */
   std::string device_;
-  
+
   /**
    *  @brief Name of the file to read packets from
    *  @details File must follow the libpcap file format
    */
   std::string filename_;
-  
+
   /**
    *  @brief Number of packets to read from the network or file
    *  @details If reading a file, a value of 0 means read all packets
@@ -81,7 +80,7 @@ class IPForensics {
    *         collection
    */
   std::vector<Packet> packets_;
-  
+
   /**
    *  @brief Adds a new Host to IPForensics::hosts_
    *  @param mac MACAddress for this new host, this is a mandatory value
@@ -89,7 +88,7 @@ class IPForensics {
    *  @param ipv6 IPv6Address for this new host, if known
    */
   void add_host(MACAddress mac, IPv4Address ipv4, IPv6Address ipv6);
-  
+
   /**
    *  @brief Sets the IPv4 and/or IPv6 addresses of an existing Host in hosts_
    *  @param it iterator pointing to the existing Host in hosts_
@@ -106,9 +105,8 @@ class IPForensics {
    *  @param mask IPv4 network mask used by the capture device
    */
   void clean_hosts(IPv4Address* net, IPv4Address* mask);
- 
+
  public:
-  
   /**
    *  @brief Accessor method for the devices_ property
    *  @retval std::vector of network capture devices available from the system
@@ -120,7 +118,7 @@ class IPForensics {
    *  @retval std::set of hosts, uniquely identified by their MAC addresses
    */
   std::set<Host> hosts() const;
-  
+
   /**
    *  @brief Accessor method for the device_ property
    *  @retval std::string name of the network capture device being used
@@ -132,19 +130,19 @@ class IPForensics {
    *  @retval std::string name of the file to read packets from
    */
   std::string filename() const;
-  
+
   /**
    *  @brief Accessor method for the packet_count_ property
    *  @retval int number of packets to read from the network or file
    */
   int packet_count() const;
-  
+
   /**
    *  @brief Accessor method for the packets_ property
    *  @retval std::vector packets read from the capture device or file
    */
   std::vector<Packet> packets() const;
-  
+
   /**
    *  @brief Mutator method for the device_ property
    *  @param device Device instance to read packets from
@@ -156,14 +154,14 @@ class IPForensics {
    *  @param filename user-supplied libpcap-formatted file to load packets from
    */
   void set_filename(std::string filename);
-  
+
   /**
    *  @brief Mutator method for the packet_count_ property
    *  @param count number of packets to read from the network or file
    *  @details If reading a file, a value of 0 is taken to mean read all packets
    */
   void set_packet_count(int count);
-  
+
   /**
    *  @brief Queries the system for all available packet capture devices and
    *         enters them into IPForensics::devices_
@@ -187,77 +185,76 @@ class IPForensics {
 
 /**
  *  @brief IPForensics namespace for library-wide constants
- *  @todo Add guards for all headers and move constants into IPForensics header
  */
 namespace ipf {
-  
+
   /** program name */
   const std::string kProgramName {"ipforensics"};
-  
+
   /** program major revision number */
   const int kMajorVersion {0};
-  
+
   /** program minor revision number */
   const int kMinorVersion {8};
-  
+
   /** ethernet frame snapshot length */
   const int kSnapLength {256};
-  
+
   /** number of milliseconds to wait for each network packet */
   const int kTimeout {1000};
-  
+
   /** number of segments in a MAC address */
   const int kLengthMAC {6};
-  
+
   /** number of segments in an IPv4 address */
   const int kLengthIPv4 {4};
-  
+
   /** number of segments in an IPv6 address */
   const int kLengthIPv6 {16};
-  
+
   /** MAC source address packet offset */
   const int kOffsetMACSrc {6};
-  
+
   /** MAC destination address packet offset */
   const int kOffsetMACDst {0};
-  
+
   /** ethertype packet offset */
   const int kOffsetEtherType {12};
-  
+
   /** IPv4 source address packet offset */
   const int kOffsetIPv4Src {26};
-  
+
   /** IPv4 destination address packet offset */
   const int kOffsetIPv4Dst {30};
-  
+
   /** IPv6 source address packet offset */
   const int kOffsetIPv6Src {22};
-  
+
   /** IPv6 destination address packet offset */
   const int kOffsetIPv6Dst {38};
-  
+
   /** ethertype for IPv4 */
   const unsigned short kEtherTypeIPv4 {0x0800};
-  
+
   /** ethertype for IPv6 */
   const unsigned short kEtherTypeIPv6 {0x86DD};
-  
+
   /** IPv4 prefix for multicasts */
   const unsigned char kMulticastIPv4 {0xE};
-  
+
   /** IPv4 broadcast address */
   const IPv4Address kBroadcastIPv4 {std::vector<unsigned char> (4, 0xFF)};
-  
+
   /** MAC broadcast address */
   const MACAddress kBroadcastMAC {std::vector<unsigned char> (6, 0xFF)};
-  
+
   /** output header for comma-separated values file */
   const std::string kHeaderCSV {"MAC Address,IPv4 Address,IPv6 Address"};
-  
+
   /** output header for console display */
   const std::string kHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
-    + std::string(17,'=') + ' ' + std::string(15,'=') + ' '
-    + std::string(39,'=')};
+    + std::string(17, '=') + ' ' + std::string(15, '=') + ' '
+    + std::string(39, '=')};
 }
 
-#endif  // IPFORENSICS_IP4AND6_H
+#endif  // IPFORENSICS_IP4AND6_H_
