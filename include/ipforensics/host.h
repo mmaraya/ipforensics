@@ -27,10 +27,13 @@
  * SOFTWARE.
  */
 
+#ifndef IPFORENSICS_HOST_H
+#define IPFORENSICS_HOST_H
+
 #include <iostream>
 #include <ostream>
 #include <string>
-#include "address.h"
+#include "ipforensics/address.h"
 
 /**
  *  @brief Model class for storing information about a single network node, 
@@ -141,3 +144,5 @@ bool operator>=(const Host& lhs, const Host& rhs);
  *          this Host
  */
 std::ostream& operator<<(std::ostream& out, const Host& h);
+
+#endif  // IPFORENSICS_HOST_H

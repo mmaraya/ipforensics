@@ -27,10 +27,13 @@
  * SOFTWARE.
  */
 
+#ifndef IPFORENSICS_MAIN_H
+#define IPFORENSICS_MAIN_H
+
 #include <algorithm>
 #include <iostream>
 #include <iterator>
-#include "ip4and6.h"
+#include "ipforensics/ip4and6.h"
 
 /** Command-line option to show additional details during program execution */
 bool verbose {};
@@ -53,3 +56,5 @@ int load_from_file(IPForensics *ip);
  *  @retval Number of packets read from capture device  or -1 if error detected
  */
 int load_from_device(IPForensics *ip);
+
+#endif  // IPFORENSICS_MAIN_H

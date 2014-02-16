@@ -28,7 +28,8 @@
  */
 
 #include <iomanip>
-#include "host.h"
+#include "ipforensics/address.h"
+#include "ipforensics/host.h"
 
 Host::Host(const MACAddress mac) {
   mac_ = mac;

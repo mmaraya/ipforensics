@@ -27,7 +27,7 @@
  * SOFTWARE.
  */
 
-#include "main.h"
+#include "ipforensics/main.h"
 
 /**
  *  @brief IPForensics program entry point

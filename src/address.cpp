@@ -27,7 +27,8 @@
  * SOFTWARE.
  */
 
-#include "address.h"
+#include "ipforensics/ip4and6.h"
+#include "ipforensics/address.h"
 
 Address::Address() {
 }

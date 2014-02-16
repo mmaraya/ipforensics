@@ -27,7 +27,8 @@
  * SOFTWARE.
  */
 
-#include "packet.h"
+#include "ipforensics/ip4and6.h"
+#include "ipforensics/packet.h"
 
 Packet::Packet(const unsigned char * p) {
   

@@ -29,7 +29,8 @@
 
 #include <string>
 #include <vector>
-#include "device.h"
+#include "ipforensics/ip4and6.h"
+#include "ipforensics/device.h"
 
 const std::string Device::name() const {
   return name_;

@@ -27,6 +27,9 @@
  * SOFTWARE.
  */
 
+#ifndef IPFORENSICS_ADDRESS_H_
+#define IPFORENSICS_ADDRESS_H_
+
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -221,77 +224,4 @@ class IPv6Address : public Address {
   virtual std::string str() const override;
 };
 
-/**
- *  @brief IPForensics namespace for library-wide constants
- *  @todo Add guards for all headers and move constants into IPForensics header
- */
-namespace ipf {
-  
-  /** program name */
-  const std::string kProgramName {"ipforensics"};
-  
-  /** program major revision number */
-  const int kMajorVersion {0};
-  
-  /** program minor revision number */
-  const int kMinorVersion {8};
-  
-  /** ethernet frame snapshot length */
-  const int kSnapLength {256};
-  
-  /** number of milliseconds to wait for each network packet */
-  const int kTimeout {1000};
-  
-  /** number of segments in a MAC address */
-  const int kLengthMAC {6};
-  
-  /** number of segments in an IPv4 address */
-  const int kLengthIPv4 {4};
-  
-  /** number of segments in an IPv6 address */
-  const int kLengthIPv6 {16};
-  
-  /** MAC source address packet offset */
-  const int kOffsetMACSrc {6};
-  
-  /** MAC destination address packet offset */
-  const int kOffsetMACDst {0};
-  
-  /** ethertype packet offset */
-  const int kOffsetEtherType {12};
-
-  /** IPv4 source address packet offset */
-  const int kOffsetIPv4Src {26};
-  
-  /** IPv4 destination address packet offset */
-  const int kOffsetIPv4Dst {30};
-  
-  /** IPv6 source address packet offset */
-  const int kOffsetIPv6Src {22};
-  
-  /** IPv6 destination address packet offset */
-  const int kOffsetIPv6Dst {38};
-  
-  /** ethertype for IPv4 */
-  const unsigned short kEtherTypeIPv4 {0x0800};
-  
-  /** ethertype for IPv6 */
-  const unsigned short kEtherTypeIPv6 {0x86DD};
-  
-  /** IPv4 prefix for multicasts */
-  const unsigned char kMulticastIPv4 {0xE};
-
-  /** IPv4 broadcast address */
-  const IPv4Address kBroadcastIPv4 {std::vector<unsigned char> (4, 0xFF)};
-  
-  /** MAC broadcast address */
-  const MACAddress kBroadcastMAC {std::vector<unsigned char> (6, 0xFF)};
-  
-  /** output header for comma-separated values file */
-  const std::string kHeaderCSV {"MAC Address,IPv4 Address,IPv6 Address"};
-
-  /** output header for console display */
-  const std::string kHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
-    + std::string(17,'=') + ' ' + std::string(15,'=') + ' '
-    + std::string(39,'=')};
-}
+#endif  // IPFORENSICS_ADDRESS_H_

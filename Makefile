@@ -27,11 +27,12 @@ PROGRAM   := ipforensics
 SRC_DIR   := src
 OBJ_DIR   := obj
 BIN_DIR   := bin
+INC_DIR   := include
 CPP_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
 LIB_FILES := -lpcap
 CC        := g++
-CC_FLAGS  := -g -Wall -std=c++11
+CC_FLAGS  := -g -Wall -std=c++11 -I$(INC_DIR)
 LD_FLAGS  := 
 
 .PHONY: all clean test

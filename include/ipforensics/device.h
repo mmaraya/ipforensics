@@ -27,12 +27,15 @@
  * SOFTWARE.
  */
 
+#ifndef IPFORENSICS_DEVICE_H
+#define IPFORENSICS_DEVICE_H
+
 #include <pcap/pcap.h>
 #include <pcap/bpf.h>
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "packet.h"
+#include "ipforensics/packet.h"
 
 /**
  *  @brief Model class for storing information about a single network packet 
@@ -149,3 +152,5 @@ class Device {
  *          this Device
  */
 std::ostream &operator<<(std::ostream &out, const Device &d);
+
+#endif  // IPFORENSICS_DEVICE_H

@@ -27,8 +27,11 @@
  * SOFTWARE.
  */
 
+#ifndef IPFORENSICS_PACKET_H
+#define IPFORENSICS_PACKET_H
+
 #include <iostream>
-#include "host.h"
+#include "ipforensics/host.h"
 
 /**
  *  @brief Model class for storing information about a single network packet,
@@ -133,3 +136,5 @@ public:
  *          this Packet
  */
 std::ostream &operator<<(std::ostream &out, const Packet &p);
+
+#endif  // IPFORENSICS_PACKET_H

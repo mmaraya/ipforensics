@@ -27,7 +27,7 @@
  * SOFTWARE.
  */
 
-#include "ip4and6.h"
+#include "ipforensics/ip4and6.h"
 
 std::vector<Device> IPForensics::devices() const {
   return devices_;
