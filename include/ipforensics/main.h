@@ -27,12 +27,10 @@
  * SOFTWARE.
  */
 
-#ifndef IPFORENSICS_MAIN_H
-#define IPFORENSICS_MAIN_H
+#ifndef IPFORENSICS_MAIN_H_
+#define IPFORENSICS_MAIN_H_
 
 #include <algorithm>
-#include <iostream>
-#include <iterator>
 #include "ipforensics/ip4and6.h"
 
 /** Command-line option to show additional details during program execution */
@@ -57,4 +55,4 @@ int load_from_file(IPForensics *ip);
  */
 int load_from_device(IPForensics *ip);
 
-#endif  // IPFORENSICS_MAIN_H
+#endif  // IPFORENSICS_MAIN_H_
