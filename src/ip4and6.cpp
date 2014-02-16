@@ -110,7 +110,7 @@ void IPForensics::load_hosts(Device device) {
   for (Packet packet : device.packets()) {
     
     // add the source host
-    auto it = hosts_.find(packet.mac_src());
+    auto it = hosts_.find(static_cast<Host>(packet.mac_src()));
     if (it == hosts_.end()) {
       add_host(packet.mac_src(), packet.ipv4_src(), packet.ipv6_src());
     } else {
@@ -118,7 +118,7 @@ void IPForensics::load_hosts(Device device) {
     }
     
     // add the destination host
-    it = hosts_.find(packet.mac_dst());
+    it = hosts_.find(static_cast<Host>(packet.mac_dst()));
     if (it == hosts_.end()) {
       add_host(packet.mac_dst(), packet.ipv4_dst(), packet.ipv6_dst());
     } else {
@@ -176,14 +176,14 @@ void IPForensics::load_hosts(std::string filename) {
   // extract hosts from packets
   for (Packet p : packets_) {
     // add the source host
-    std::set<Host>::iterator it = hosts_.find(p.mac_src());
+    std::set<Host>::iterator it = hosts_.find(static_cast<Host>(p.mac_src()));
     if (it == hosts_.end()) {
       add_host(p.mac_src(), p.ipv4_src(), p.ipv6_src());
     } else {
       update_host(it, p.ipv4_src(), p.ipv6_src());
     }
     // add the destination host
-    it = hosts_.find(p.mac_dst());
+    it = hosts_.find(static_cast<Host>(p.mac_dst()));
     if (it == hosts_.end()) {
       add_host(p.mac_dst(), p.ipv4_dst(), p.ipv6_dst());
     } else {

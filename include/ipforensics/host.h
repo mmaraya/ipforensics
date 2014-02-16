@@ -27,11 +27,9 @@
  * SOFTWARE.
  */
 
-#ifndef IPFORENSICS_HOST_H
-#define IPFORENSICS_HOST_H
+#ifndef IPFORENSICS_HOST_H_
+#define IPFORENSICS_HOST_H_
 
-#include <iostream>
-#include <ostream>
 #include <string>
 #include "ipforensics/address.h"
 
@@ -44,7 +42,6 @@
  */
 class Host {
  private:
-
   /** Media access control address */
   MACAddress mac_;
 
@@ -55,14 +52,13 @@ class Host {
   IPv6Address ipv6_;
 
  public:
-  
   /**
    *  @brief Construct a new Host from the supplied MACAddress
    *  @param mac MACAddress of the new Host to create
    *  @details This is the normal way to create a Host since the MAC address is
    *           used to uniquely identify a network node
    */
-  Host(const MACAddress mac);
+  explicit Host(const MACAddress mac);
 
   /**
    *  @brief Construct a new Host from the supplied MAC, IPv4 and IPv6 addresses
@@ -83,13 +79,13 @@ class Host {
    *  @retval IPv4Address Internet Protocol version 4 address for this Host
    */
   IPv4Address ipv4() const;
-  
+
   /**
    *  @brief Accessor method for the ipv6_ property
    *  @retval IPv6Address Internet Protocol version 6 address for this Host
    */
   IPv6Address ipv6() const;
-  
+
   /**
    *  @brief Mutator method for the ipv4_ property
    *  @param ipv4 Internet Protocol version 4 address for this Host
@@ -145,4 +141,4 @@ bool operator>=(const Host& lhs, const Host& rhs);
  */
 std::ostream& operator<<(std::ostream& out, const Host& h);
 
-#endif  // IPFORENSICS_HOST_H
+#endif  // IPFORENSICS_HOST_H_
