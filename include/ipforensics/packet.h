@@ -27,10 +27,11 @@
  * SOFTWARE.
  */
 
-#ifndef IPFORENSICS_PACKET_H
-#define IPFORENSICS_PACKET_H
+#ifndef IPFORENSICS_PACKET_H_
+#define IPFORENSICS_PACKET_H_
 
-#include <iostream>
+#include <stdint.h>
+#include <iostream>  // NOLINT we mostly use this for logging
 #include "ipforensics/host.h"
 
 /**
@@ -41,8 +42,7 @@
  *           network packet source and network packet destination.
  */
 class Packet {
-private:
-  
+ private:
   /** Media access control address of the packet source */
   MACAddress mac_src_;
 
@@ -50,7 +50,7 @@ private:
   MACAddress mac_dst_;
 
   /** Ethertype contained in the packet */
-  unsigned short ether_type_ {};
+  uint16_t ether_type_ {};
 
   /** IPv4 address of the packet source */
   IPv4Address ipv4_src_ {};
@@ -60,17 +60,16 @@ private:
 
   /** IPv6 address of the packet source */
   IPv6Address ipv6_src_ {};
-  
+
   /** IPv6 address of the packet destination */
   IPv6Address ipv6_dst_ {};
 
-public:
-
+ public:
   /**
    *  @brief Create a Packet instance using the supplied pcap pointer to the
    *         packet capture data
    */
-  Packet(const unsigned char *);
+  explicit Packet(const unsigned char *);
 
   /**
    *  @brief Does this Packet have IPv4 information
@@ -98,9 +97,9 @@ public:
 
   /**
    *  @brief Accessor method for the ether_type_ property
-   *  @retval unsigned short ethertype for this Packet
+   *  @retval uint16_t ethertype for this Packet
    */
-  unsigned short ether_type() const;
+  uint16_t ether_type() const;
 
   /**
    *  @brief Accessor method for the ipv4_src_ property
@@ -137,4 +136,4 @@ public:
  */
 std::ostream &operator<<(std::ostream &out, const Packet &p);
 
-#endif  // IPFORENSICS_PACKET_H
+#endif  // IPFORENSICS_PACKET_H_
