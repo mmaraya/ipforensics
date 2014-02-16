@@ -30,6 +30,7 @@
 #ifndef IPFORENSICS_HOST_H_
 #define IPFORENSICS_HOST_H_
 
+#include <iostream>
 #include <string>
 #include "ipforensics/address.h"
 
