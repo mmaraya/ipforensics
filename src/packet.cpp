@@ -27,6 +27,7 @@
  * SOFTWARE.
  */
 
+#include <iomanip>
 #include "ipforensics/ip4and6.h"
 #include "ipforensics/packet.h"
 
