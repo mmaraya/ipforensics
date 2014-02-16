@@ -10,7 +10,6 @@ PROJECT_BRIEF          = "Passive network asset discovery"
 PROJECT_LOGO           = ipforensics.png
 OUTPUT_DIRECTORY       = 
 CREATE_SUBDIRS         = NO
-ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
 REPEAT_BRIEF           = YES
@@ -98,7 +97,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = src README.md
+INPUT                  = src include/ipforensics README.md
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          =
 RECURSIVE              = NO

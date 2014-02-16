@@ -1,6 +1,6 @@
 /**
- *  @file packet.h
- *  @brief Packet class definitions
+ *  @file packet.cpp
+ *  @brief Packet class implementation
  */
 
 /*
