@@ -28,6 +28,7 @@
  */
 
 #include <iomanip>
+#include <iostream>
 #include "ipforensics/address.h"
 #include "ipforensics/host.h"
 
