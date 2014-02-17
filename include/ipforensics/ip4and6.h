@@ -240,6 +240,12 @@ namespace ipf {
   /** ethertype for IPv6 */
   const uint16_t kEtherTypeIPv6 {0x86DD};
 
+  /** ethertype for Address Resolution Protocol (ARP) */
+  const uint16_t kEtherTypeARP {0x0806};
+
+  /** ARP IPv4 source address packet offset */
+  const int kOffsetARPIPv4 {28};
+
   /** IPv4 prefix for multicasts */
   const uint8_t kMulticastIPv4 {0xE};
 

@@ -69,7 +69,7 @@ class Packet {
    *  @brief Create a Packet instance using the supplied pcap pointer to the
    *         packet capture data
    */
-  explicit Packet(const unsigned char *);
+  explicit Packet(const uint8_t *);
 
   /**
    *  @brief Does this Packet have IPv4 information
