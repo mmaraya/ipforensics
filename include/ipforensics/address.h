@@ -48,7 +48,7 @@ class Address {
    *           std::vector and an empty std::vector indicates that the address 
    *           has not yet been set.
    */
-  std::vector<unsigned char> address_;
+  std::vector<uint8_t> address_;
 
  public:
   /**
@@ -61,7 +61,7 @@ class Address {
    *  @brief Creates an Address with the supplied std::vector of unsigned char
    *  @param address replaces the value of the internal property address_
    */
-  explicit Address(std::vector<unsigned char> address);
+  explicit Address(std::vector<uint8_t> address);
 
   /**
    *  @brief Compares the internal contents of this Address against another one
@@ -81,13 +81,13 @@ class Address {
    *  @brief Accessor for the address_ property
    *  @retval std::vector copy of the address_ property
    */
-  std::vector<unsigned char> address() const;
+  std::vector<uint8_t> address() const;
 
   /**
    *  @brief Mutator for the address_ property
    *  @param address new value of the address_ property
    */
-  void set_address(std::vector<unsigned char> address);
+  void set_address(std::vector<uint8_t> address);
 
   /**
    *  @brief Pure virtual function for the human-readable representation of the
@@ -129,7 +129,7 @@ class MACAddress : public Address {
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
    */
-  explicit MACAddress(std::vector<unsigned char> address) : Address(address) {}
+  explicit MACAddress(std::vector<uint8_t> address) : Address(address) {}
 
   /**
    *  @brief Provides a human-readable std::string representation of this media
@@ -159,7 +159,7 @@ class IPv4Address : public Address {
    *  @brief Creates a new IPv4 address with the supplied unsigned 32-bit value
    *  @param address 32-bit value to be converted into Address::address_
    */
-  explicit IPv4Address(const unsigned int address);
+  explicit IPv4Address(const uint32_t address);
 
   /**
    *  @brief Creates a new IPv4 address with the supplied std::vector
@@ -167,7 +167,7 @@ class IPv4Address : public Address {
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
    */
-  explicit IPv4Address(std::vector<unsigned char> address) : Address(address) {}
+  explicit IPv4Address(std::vector<uint8_t> address) : Address(address) {}
 
   /**
    *  @brief Provides a human-readable std::string representation of this IPv4
@@ -206,7 +206,7 @@ class IPv6Address : public Address {
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
    */
-  explicit IPv6Address(std::vector<unsigned char> address) : Address(address) {}
+  explicit IPv6Address(std::vector<uint8_t> address) : Address(address) {}
 
   /**
    *  @brief Provides a human-readable std::string representation of this IPv6

@@ -27,6 +27,9 @@
  * SOFTWARE.
  */
 
+#include <string>
+#include <vector>
+#include <set>
 #include "ipforensics/ip4and6.h"
 
 std::vector<Device> IPForensics::devices() const {
@@ -73,10 +76,8 @@ void IPForensics::set_packet_count(int packet_count) {
  *          list all network devices with the details from libpcap
  */
 void IPForensics::load_devices() {
-
   char error[PCAP_ERRBUF_SIZE];
   pcap_if_t* alldevsp;
-
   if (pcap_findalldevs(&alldevsp, error) == 0) {
     pcap_if_t* devp = alldevsp;
     while (devp != NULL) {
@@ -108,7 +109,6 @@ void IPForensics::load_devices() {
  */
 void IPForensics::load_hosts(Device device) {
   for (Packet packet : device.packets()) {
-    
     // add the source host
     auto it = hosts_.find(static_cast<Host>(packet.mac_src()));
     if (it == hosts_.end()) {
@@ -116,7 +116,6 @@ void IPForensics::load_hosts(Device device) {
     } else {
       update_host(it, packet.ipv4_src(), packet.ipv6_src());
     }
-    
     // add the destination host
     it = hosts_.find(static_cast<Host>(packet.mac_dst()));
     if (it == hosts_.end()) {
@@ -125,7 +124,6 @@ void IPForensics::load_hosts(Device device) {
       update_host(it, packet.ipv4_dst(), packet.ipv6_dst());
     }
   }
-  
   // remove multicast and broadcast hosts
   IPv4Address net = device.net(), mask = device.mask();
   clean_hosts(&net, &mask);
@@ -136,24 +134,20 @@ void IPForensics::load_hosts(Device device) {
  *        can remove broadcast and multicast hosts from the result
  */
 void IPForensics::load_hosts(std::string filename) {
- 
   // open the filename
   char error[PCAP_ERRBUF_SIZE] {};
   pcap_t* pcap = pcap_open_offline(filename.c_str(), error);
   if (pcap == NULL) {
     throw std::runtime_error(error);
   }
-  
   // exit if the data link is not Ethernet
   if (pcap_datalink(pcap) != DLT_EN10MB) {
     pcap_close(pcap);
     throw std::runtime_error("Link-layer type not IEEE 802.3 Ethernet");
   }
-  
   // read the packets from the file
   const unsigned char * packet = NULL;
   struct pcap_pkthdr header;
-  
   // if packet_count_ is set, read specified number of packets only
   if (packet_count_ > 0) {
     for (int i = 0; i < packet_count_; ++i) {
@@ -162,17 +156,16 @@ void IPForensics::load_hosts(std::string filename) {
         packets_.push_back(Packet(packet));
       }
     }
-  } else { // if packet_count_ is not set, read all packets
+  } else {
+    // if packet_count_ is not set, read all packets
     packet = pcap_next(pcap, &header);
     while (packet != NULL) {
       packets_.push_back(Packet(packet));
       packet = pcap_next(pcap, &header);
     }
   }
-  
   // close the packet capture
   pcap_close(pcap);
-  
   // extract hosts from packets
   for (Packet p : packets_) {
     // add the source host
@@ -190,7 +183,6 @@ void IPForensics::load_hosts(std::string filename) {
       update_host(it, p.ipv4_dst(), p.ipv6_dst());
     }
   }
-
   // remove meaningless hosts
   clean_hosts(nullptr, nullptr);
 }

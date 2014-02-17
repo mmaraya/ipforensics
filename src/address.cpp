@@ -29,21 +29,23 @@
 
 #include <iomanip>
 #include <sstream>
+#include <string>
+#include <vector>
 #include "ipforensics/ip4and6.h"
 #include "ipforensics/address.h"
 
 Address::Address() {
 }
 
-Address::Address(std::vector<unsigned char> address) {
+Address::Address(std::vector<uint8_t> address) {
   address_ = address;
 }
 
-std::vector<unsigned char> Address::address() const {
+std::vector<uint8_t> Address::address() const {
   return address_;
 }
 
-void Address::set_address(std::vector<unsigned char> address) {
+void Address::set_address(std::vector<uint8_t> address) {
   address_ = address;
 }
 
@@ -53,7 +55,7 @@ std::ostream& operator<<(std::ostream& out, const Address& a) {
 
 bool Address::operator==(const Address &b) const {
   if (address().size() != b.address().size()) return false;
-  for (unsigned int i = 0; i < address().size(); ++i) {
+  for (uint32_t i = 0; i < address().size(); ++i) {
     if (address()[i] != b.address()[i]) return false;
   }
   return true;
@@ -77,7 +79,7 @@ std::string MACAddress::str() const {
     for (int i = 0; i < ipf::kLengthMAC; ++i) {
       if (i > 0) ss << ':';
       ss << std::hex << std::setw(2) << std::setfill('0');
-      ss << int((unsigned char)address_[i]);
+      ss << static_cast<int>(address_[i]);
     }
   }
   return ss.str();
@@ -91,8 +93,8 @@ IPv4Address::IPv4Address() {
  *           unsigned int by 0, 8, 16, and 24 bits to isolate the octets and
  *           load them into the corresponding unsigned char vector element.
  */
-IPv4Address::IPv4Address(const unsigned int address) {
-  address_ = std::vector<unsigned char>(ipf::kLengthIPv4);
+IPv4Address::IPv4Address(const uint32_t address) {
+  address_ = std::vector<uint8_t>(ipf::kLengthIPv4);
   for (int i = 0; i < ipf::kLengthIPv4; ++i) {
     address_[i] = address >> (8 * i);
   }
@@ -103,7 +105,7 @@ std::string IPv4Address::str() const {
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv4; ++i) {
       if (i > 0) ss << '.';
-      ss << int((unsigned char)address_[i]);
+      ss << static_cast<int>(address_[i]);
     }
   }
   return ss.str();
@@ -138,7 +140,7 @@ std::string IPv6Address::str() const {
   if (!address_.empty()) {
     for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
       if (i > 0) ss << ':';
-      ss << (unsigned short)(address_[i] << 8 | address_[i+1]);
+      ss << static_cast<uint16_t>(address_[i] << 8 | address_[i+1]);
     }
   }
   return ss.str();

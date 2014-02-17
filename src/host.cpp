@@ -28,7 +28,7 @@
  */
 
 #include <iomanip>
-#include <iostream>
+#include <iostream>  // NOLINT we mostly use this for logging
 #include "ipforensics/address.h"
 #include "ipforensics/host.h"
 

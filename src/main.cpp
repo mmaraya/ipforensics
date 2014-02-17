@@ -27,6 +27,8 @@
  * SOFTWARE.
  */
 
+#include <string>
+#include <vector>
 #include "ipforensics/main.h"
 
 /**
@@ -36,27 +38,23 @@
  *  @retval int returns 0 upon successful program completion, non-zero otherwise
  */
 int main(int argc, char* argv[]) {
-  
   // load arguments into vector<string> so we can use std::find
   std::vector<std::string> args;
   std::vector<std::string>::iterator it;
   for (int i = 1; i < argc; ++i) {
     args.push_back(argv[i]);
   }
-  
   // display -h help
   it = find(args.begin(), args.end(), "-h");
   if ((argc == 1) || (it != args.end())) {
     usage();
     return 0;
   }
-
   // verbose displays
   it = find(args.begin(), args.end(), "-v");
   if (it != args.end()) {
     verbose = true;
   }
-  
   // use -d device
   std::string device_name {};
   it = find(args.begin(), args.end(), "-d");
@@ -65,7 +63,6 @@ int main(int argc, char* argv[]) {
       device_name = *next(it);
     }
   }
-  
   // capture -n packets
   int packet_count {};
   it = find(args.begin(), args.end(), "-n");
@@ -74,13 +71,12 @@ int main(int argc, char* argv[]) {
       try {
         packet_count = stoi(*next(it));
       } catch (std::exception const &e) {
-        std::cout << "Could not convert \'-n " << *next(it) << "\' into a number: ";
-        std::cout << e.what() << std::endl;
+        std::cout << "Could not convert \'-n " << *next(it);
+        std::cout << "\' into a number: " << e.what() << std::endl;
         return 1;
       }
     }
   }
-  
   // read packets from -f filename
   std::string filename {};
   it = find(args.begin(), args.end(), "-f");
@@ -89,7 +85,6 @@ int main(int argc, char* argv[]) {
       filename = *next(it);
     }
   }
-  
   // load hosts from either file or packet capture device
   IPForensics ip;
   ip.set_packet_count(packet_count);
@@ -101,18 +96,15 @@ int main(int argc, char* argv[]) {
     ip.set_filename(filename);
     packets_loaded = load_from_file(&ip);
   }
-  
   // exit if error encountered
   if (packets_loaded < 0) {
     return packets_loaded;
   }
-  
   // display packet count captured
   if (verbose) {
     std::cout << std::dec << packets_loaded << " packet(s) read.";
     std::cout << std::endl;
   }
-  
   // display hosts
   std::cout << ipf::kHeader << std::endl;
   for (Host h : ip.hosts()) {
@@ -141,7 +133,6 @@ void usage() {
  *           captured and hosts extracted.
  */
 int load_from_device(IPForensics *ip) {
-  
   // load packet capture device list from system
   try {
     ip->load_devices();
@@ -149,7 +140,6 @@ int load_from_device(IPForensics *ip) {
     std::cout << "Could not query system for packet capture devices: ";
     std::cout << e.what() << std::endl;
   }
-  
   // select device to use
   Device device;
   for (Device d : ip->devices()) {
@@ -157,18 +147,16 @@ int load_from_device(IPForensics *ip) {
       device = d;
     }
   }
-  
   // exit if invalid device specified
   if (!ip->device().empty() && (ip->device() != device.name())) {
     std::cout << "Invalid packet capture device \'" << ip->device() << "\'. ";
     std::cout << "Valid device(s):";
-    for (Device d: ip->devices()) {
+    for (Device d : ip->devices()) {
       std::cout << '\'' << d.name() << "' ";
     }
     std::cout << std::endl;
     return -1;
   }
-  
   // display run-time parameters
   if (verbose) {
     std::cout << "Using \'" << device.name() << "\' with network address ";
@@ -176,17 +164,14 @@ int load_from_device(IPForensics *ip) {
     std::cout << " to capture " << ip->packet_count() << " packet(s).";
     std::cout << std::endl;
   }
-  
   // capture packets
   int packet_count = device.capture(ip->packet_count());
-  
   // display packets captured
   if (verbose) {
     for (Packet p : device.packets()) {
       std::cout << p << std::endl;
     }
   }
-  
   // extract hosts
   ip->load_hosts(device);
   return packet_count;
@@ -197,7 +182,6 @@ int load_from_device(IPForensics *ip) {
  *           extracted from the packets.
  */
 int load_from_file(IPForensics *ip) {
-
   // display run-time parameters
   if (verbose) {
     std::cout << "Reading ";
@@ -208,17 +192,14 @@ int load_from_file(IPForensics *ip) {
     std::cout << " packet(s) from " << '\'' << ip->filename() << '\'';
     std::cout << std::endl;
   }
-  
   // extract packets and hosts from file
   ip->load_hosts(ip->filename());
-  
   // display packets read
   if (verbose) {
     for (Packet p : ip->packets()) {
       std::cout << p << std::endl;
     }
   }
-  
   // return number of packets read
   return int (ip->packets().size());
 }
