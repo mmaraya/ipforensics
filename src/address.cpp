@@ -142,7 +142,7 @@ std::string IPv6Address::str() const {
       ipv6.push_back(static_cast<uint16_t>(address_[i] << 8 | address_[i+1]));
     }
     ss << std::hex;
-    for (int i = 0; i < ipv6.size(); ++i) {
+    for (size_t i = 0; i < ipv6.size(); ++i) {
       if (i > 0) ss << ':';
       ss << ipv6[i];
     }
