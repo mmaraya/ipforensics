@@ -136,11 +136,15 @@ IPv6Address::IPv6Address() {
  */
 std::string IPv6Address::str() const {
   std::stringstream ss;
-  ss << std::hex;
   if (!address_.empty()) {
+    std::vector<uint16_t> ipv6 {};
     for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
+      ipv6.push_back(static_cast<uint16_t>(address_[i] << 8 | address_[i+1]));
+    }
+    ss << std::hex;
+    for (int i = 0; i < ipv6.size(); ++i) {
       if (i > 0) ss << ':';
-      ss << static_cast<uint16_t>(address_[i] << 8 | address_[i+1]);
+      ss << ipv6[i];
     }
   }
   return ss.str();
