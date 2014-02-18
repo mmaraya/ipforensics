@@ -76,7 +76,7 @@ MACAddress::MACAddress() {
 std::string MACAddress::str() const {
   std::stringstream ss;
   if (!address_.empty()) {
-    for (int i = 0; i < ipf::kLengthMAC; ++i) {
+    for (size_t i = 0; i < ipf::kLengthMAC; ++i) {
       if (i > 0) ss << ':';
       ss << std::hex << std::setw(2) << std::setfill('0');
       ss << static_cast<int>(address_[i]);
@@ -95,15 +95,15 @@ IPv4Address::IPv4Address() {
  */
 IPv4Address::IPv4Address(const uint32_t address) {
   address_ = std::vector<uint8_t>(ipf::kLengthIPv4);
-  for (int i = 0; i < ipf::kLengthIPv4; ++i) {
-    address_[i] = address >> (8 * i);
+  for (size_t i = 0; i < ipf::kLengthIPv4; ++i) {
+    address_[i] = static_cast<uint8_t>(address >> (8 * i));
   }
 }
 
 std::string IPv4Address::str() const {
   std::stringstream ss;
   if (!address_.empty()) {
-    for (int i = 0; i < ipf::kLengthIPv4; ++i) {
+    for (size_t i = 0; i < ipf::kLengthIPv4; ++i) {
       if (i > 0) ss << '.';
       ss << static_cast<int>(address_[i]);
     }
@@ -120,7 +120,7 @@ std::string IPv4Address::str() const {
  */
 bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) const {
   IPv4Address subnet = IPv4Address(0);
-  for (int i = 0; i < ipf::kLengthIPv4; ++i) {
+  for (size_t i = 0; i < ipf::kLengthIPv4; ++i) {
     subnet.address_[i] = address_[i] & mask.address_[i];
   }
   return (subnet == addr);
@@ -133,7 +133,7 @@ std::string IPv6Address::str() const {
   std::string result {};
   if (!address_.empty()) {
     std::vector<uint16_t> ipv6 {};
-    for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
+    for (size_t i = 0; i < ipf::kLengthIPv6; i+=2) {
       ipv6.push_back(static_cast<uint16_t>(address_[i] << 8 | address_[i+1]));
     }
     std::stringstream ss;
@@ -146,7 +146,7 @@ std::string IPv6Address::str() const {
     result = ss.str();
     for (size_t i = ipv6.size() - 1; i > 1; --i) {
       std::string zero {};
-      for (int j = 1; j < i + 1; ++j) {
+      for (size_t j = 1; j < i + 1; ++j) {
         zero.append(":0");
       }
       size_t pos = ss.str().find(zero);

@@ -51,7 +51,8 @@ Packet::Packet(const uint8_t * p) {
   }
   mac_dst_.set_address(mac_dst);
   // extract the ethernet type
-  ether_type_ = ((p[ipf::kOffsetEtherType] << 8) | p[ipf::kOffsetEtherType+1]);
+  ether_type_ = static_cast<uint16_t>((p[ipf::kOffsetEtherType] << 8) |
+                                      p[ipf::kOffsetEtherType+1]);
   switch (ether_type_) {
     // Internet Protocol version 4 (ethertype 0800)
     case ipf::kEtherTypeIPv4: {
