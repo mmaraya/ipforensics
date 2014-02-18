@@ -129,23 +129,32 @@ bool IPv4Address::mask(IPv4Address addr, IPv4Address mask) const {
 IPv6Address::IPv6Address() {
 }
 
-/**
- *  @details Limited support is currently provided for shortening the display 
- *           of IPv6 addresses as specified in RFC 5952
- *  @todo Fully implement RFC 5952 (http://tools.ietf.org/html/rfc5952)
- */
 std::string IPv6Address::str() const {
-  std::stringstream ss;
+  std::string result {};
   if (!address_.empty()) {
     std::vector<uint16_t> ipv6 {};
     for (int i = 0; i < ipf::kLengthIPv6; i+=2) {
       ipv6.push_back(static_cast<uint16_t>(address_[i] << 8 | address_[i+1]));
     }
+    std::stringstream ss;
     ss << std::hex;
     for (size_t i = 0; i < ipv6.size(); ++i) {
       if (i > 0) ss << ':';
       ss << ipv6[i];
     }
+    // compress longest series of 0:0 to :: (zero compression)
+    result = ss.str();
+    for (size_t i = ipv6.size() - 1; i > 1; --i) {
+      std::string zero {};
+      for (int j = 1; j < i + 1; ++j) {
+        zero.append(":0");
+      }
+      size_t pos = ss.str().find(zero);
+      if (pos != std::string::npos) {
+        result.replace(pos, i * 2 + 1, "::");
+        break;
+      }
+    }
   }
-  return ss.str();
+  return result;
 }
