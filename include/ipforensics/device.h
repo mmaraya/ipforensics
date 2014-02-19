@@ -52,7 +52,7 @@ class Device {
  private:
   /** IPForensics class that this Device is a member of */
   IPForensics* ipf_;
-  
+
   /** Name of the packet capture device */
   std::string name_;
 
@@ -72,8 +72,8 @@ class Device {
   /**
    * @brief Creates a new Device supplying the parent IPForensics class
    */
-  Device(IPForensics* ipf);
-  
+  explicit Device(IPForensics* ipf);
+
   /**
    * @brief Accessor method for the name_ property
    * @retval std::string Name of the packet capture device
