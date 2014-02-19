@@ -32,28 +32,32 @@
 #include "ipforensics/ip4and6.h"
 #include "ipforensics/device.h"
 
-const std::string Device::name() const {
+Device::Device(IPForensics* ipf) {
+  ipf_ = ipf;
+}
+
+std::string Device::name() const {
   return name_;
 }
 
-const std::string Device::desc() const {
+std::string Device::desc() const {
   return desc_;
 }
 
-const bool Device::loopback() const {
+bool Device::loopback() const {
   return loopback_;
 }
 
-const IPv4Address Device::net() const {
+IPv4Address Device::net() const {
   return net_;
 }
 
-const IPv4Address Device::mask() const {
+IPv4Address Device::mask() const {
   return mask_;
 }
 
-const std::vector<Packet> Device::packets() {
-  return packets_;
+std::vector<Packet> Device::packets() {
+  return ipf_->packets();
 }
 
 void Device::set_name(const std::string name) {
@@ -98,11 +102,11 @@ int Device::capture(const int n) {
   for (int i = 0; i < n; ++i) {
     packet = pcap_next(pcap, &header);
     if (packet != NULL) {
-      packets_.push_back(Packet(packet));
+      packets().push_back(Packet(packet));
     }
   }
   pcap_close(pcap);
-  return static_cast<int>(packets_.size());
+  return static_cast<int>(packets().size());
 }
 
 std::ostream &operator<<(std::ostream &out, const Device &d) {

@@ -141,7 +141,7 @@ int load_from_device(IPForensics *ip) {
     std::cout << e.what() << std::endl;
   }
   // select device to use
-  Device device;
+  Device device(ip);
   for (Device d : ip->devices()) {
     if (ip->device() == d.name()) {
       device = d;

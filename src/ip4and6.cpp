@@ -81,7 +81,7 @@ void IPForensics::load_devices() {
   if (pcap_findalldevs(&alldevsp, error) == 0) {
     pcap_if_t* devp = alldevsp;
     while (devp != NULL) {
-      Device d = Device();
+      Device d = Device(this);
       unsigned int net {}, mask {};
       d.set_name((devp->name == NULL) ? "" : devp->name);
       d.set_desc((devp->description == NULL) ? "" : devp->description);

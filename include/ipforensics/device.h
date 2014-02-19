@@ -30,6 +30,9 @@
 #ifndef IPFORENSICS_DEVICE_H_
 #define IPFORENSICS_DEVICE_H_
 
+/* Forward declared dependencies */
+class IPForensics;
+
 #include <pcap/pcap.h>
 #include <pcap/bpf.h>
 #include <stdexcept>
@@ -43,13 +46,13 @@
  *         pattern.
  *  @details Device information is read from libpcap and contains a name, 
  *           description, loopback status, IPv4 network address (if IPv4), and
- *           IPv4 network mask (if IPv4).  The collection of Packet objects is
- *           also stored in the Device.
- *  @todo Since IPForensics can read packets from both a file and a network
- *        capture device, move the packets_ property to the IPForensics class.
+ *           IPv4 network mask (if IPv4).
  */
 class Device {
  private:
+  /** IPForensics class that this Device is a member of */
+  IPForensics* ipf_;
+  
   /** Name of the packet capture device */
   std::string name_;
 
@@ -65,45 +68,47 @@ class Device {
   /** IPv4 network mask for this device */
   IPv4Address mask_;
 
-  /** Collection of Packets loaded from this device */
-  std::vector<Packet> packets_;
-
  public:
+  /**
+   * @brief Creates a new Device supplying the parent IPForensics class
+   */
+  Device(IPForensics* ipf);
+  
   /**
    * @brief Accessor method for the name_ property
    * @retval std::string Name of the packet capture device
    */
-  const std::string name() const;
+  std::string name() const;
 
   /**
    * @brief Accessor method for the desc_ property
    * @retval std::string Description of the packet capture device
    */
-  const std::string desc() const;
+  std::string desc() const;
 
   /**
    * @brief Accessor method for the loopback_ property
    * @retval bool True if loopback, false otherwise
    */
-  const bool loopback() const;
+  bool loopback() const;
 
   /**
    * @brief Accessor method for the net_ property
    * @retval IPv4Address IPv4 network address for this Device
    */
-  const IPv4Address net() const;
+  IPv4Address net() const;
 
   /**
    * @brief Accessor method for the mask_ property
    * @retval IPv4Address IPv4 network mask for this Device
    */
-  const IPv4Address mask() const;
+  IPv4Address mask() const;
 
   /**
    * @brief Accessor method for the packets_ property
    * @retval std::vector<Packet> Collection of packets collected by this Device
    */
-  const std::vector<Packet> packets();
+  std::vector<Packet> packets();
 
   /**
    * @brief Mutator method for the name_ property
