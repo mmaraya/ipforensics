@@ -207,30 +207,19 @@ void IPForensics::update_host(std::set<Host>::iterator it, IPv4Address ipv4,
 /**
  *  @details This helper method removes "fake" hosts from IPForensics::hosts_
  *           such as multicast and broadcast addresses.
- *  @todo Move the individual MAC, IPv4 and IPv6 fake host checks into the 
- *        Address class for better encapsulation.
  */
 void IPForensics::clean_hosts(IPv4Address* net, IPv4Address *mask) {
   std::set<Host>::iterator it;
   for (it = hosts_.begin(); it != hosts_.end(); ) {
     Host host = *it;
     bool remove {false};
-    // remove MAC broadcast addresses
-    if (host.mac() == ipf::kBroadcastMAC) remove = true;
-    if (!host.ipv4().address().empty()) {
-      // remove IPv4 broadcast addresses
-      if (host.ipv4() == ipf::kBroadcastIPv4) remove = true;
-      // remove IPv4 multicast addresses
-      unsigned char prefix = host.ipv4().address()[0] >> 4;
-      if ((prefix & ipf::kMulticastIPv4) == ipf::kMulticastIPv4) remove = true;
-      // remove addresses that are not within our subnet (if using device)
-      if (net != nullptr) {
-        if (!host.ipv4().mask(*net, *mask)) remove = true;
-      }
+    if (host.mac().fake() || host.ipv4().fake() || host.ipv6().fake()) {
+      remove = true;
     }
-    // remove IPv6 multicast addresses
-    if (!host.ipv6().address().empty()) {
-      if (host.ipv6().address()[0] == 0xFF) remove = true;
+    if (!host.ipv4().address().empty() && net != nullptr) {
+      if (!host.ipv4().mask(*net, *mask)) {
+        remove = true;
+      }
     }
     if (remove) {
       hosts_.erase(it++);

@@ -85,6 +85,13 @@ std::string MACAddress::str() const {
   return ss.str();
 }
 
+bool MACAddress::fake() const {
+  if (address_ == ipf::kBroadcastMAC.address()) {
+    return true;
+  }
+  return false;
+}
+
 IPv4Address::IPv4Address() {
 }
 
@@ -109,6 +116,15 @@ std::string IPv4Address::str() const {
     }
   }
   return ss.str();
+}
+
+bool IPv4Address::fake() const {
+  if (!address_.empty()) {
+    if (*this == ipf::kBroadcastIPv4) return true;
+    uint8_t prefix = this->address()[0] >> 4;
+    if ((prefix & ipf::kMulticastIPv4) == ipf::kMulticastIPv4) return true;
+  }
+  return false;
 }
 
 /**
@@ -157,4 +173,11 @@ std::string IPv6Address::str() const {
     }
   }
   return result;
+}
+
+bool IPv6Address::fake() const {
+  if (!address_.empty() && address_[0] == 0xFF) {
+    return true;
+  }
+  return false;
 }

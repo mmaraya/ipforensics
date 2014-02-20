@@ -96,6 +96,14 @@ class Address {
    *  @retval std::string representation of this address
    */
   virtual std::string str() const = 0;
+
+  /**
+   *  @brief Pure virtual function to check if this address is a broadcast, 
+   *         multicast or otherwise useless address for network asset discovery
+   *         purposes.
+   *  @retval bool true if this is a useless address, false otherwise
+   */
+  virtual bool fake() const = 0;
 };
 
 /**
@@ -137,6 +145,13 @@ class MACAddress : public Address {
    *  @retval std::string representation of this MAC address
    */
   virtual std::string str() const override;
+
+  /**
+   *  @brief Check if this address is a broadcast, multicast or otherwise 
+   *         useless address for network asset discovery purposes.
+   *  @retval bool true if this is a useless address, false otherwise
+   */
+  virtual bool fake() const override;
 };
 
 /**
@@ -177,6 +192,13 @@ class IPv4Address : public Address {
   virtual std::string str() const override;
 
   /**
+   *  @brief Check if this address is a broadcast, multicast or otherwise
+   *         useless address for network asset discovery purposes.
+   *  @retval bool true if this is a useless address, false otherwise
+   */
+  virtual bool fake() const override;
+
+  /**
    *  @brief Tests if this IPv4Address is within the supplied subnet
    *  @param addr network address to test this IPv4Address against
    *  @param mask network mask to test this IPv4Address against
@@ -214,6 +236,13 @@ class IPv6Address : public Address {
    *  @retval std::string representation of this IPv4 address
    */
   virtual std::string str() const override;
+
+  /**
+   *  @brief Check if this address is a broadcast, multicast or otherwise
+   *         useless address for network asset discovery purposes.
+   *  @retval bool true if this is a useless address, false otherwise
+   */
+  virtual bool fake() const override;
 };
 
 #endif  // IPFORENSICS_ADDRESS_H_
