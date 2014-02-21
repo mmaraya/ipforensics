@@ -52,7 +52,7 @@ int IPForensics::packet_count() const {
   return packet_count_;
 }
 
-std::vector<Packet> IPForensics::packets() const {
+std::vector<Packet> IPForensics::packets() {
   return packets_;
 }
 

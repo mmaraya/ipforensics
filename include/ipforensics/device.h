@@ -108,7 +108,7 @@ class Device {
    * @brief Accessor method for the packets_ property
    * @retval std::vector<Packet> Collection of packets collected by this Device
    */
-  std::vector<Packet> packets();
+  std::vector<Packet> packets() const;
 
   /**
    * @brief Mutator method for the name_ property

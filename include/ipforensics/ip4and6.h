@@ -142,7 +142,7 @@ class IPForensics {
    *  @brief Accessor method for the packets_ property
    *  @retval std::vector packets read from the capture device or file
    */
-  std::vector<Packet> packets() const;
+  std::vector<Packet> packets();
 
   /**
    *  @brief Mutator method for the device_ property
@@ -182,6 +182,15 @@ class IPForensics {
    *  @param filename User-supplied filename of the packet capture file to read
    */
   void load_hosts(std::string filename);
+
+  /**
+   * @brief friend function from the Device class for capture network packets
+   * @details IPForensics::packets_ stores the collection of packet and Device
+   *          needs to modify it 
+   * @param n Number of packets to capture
+   * @retval int Actual number of packets captured
+   */
+  friend int Device::capture(const int n);
 };
 
 /**

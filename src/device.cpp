@@ -56,7 +56,7 @@ IPv4Address Device::mask() const {
   return mask_;
 }
 
-std::vector<Packet> Device::packets() {
+std::vector<Packet> Device::packets() const {
   return ipf_->packets();
 }
 
@@ -102,7 +102,7 @@ int Device::capture(const int n) {
   for (int i = 0; i < n; ++i) {
     packet = pcap_next(pcap, &header);
     if (packet != NULL) {
-      packets().push_back(Packet(packet));
+      ipf_->packets_.push_back(Packet(packet));
     }
   }
   pcap_close(pcap);
