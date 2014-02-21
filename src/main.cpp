@@ -55,31 +55,31 @@ int main(int argc, char* argv[]) {
   if (it != args.end()) {
     verbose = true;
   }
-  // use -d device
+  // use -i interface
   std::string device_name {};
-  it = find(args.begin(), args.end(), "-d");
+  it = find(args.begin(), args.end(), "-i");
   if (it != args.end()) {
     if (next(it) != args.end()) {
       device_name = *next(it);
     }
   }
-  // capture -n packets
+  // capture -c count packets
   int packet_count {};
-  it = find(args.begin(), args.end(), "-n");
+  it = find(args.begin(), args.end(), "-c");
   if (it != args.end()) {
     if (next(it) != args.end()) {
       try {
         packet_count = stoi(*next(it));
       } catch (std::exception const &e) {
-        std::cout << "Could not convert \'-n " << *next(it);
+        std::cout << "Could not convert \'-c " << *next(it);
         std::cout << "\' into a number: " << e.what() << std::endl;
         return 1;
       }
     }
   }
-  // read packets from -f filename
+  // read packets from -r filename
   std::string filename {};
-  it = find(args.begin(), args.end(), "-f");
+  it = find(args.begin(), args.end(), "-r");
   if (it != args.end()) {
     if (next(it) != args.end()) {
       filename = *next(it);
@@ -122,9 +122,9 @@ void usage() {
   std::cout << " [-hv] [-d device] [-n packets] [-f filename]" << std::endl;
   std::cout << "-h           display usage" << std::endl;
   std::cout << "-v           verbose display" << std::endl;
-  std::cout << "-d device    packet capture device to use" << std::endl;
-  std::cout << "-f filename  read packets from pcap file" << std::endl;
-  std::cout << "-n packets   number of packets to read or capture" << std::endl;
+  std::cout << "-i interface packet capture device to use" << std::endl;
+  std::cout << "-r filename  read packets from pcap file" << std::endl;
+  std::cout << "-c count     number of packets to read or capture" << std::endl;
 }
 
 /**

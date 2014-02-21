@@ -51,5 +51,5 @@ clean:
 	rm -f $(BIN_DIR)/$(PROGRAM) $(OBJ_DIR)/*.o
 
 test: $(BIN_DIR)/$(PROGRAM)
-	$(BIN_DIR)/$(PROGRAM) -f test/sample.pcap > test/ipf.test
+	$(BIN_DIR)/$(PROGRAM) -r test/sample.pcap > test/ipf.test
 	diff test/sample.pcap.result test/ipf.test

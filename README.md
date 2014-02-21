@@ -14,9 +14,9 @@ Usage
     ipforensics [-hv] [-d device] [-f filename] [-n packets]
     -h: display usage
     -v: verbose display
-    -d device: packet capture device to use
-    -f filename: read packets from pcap file
-    -n packets: number of packets to read or capture
+    -i interface: packet capture device to use
+    -r file: read packets from pcap file
+    -c count: number of packets to read or capture
 
 License
 -------
