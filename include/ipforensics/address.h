@@ -30,6 +30,7 @@
 #ifndef IPFORENSICS_ADDRESS_H_
 #define IPFORENSICS_ADDRESS_H_
 
+#include <stdint.h>
 #include <string>
 #include <vector>
 
