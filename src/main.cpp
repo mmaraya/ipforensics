@@ -61,6 +61,10 @@ int main(int argc, char* argv[]) {
   if (it != args.end()) {
     if (next(it) != args.end()) {
       device_name = *next(it);
+    } else {
+      std::cout << ipf::kProgramName << ": option -i requires an argument\n";
+      usage();
+      return 1;
     }
   }
   // capture -c count packets
@@ -75,6 +79,10 @@ int main(int argc, char* argv[]) {
         std::cout << "\' into a number: " << e.what() << std::endl;
         return 1;
       }
+    } else {
+      std::cout << ipf::kProgramName << ": option -c requires an argument\n";
+      usage();
+      return 1;
     }
   }
   // read packets from -r filename
@@ -83,6 +91,10 @@ int main(int argc, char* argv[]) {
   if (it != args.end()) {
     if (next(it) != args.end()) {
       filename = *next(it);
+    } else {
+      std::cout << ipf::kProgramName << ": option -r requires an argument\n";
+      usage();
+      return 1;
     }
   }
   // load hosts from either file or packet capture device
