@@ -6,7 +6,7 @@ ipforensics is a network administration utility that conducts a passive inventor
 Supported Platforms
 -------------------
 
-ipforensics is written in C++11 and requires the libpcap packet capture library.  It compiles on Linux with gcc 4.8 or higher and on Mac OS X with clang 3.3 or higher. Support for UNIX and Windows is planned.
+ipforensics runs under Linux, Mac OS X, and Windows. 
 
 Usage
 -----

@@ -205,7 +205,7 @@ namespace ipf {
   const int kMajorVersion {0};
 
   /** program minor revision number */
-  const int kMinorVersion {8};
+  const int kMinorVersion {9};
 
   /** ethernet frame snapshot length */
   const int kSnapLength {256};

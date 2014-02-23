@@ -53,16 +53,16 @@ class Packet {
   uint16_t ether_type_ {};
 
   /** IPv4 address of the packet source */
-  IPv4Address ipv4_src_ {};
+  IPv4Address ipv4_src_;
 
   /** IPv4 address of the packet destination */
-  IPv4Address ipv4_dst_ {};
+  IPv4Address ipv4_dst_;
 
   /** IPv6 address of the packet source */
-  IPv6Address ipv6_src_ {};
+  IPv6Address ipv6_src_;
 
   /** IPv6 address of the packet destination */
-  IPv6Address ipv6_dst_ {};
+  IPv6Address ipv6_dst_;
 
  public:
   /**

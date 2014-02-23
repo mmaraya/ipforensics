@@ -110,6 +110,8 @@ int Device::capture(const int n) {
 }
 
 std::ostream &operator<<(std::ostream &out, const Device &d) {
-  out << d.name() << ":" << d.desc() << ":" << (d.loopback() ? "LOOPBACK" : "");
+  out << d.name();
+  out << " (" << (d.desc().empty() ? "No description" : d.desc())  << ") ";
+  out << (d.loopback() ? "LOOPBACK" : "");
   return out;
 }

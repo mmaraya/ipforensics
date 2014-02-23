@@ -149,6 +149,7 @@ int load_from_device(IPForensics *ip) {
   try {
     ip->load_devices();
   } catch (std::exception const &e) {
+    std::cout << ipf::kProgramName << ": ";
     std::cout << "Could not query system for packet capture devices: ";
     std::cout << e.what() << std::endl;
   }
@@ -161,10 +162,11 @@ int load_from_device(IPForensics *ip) {
   }
   // exit if invalid device specified
   if (!ip->device().empty() && (ip->device() != device.name())) {
+    std::cout << ipf::kProgramName << ": ";
     std::cout << "Invalid packet capture device \'" << ip->device() << "\'. ";
-    std::cout << "Valid device(s):";
-    for (Device d : ip->devices()) {
-      std::cout << '\'' << d.name() << "' ";
+    std::cout << "Valid device(s):\n";
+    for (size_t i = 0; i < ip->devices().size(); ++i) {
+      std::cout << i+1 << ". " << ip->devices()[i] << '\n';
     }
     std::cout << std::endl;
     return -1;
