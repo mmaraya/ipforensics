@@ -8,6 +8,11 @@ Supported Platforms
 
 ipforensics runs under Linux, Mac OS X, and Windows. 
 
+Download
+--------
+
+Precompiled binaris for ipforensics version 0.9 can be downloaded from https://github.com/mmaraya/ipforensics/releases/tag/v0.9.
+
 Usage
 -----
 
