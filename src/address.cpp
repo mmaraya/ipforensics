@@ -49,6 +49,10 @@ void Address::set_address(std::vector<uint8_t> address) {
   address_ = address;
 }
 
+bool Address::empty() const {
+  return address_.empty();
+}
+
 std::ostream& operator<<(std::ostream& out, const Address& a) {
   return (out << a.str());
 }

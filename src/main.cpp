@@ -27,6 +27,7 @@
  * SOFTWARE.
  */
 
+#include <iomanip>
 #include <string>
 #include <vector>
 #include "ipforensics/main.h"
@@ -122,6 +123,21 @@ int main(int argc, char* argv[]) {
   for (Host h : ip.hosts()) {
     std::cout << h << std::endl;
   }
+  // display summary
+  size_t hosts = ip.hosts().size(), v4 = 0, v6 = 0, dual = 0;
+  for (Host h : ip.hosts()) {
+    if (!h.ipv4().empty() && h.ipv6().empty()) ++v4;
+    if (!h.ipv6().empty() && h.ipv4().empty()) ++v6;
+    if (!h.ipv4().empty() && !h.ipv6().empty()) ++dual;
+  }
+  double pc = static_cast<double>(dual + v6) / static_cast<double>(hosts) * 100;
+  std::cout << std::string(73, '=') << '\n';
+  std::cout << "Hosts: " << hosts;
+  std::cout << "; IPv4 only: " << v4;
+  std::cout << "; IPv6 only: " << v6;
+  std::cout << "; dual-stack: " << dual;
+  std::cout << std::fixed << std::setprecision(0);
+  std::cout << "; migrated: " << pc << "%" << std::endl;
 }
 
 /**

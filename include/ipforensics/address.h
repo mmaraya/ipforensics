@@ -105,6 +105,12 @@ class Address {
    *  @retval bool true if this is a useless address, false otherwise
    */
   virtual bool fake() const = 0;
+
+  /**
+   *  @brief Check if the Address has not been set
+   *  @retval bool true if the address has not been set, false if set
+   */
+  bool empty() const;
 };
 
 /**
