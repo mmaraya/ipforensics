@@ -23,6 +23,20 @@ Usage
     -r file: read packets from pcap file
     -c count: number of packets to read or capture
 
+To read all packets from a pcap file named mycap.cap, use:
+
+    ipforensics -r mycap.cap
+
+To read the first 100 packets from a pcap file named mycap.cap, use:
+
+    ipforensics -r mycap.cap -c 100
+    
+To read the first 250 packets from network device eth0, use:
+
+    sudo ipforensics -i eth0 -c 250
+
+Reading packets from a network device normally requires administrative privileges.
+
 License
 -------
 
