@@ -31,7 +31,7 @@
 #define IPFORENSICS_PACKET_H_
 
 #include <stdint.h>
-#include <iostream>  // NOLINT we mostly use this for logging
+#include <iostream>  // NOLINT
 #include "ipforensics/host.h"
 
 /**

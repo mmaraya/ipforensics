@@ -19,9 +19,10 @@ Usage
     ipforensics [-hv] [-d device] [-f filename] [-n packets]
     -h: display usage
     -v: verbose display
-    -i interface: packet capture device to use
-    -r file: read packets from pcap file
+    -i interface: packet capture device to use (requires admin)
     -c count: number of packets to read or capture
+    -r in file: read packets from pcap file
+    -w out file: write summary report to file
 
 To read all packets from a pcap file named mycap.cap, use:
 
@@ -35,7 +36,9 @@ To read the first 250 packets from network device eth0, use:
 
     sudo ipforensics -i eth0 -c 250
 
-Reading packets from a network device normally requires administrative privileges.
+To read the first 125 packets from network device eth0 and save to out.txt, use:
+
+    sudo ipforensics -i eth0 -c 125 -w out.txt
 
 License
 -------

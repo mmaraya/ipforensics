@@ -28,6 +28,8 @@
  */
 
 #include <iomanip>
+#include <fstream> // NOLINT
+#include <sstream>
 #include <string>
 #include <vector>
 #include "ipforensics/main.h"
@@ -39,6 +41,7 @@
  *  @retval int returns 0 upon successful program completion, non-zero otherwise
  */
 int main(int argc, char* argv[]) {
+  IPForensics ip;
   // load arguments into vector<string> so we can use std::find
   std::vector<std::string> args;
   std::vector<std::string>::iterator it;
@@ -69,12 +72,11 @@ int main(int argc, char* argv[]) {
     }
   }
   // capture -c count packets
-  int packet_count {};
   it = find(args.begin(), args.end(), "-c");
   if (it != args.end()) {
     if (next(it) != args.end()) {
       try {
-        packet_count = stoi(*next(it));
+        ip.set_packet_count(stoi(*next(it)));
       } catch (std::exception const &e) {
         std::cout << "Could not convert \'-c " << *next(it);
         std::cout << "\' into a number: " << e.what() << std::endl;
@@ -87,26 +89,33 @@ int main(int argc, char* argv[]) {
     }
   }
   // read packets from -r filename
-  std::string filename {};
   it = find(args.begin(), args.end(), "-r");
   if (it != args.end()) {
     if (next(it) != args.end()) {
-      filename = *next(it);
+      ip.set_in_file(*next(it));
     } else {
       std::cout << ipf::kProgramName << ": option -r requires an argument\n";
       usage();
       return 1;
     }
   }
+  // write host report to -w filename
+  it = find(args.begin(), args.end(), "-w");
+  if (it != args.end()) {
+    if (next(it) != args.end()) {
+      ip.set_out_file(*next(it));
+    } else {
+      std::cout << ipf::kProgramName << ": option -w requires an argument\n";
+      usage();
+      return 1;
+    }
+  }
   // load hosts from either file or packet capture device
-  IPForensics ip;
-  ip.set_packet_count(packet_count);
   int packets_loaded {0};
-  if (filename.empty()) {
+  if (ip.in_file().empty()) {
     ip.set_device(device_name);
     packets_loaded = load_from_device(&ip);
   } else {
-    ip.set_filename(filename);
     packets_loaded = load_from_file(&ip);
   }
   // exit if error encountered
@@ -118,26 +127,8 @@ int main(int argc, char* argv[]) {
     std::cout << std::dec << packets_loaded << " packet(s) read.";
     std::cout << std::endl;
   }
-  // display hosts
-  std::cout << ipf::kHeader << std::endl;
-  for (Host h : ip.hosts()) {
-    std::cout << h << std::endl;
-  }
-  // display summary
-  size_t hosts = ip.hosts().size(), v4 = 0, v6 = 0, dual = 0;
-  for (Host h : ip.hosts()) {
-    if (!h.ipv4().empty() && h.ipv6().empty()) ++v4;
-    if (!h.ipv6().empty() && h.ipv4().empty()) ++v6;
-    if (!h.ipv4().empty() && !h.ipv6().empty()) ++dual;
-  }
-  double pc = static_cast<double>(dual + v6) / static_cast<double>(hosts) * 100;
-  std::cout << std::string(73, '=') << '\n';
-  std::cout << "Hosts: " << hosts;
-  std::cout << "; IPv4 only: " << v4;
-  std::cout << "; IPv6 only: " << v6;
-  std::cout << "; dual-stack: " << dual;
-  std::cout << std::fixed << std::setprecision(0);
-  std::cout << "; migrated: " << pc << "%" << std::endl;
+  // display hosts and summary or write to a file
+  results(&ip);
 }
 
 /**
@@ -147,12 +138,14 @@ void usage() {
   std::cout << ipf::kProgramName << ", version " << ipf::kMajorVersion << '.';
   std::cout << ipf::kMinorVersion << "\n\n";
   std::cout << "usage: " << ipf::kProgramName;
-  std::cout << " [-hv] [-d device] [-n packets] [-f filename]" << std::endl;
-  std::cout << "-h           display usage" << std::endl;
-  std::cout << "-v           verbose display" << std::endl;
-  std::cout << "-i interface packet capture device to use" << std::endl;
-  std::cout << "-r filename  read packets from pcap file" << std::endl;
-  std::cout << "-c count     number of packets to read or capture" << std::endl;
+  std::cout << " [-hv] [-d device] [-n packets] [-f filename]\n";
+  std::cout << "-h           display usage\n";
+  std::cout << "-v           verbose display\n";
+  std::cout << "-i interface packet capture device to use (requires admin)\n";
+  std::cout << "-c count     number of packets to read or capture\n";
+  std::cout << "-r in file   read packets from pcap file\n";
+  std::cout << "-w out file  write host summary to file\n";
+  std::cout << std::endl;
 }
 
 /**
@@ -219,11 +212,11 @@ int load_from_file(IPForensics *ip) {
       std::cout << "all";
     else
       std::cout << ip->packet_count();
-    std::cout << " packet(s) from " << '\'' << ip->filename() << '\'';
+    std::cout << " packet(s) from " << '\'' << ip->in_file() << '\'';
     std::cout << std::endl;
   }
   // extract packets and hosts from file
-  ip->load_hosts(ip->filename());
+  ip->load_hosts(ip->in_file());
   // display packets read
   if (verbose) {
     for (Packet p : ip->packets()) {
@@ -233,3 +226,43 @@ int load_from_file(IPForensics *ip) {
   // return number of packets read
   return int (ip->packets().size());
 }
+
+/**
+ *  @details This method displays or saves the host summary report with a column
+ *           header (MAC Address, IPv4 Address, IPv6 Address), a column header
+ *           separator using the character '=", the MAC, IPv4 and IPv6 addresses
+ *           for hosts found sorted by MAC address, a footer separator using the
+ *           character '=', and a host count summary.
+ */
+void results(IPForensics *ip) {
+  std::stringstream result;
+  // output hosts
+  result << ipf::kHeader << std::endl;
+  for (Host h : ip->hosts()) {
+    result << h << std::endl;
+  }
+  // output summary
+  size_t hosts = ip->hosts().size(), v4 = 0, v6 = 0, dual = 0;
+  for (Host h : ip->hosts()) {
+    if (!h.ipv4().empty() && h.ipv6().empty()) ++v4;
+    if (!h.ipv6().empty() && h.ipv4().empty()) ++v6;
+    if (!h.ipv4().empty() && !h.ipv6().empty()) ++dual;
+  }
+  double pc = static_cast<double>(dual + v6) / static_cast<double>(hosts) * 100;
+  result << std::string(73, '=') << '\n';
+  result << "Hosts: " << hosts;
+  result << "; IPv4 only: " << v4;
+  result << "; IPv6 only: " << v6;
+  result << "; dual-stack: " << dual;
+  result << std::fixed << std::setprecision(0);
+  result << "; migrated: " << pc << "%" << std::endl;
+  // display or save results
+  if (ip->out_file().empty()) {
+    std::cout << result.str();
+  } else {
+    std::ofstream ofs(ip->out_file(), std::ofstream::out);
+    ofs << result.str();
+    ofs.close();
+  }
+}
+

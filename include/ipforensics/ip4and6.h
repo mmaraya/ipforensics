@@ -68,7 +68,12 @@ class IPForensics {
    *  @brief Name of the file to read packets from
    *  @details File must follow the libpcap file format
    */
-  std::string filename_;
+  std::string in_file_;
+
+  /**
+   *  @brief Name of the file to write host summary to
+   */
+  std::string out_file_;
 
   /**
    *  @brief Number of packets to read from the network or file
@@ -127,10 +132,16 @@ class IPForensics {
   std::string device() const;
 
   /**
-   *  @brief Accessor method for the filename_ property
+   *  @brief Accessor method for the in_file_ property
    *  @retval std::string name of the file to read packets from
    */
-  std::string filename() const;
+  std::string in_file() const;
+
+  /**
+   *  @brief Accessor method for the out_file_ property
+   *  @retval std::string name of the file to write the host summary to
+   */
+  std::string out_file() const;
 
   /**
    *  @brief Accessor method for the packet_count_ property
@@ -151,10 +162,16 @@ class IPForensics {
   void set_device(std::string device);
 
   /**
-   *  @brief Mutator method for the filename_ property
-   *  @param filename user-supplied libpcap-formatted file to load packets from
+   *  @brief Mutator method for the in_file property
+   *  @param in_file user-supplied libpcap-formatted file to load packets from
    */
-  void set_filename(std::string filename);
+  void set_in_file(std::string in_file);
+
+  /**
+   *  @brief Mutator method for the out_file property
+   *  @param out_file user-supplied filename to write host summary to
+   */
+  void set_out_file(std::string out_file);
 
   /**
    *  @brief Mutator method for the packet_count_ property

@@ -44,8 +44,12 @@ std::string IPForensics::device() const {
   return device_;
 }
 
-std::string IPForensics::filename() const {
-  return filename_;
+std::string IPForensics::in_file() const {
+  return in_file_;
+}
+
+std::string IPForensics::out_file() const {
+  return out_file_;
 }
 
 int IPForensics::packet_count() const {
@@ -60,8 +64,12 @@ void IPForensics::set_device(std::string device) {
   device_ = device;
 }
 
-void IPForensics::set_filename(std::string filename) {
-  filename_ = filename;
+void IPForensics::set_in_file(std::string in_file) {
+  in_file_ = in_file;
+}
+
+void IPForensics::set_out_file(std::string out_file) {
+  out_file_ = out_file;
 }
 
 void IPForensics::set_packet_count(int packet_count) {
