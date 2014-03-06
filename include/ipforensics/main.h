@@ -55,10 +55,4 @@ int load_from_file(IPForensics *ip);
  */
 int load_from_device(IPForensics *ip);
 
-/**
- *  @brief Write host summary results to an output stream
- *  @param ip Main IPForensics program class
- */
-void results(IPForensics *ip);
-
 #endif  // IPFORENSICS_MAIN_H_

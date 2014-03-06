@@ -201,6 +201,11 @@ class IPForensics {
   void load_hosts(std::string filename);
 
   /**
+   *  @brief Write host summary results to an either the screen or a file
+   */
+  void results();
+
+  /**
    * @brief friend function from the Device class for capture network packets
    * @details IPForensics::packets_ stores the collection of packet and Device
    *          needs to modify it 

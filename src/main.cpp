@@ -27,9 +27,6 @@
  * SOFTWARE.
  */
 
-#include <iomanip>
-#include <fstream> // NOLINT
-#include <sstream>
 #include <string>
 #include <vector>
 #include "ipforensics/main.h"
@@ -128,7 +125,7 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl;
   }
   // display hosts and summary or write to a file
-  results(&ip);
+  ip.results();
 }
 
 /**
@@ -227,42 +224,4 @@ int load_from_file(IPForensics *ip) {
   return int (ip->packets().size());
 }
 
-/**
- *  @details This method displays or saves the host summary report with a column
- *           header (MAC Address, IPv4 Address, IPv6 Address), a column header
- *           separator using the character '=", the MAC, IPv4 and IPv6 addresses
- *           for hosts found sorted by MAC address, a footer separator using the
- *           character '=', and a host count summary.
- */
-void results(IPForensics *ip) {
-  std::stringstream result;
-  // output hosts
-  result << ipf::kHeader << std::endl;
-  for (Host h : ip->hosts()) {
-    result << h << std::endl;
-  }
-  // output summary
-  size_t hosts = ip->hosts().size(), v4 = 0, v6 = 0, dual = 0;
-  for (Host h : ip->hosts()) {
-    if (!h.ipv4().empty() && h.ipv6().empty()) ++v4;
-    if (!h.ipv6().empty() && h.ipv4().empty()) ++v6;
-    if (!h.ipv4().empty() && !h.ipv6().empty()) ++dual;
-  }
-  double pc = static_cast<double>(dual + v6) / static_cast<double>(hosts) * 100;
-  result << std::string(73, '=') << '\n';
-  result << "Hosts: " << hosts;
-  result << "; IPv4 only: " << v4;
-  result << "; IPv6 only: " << v6;
-  result << "; dual-stack: " << dual;
-  result << std::fixed << std::setprecision(0);
-  result << "; migrated: " << pc << "%" << std::endl;
-  // display or save results
-  if (ip->out_file().empty()) {
-    std::cout << result.str();
-  } else {
-    std::ofstream ofs(ip->out_file(), std::ofstream::out);
-    ofs << result.str();
-    ofs.close();
-  }
-}
 
