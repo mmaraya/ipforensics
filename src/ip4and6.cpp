@@ -35,6 +35,10 @@
 #include <set>
 #include "ipforensics/ip4and6.h"
 
+bool IPForensics::verbose() const {
+  return verbose_;
+}
+
 std::vector<Device> IPForensics::devices() const {
   return devices_;
 }
@@ -61,6 +65,10 @@ int IPForensics::packet_count() const {
 
 std::vector<Packet> IPForensics::packets() {
   return packets_;
+}
+
+void IPForensics::set_verbose(bool verbose) {
+  verbose_ = verbose;
 }
 
 void IPForensics::set_device(std::string device) {
@@ -238,6 +246,85 @@ void IPForensics::clean_hosts(IPv4Address* net, IPv4Address *mask) {
       ++it;
     }
   }
+}
+
+/**
+ *  @details The list of available packet devices is loaded from the system and
+ *           matched against the command-line supplied device name.  Packets are
+ *           captured and hosts extracted.
+ */
+int IPForensics::load_from_device() {
+  // load packet capture device list from system
+  try {
+    load_devices();
+  } catch (std::exception const &e) {
+    std::cout << ipf::kProgramName << ": ";
+    std::cout << "Could not query system for packet capture devices: ";
+    std::cout << e.what() << std::endl;
+  }
+  // select device to use
+  Device device(this);
+  for (Device d : devices_) {
+    if (device_ == d.name()) {
+      device = d;
+    }
+  }
+  // exit if invalid device specified
+  if (!device_.empty() && device_ != device.name()) {
+    std::cout << ipf::kProgramName << ": ";
+    std::cout << "Invalid packet capture device \'" << device_ << "\'. ";
+    std::cout << "Valid device(s):\n";
+    for (size_t i = 0; i < devices_.size(); ++i) {
+      std::cout << i+1 << ". " << devices_[i] << '\n';
+    }
+    std::cout << std::endl;
+    return -1;
+  }
+  // display run-time parameters
+  if (verbose_) {
+    std::cout << "Using \'" << device.name() << "\' with network address ";
+    std::cout << device.net() << " and network mask " << device.mask();
+    std::cout << " to capture " << packet_count_ << " packet(s).";
+    std::cout << std::endl;
+  }
+  // capture packets
+  int packet_count = device.capture(packet_count_);
+  // display packets captured
+  if (verbose_) {
+    for (Packet p : device.packets()) {
+      std::cout << p << std::endl;
+    }
+  }
+  // extract hosts
+  load_hosts(device);
+  return packet_count;
+}
+
+/**
+ *  @details Packets are read from the command-line pcap file and hosts are
+ *           extracted from the packets.
+ */
+int IPForensics::load_from_file() {
+  // display run-time parameters
+  if (verbose_) {
+    std::cout << "Reading ";
+    if (packet_count_ == 0)
+      std::cout << "all";
+    else
+      std::cout << packet_count_;
+    std::cout << " packet(s) from " << '\'' << in_file_ << '\'';
+    std::cout << std::endl;
+  }
+  // extract packets and hosts from file
+  load_hosts(in_file_);
+  // display packets read
+  if (verbose_) {
+    for (Packet p : packets_) {
+      std::cout << p << std::endl;
+    }
+  }
+  // return number of packets read
+  return int (packets_.size());
 }
 
 /**

@@ -46,6 +46,11 @@
  */
 class IPForensics {
  private:
+  /** 
+   *  @brief Show additional details during program execution
+   */
+  bool verbose_ {};
+
   /**
    *  @brief Collection of network capture devices available from the system
    *  @details IPForensics::load_devices(Device) must be called to populate this
@@ -114,6 +119,12 @@ class IPForensics {
 
  public:
   /**
+   *  @brief Accessor method for the verbose_ property
+   *  @retval bool show additional details during program execution
+   */
+  bool verbose() const;
+
+  /**
    *  @brief Accessor method for the devices_ property
    *  @retval std::vector of network capture devices available from the system
    */
@@ -156,10 +167,16 @@ class IPForensics {
   std::vector<Packet> packets();
 
   /**
-   *  @brief Mutator method for the device_ property
+   *  @brief Mutator method for the verbose_ property
    *  @param device Device instance to read packets from
    */
   void set_device(std::string device);
+
+  /**
+   *  @brief Mutator method for the device_ property
+   *  @param verbose show additional details during program execution
+   */
+  void set_verbose(bool verbose);
 
   /**
    *  @brief Mutator method for the in_file property
@@ -199,6 +216,18 @@ class IPForensics {
    *  @param filename User-supplied filename of the packet capture file to read
    */
   void load_hosts(std::string filename);
+
+  /**
+   *  @brief Load packets from command-line supplied pcap file
+   *  @retval Number of packets read from pcap file or -1 if error detected
+   */
+  int load_from_file();
+
+  /**
+   *  @brief Load packets from command-line supplied packet capture device
+   *  @retval Number of packets read from capture device  or -1 if error detected
+   */
+  int load_from_device();
 
   /**
    *  @brief Write host summary results to an either the screen or a file
