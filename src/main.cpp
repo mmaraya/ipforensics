@@ -27,6 +27,7 @@
  * SOFTWARE.
  */
 
+#include <fstream>  // NOLINT
 #include <string>
 #include <vector>
 #include "ipforensics/main.h"
@@ -101,6 +102,13 @@ int main(int argc, char* argv[]) {
   if (it != args.end()) {
     if (next(it) != args.end()) {
       ip.set_out_file(*next(it));
+      std::ofstream ofs(ip.out_file(), std::ofstream::out);
+      if (!ofs.is_open()) {
+        std::cout << ipf::kProgramName << ": could not open output file ";
+        std::cout << ip.out_file() << std::endl;
+        return 1;
+      }
+      ofs.close();
     } else {
       std::cout << ipf::kProgramName << ": option -w requires an argument\n";
       usage();
@@ -125,7 +133,13 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl;
   }
   // display hosts and summary or write to a file
-  ip.results();
+  try {
+    ip.results();
+  } catch (std::exception const &e) {
+    std::cout << ipf::kProgramName << ": ";
+    std::cout << "Could not save results to specified output file: ";
+    std::cout << e.what() << std::endl;
+  }
 }
 
 /**

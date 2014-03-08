@@ -84,7 +84,7 @@ class IPForensics {
    *  @brief Number of packets to read from the network or file
    *  @details If reading a file, a value of 0 means read all packets
    */
-  int packet_count_;
+  int packet_count_ {};
 
   /**
    *  @brief Packets from the capture device or libpcap file are stored in this

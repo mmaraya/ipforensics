@@ -333,6 +333,7 @@ int IPForensics::load_from_file() {
  *           separator using the character '=", the MAC, IPv4 and IPv6 addresses
  *           for hosts found sorted by MAC address, a footer separator using the
  *           character '=', and a host count summary.
+ *  @throws std::runtime_error if the output file cannot be opened or written to
  */
 void IPForensics::results() {
   std::stringstream result;
@@ -361,7 +362,14 @@ void IPForensics::results() {
     std::cout << result.str();
   } else {
     std::ofstream ofs(out_file_, std::ofstream::out);
+    if (!ofs.is_open()) {
+      throw std::runtime_error("Could not open output file " + out_file_);
+    }
     ofs << result.str();
+    if (ofs.bad()) {
+      ofs.close();
+      throw std::runtime_error("Could not write to output file " + out_file_);
+    }
     ofs.close();
   }
 }
