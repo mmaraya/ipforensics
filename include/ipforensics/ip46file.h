@@ -30,6 +30,7 @@
 #ifndef IPFORENSICS_IP46FILE_H_
 #define IPFORENSICS_IP46FILE_H_
 
+#include <set>
 #include <string>
 #include "ipforensics/ip4and6.h"
 
@@ -44,12 +45,12 @@ class IP46File {
   /**
    *  @brief Pointer to the main controller this IP46File is associated with
    */
-  IPForensics* ipf_ const;
+  IPForensics* ipf_;
 
   /**
    *  @brief Filename of the IP46File that contains previously extracted hosts
    */
-  std::string filename_ const;
+  std::string filename_;
 
  public:
   /**
@@ -71,12 +72,18 @@ class IP46File {
    *  @retval std::string name of the file containing previously extracted hosts
    */
   std::string filename() const;
-  
+
   /**
    *  @brief Determines if the file is a valid IPForensics information file
    *  @retval bool true if valid IPForensics output file, false otherwise
    */
   bool valid() const;
+
+  /**
+   *  @brief Load hosts from a valid IPForensics information file
+   *  @retval std::set<Host> Collection of hosts identified by MAC addresses
+   */
+  std::set<Host> load();
 };
 
 #endif  // IPFORENSICS_IP46FILE_H_

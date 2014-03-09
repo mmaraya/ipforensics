@@ -235,11 +235,11 @@ class IPForensics {
   void results();
 
   /**
-   * @brief friend function from the Device class for capture network packets
+   * @brief friend function from the Device class for capturing network packets
    * @details IPForensics::packets_ stores the collection of packet and Device
    *          needs to modify it 
    * @param n Number of packets to capture
-   * @retval int Actual number of packets captured
+   * @retval int actual number of packets captured
    */
   friend int Device::capture(const int n);
 };
