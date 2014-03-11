@@ -22,7 +22,7 @@ Usage
     -i interface: packet capture device to use (requires admin)
     -c count: number of packets to read or capture
     -r in file: read packets from pcap file
-    -w out file: write summary report to file
+    -w out file: write or append summary report to file
 
 To read all packets from a pcap file named mycap.cap, use:
 
