@@ -27,18 +27,30 @@
  * SOFTWARE.
  */
 
+#include <fstream>
 #include <string>
 #include "ipforensics/ip46file.h"
 
-IP46File::IP46File(IPForensics* ipf, std::string filename) {
-  ipf_ = ipf;
-  filename_ = filename;
+IP46File::IP46File(IPForensics* ip) {
+  ip_ = ip;
 }
 
-IPForensics* IP46File::ipf() const {
-  return ipf_;
+IPForensics* IP46File::ip() const {
+  return ip_;
 }
 
-std::string IP46File::filename() const {
-  return filename_;
+bool IP46File::valid() const {
+  if (ip_->out_file().empty() || ip_ == nullptr) return false;
+  std::ifstream file(ip_->out_file());
+  std::string line;
+  if (ip_->verbose()) std::cout << "Reading file " << ip_->out_file() << std::endl;
+  if (file.is_open()) {
+    while (std::getline(file, line)) {
+      std::cout << line << std::endl;
+    }
+    file.close();
+  } else {
+    return false;
+  }
+  return true;
 }

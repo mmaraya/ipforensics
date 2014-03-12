@@ -31,6 +31,7 @@
 #include <string>
 #include <vector>
 #include "ipforensics/main.h"
+#include "ipforensics/ip46file.h"
 
 /**
  *  @brief IPForensics program entry point
@@ -113,6 +114,13 @@ int main(int argc, char* argv[]) {
       std::cout << ipf::kProgramName << ": option -w requires an argument\n";
       usage();
       return 1;
+    }
+  }
+  // load hosts from output file if pre-populated
+  IP46File ipfile (&ip);
+  if (ipfile.valid()) {
+    if (ip.verbose()) {
+      std::cout << "Appending hosts to " << ip.out_file() << std::endl;
     }
   }
   // load hosts from either file or packet capture device

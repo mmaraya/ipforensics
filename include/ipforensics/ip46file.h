@@ -45,33 +45,21 @@ class IP46File {
   /**
    *  @brief Pointer to the main controller this IP46File is associated with
    */
-  IPForensics* ipf_;
-
-  /**
-   *  @brief Filename of the IP46File that contains previously extracted hosts
-   */
-  std::string filename_;
+  IPForensics* ip_;
 
  public:
   /**
    *  @brief Constructs an IP46File instance with the supplied pointer to 
    *         IPForensics and filename
-   *  @param ipf the IPFornesics file that this IP46File belongs to
-   *  @param filename file for loading and updating IPForensics data
+   *  @param ip the IPFornesics file that this IP46File belongs to
    */
-  explicit IP46File(IPForensics* ipf, std::string filename);
+  explicit IP46File(IPForensics* ip);
 
   /**
-   *  @brief Accessor method for the ipf_ property
+   *  @brief Accessor method for the ip_ property
    *  @retval IPForensics* main controller this IP46File is associated with
    */
-  IPForensics* ipf() const;
-
-  /**
-   *  @brief Accessor method for the filename_ property
-   *  @retval std::string name of the file containing previously extracted hosts
-   */
-  std::string filename() const;
+  IPForensics* ip() const;
 
   /**
    *  @brief Determines if the file is a valid IPForensics information file
