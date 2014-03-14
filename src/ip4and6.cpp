@@ -338,7 +338,7 @@ int IPForensics::load_from_file() {
 void IPForensics::results() {
   std::stringstream result;
   // output hosts
-  result << ipf::kHeader << std::endl;
+  result << ipf::kHeader1 << std::endl << ipf::kHeader2 << std::endl;
   for (Host h : hosts()) {
     result << h << std::endl;
   }

@@ -315,13 +315,12 @@ namespace ipf {
   /** MAC broadcast address */
   const MACAddress kBroadcastMAC {std::vector<uint8_t> (6, 0xFF)};
 
-  /** output header for comma-separated values file */
-  const std::string kHeaderCSV {"MAC Address,IPv4 Address,IPv6 Address"};
+  /** output header line 1 for console display */
+  const std::string kHeader1 {"MAC Address       IPv4 Address    IPv6 Address"};
 
-  /** output header for console display */
-  const std::string kHeader {"MAC Address       IPv4 Address    IPv6 Address\n"
-    + std::string(17, '=') + ' ' + std::string(15, '=') + ' '
-    + std::string(39, '=')};
+  /** output header line 2 for console display */
+  const std::string kHeader2 {std::string(17, '=') + ' ' + std::string(15, '=')
+    + ' ' + std::string(39, '=')};
 }  // namespace ipf
 
 #endif  // IPFORENSICS_IP4AND6_H_
