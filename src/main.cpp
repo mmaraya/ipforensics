@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
   if (it != args.end()) {
     if (next(it) != args.end()) {
       ip.set_out_file(*next(it));
-      std::ofstream ofs(ip.out_file(), std::ofstream::out);
+      std::ofstream ofs(ip.out_file(), std::ofstream::out | std::fstream::app);
       if (!ofs.is_open()) {
         std::cout << ipf::kProgramName << ": could not open output file ";
         std::cout << ip.out_file() << std::endl;
