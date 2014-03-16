@@ -350,7 +350,7 @@ void IPForensics::results() {
     if (!h.ipv4().empty() && !h.ipv6().empty()) ++dual;
   }
   double pc = static_cast<double>(dual + v6) / static_cast<double>(hosts) * 100;
-  result << std::string(73, '=') << '\n';
+  result << ipf::kFooter1 << '\n';
   result << "Hosts: " << hosts;
   result << "; IPv4 only: " << v4;
   result << "; IPv6 only: " << v6;

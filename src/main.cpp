@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
     }
   }
   // load hosts from output file if pre-populated
-  IP46File ipfile (&ip);
+  IP46File ipfile(&ip);
   if (ipfile.valid()) {
     if (ip.verbose()) {
       std::cout << "Appending hosts to " << ip.out_file() << std::endl;

@@ -27,7 +27,7 @@
  * SOFTWARE.
  */
 
-#include <cstdio>
+#include <fstream>  // NOLINT
 #include <string>
 #include "ipforensics/ip46file.h"
 
@@ -41,16 +41,21 @@ IPForensics* IP46File::ip() const {
 
 bool IP46File::valid() const {
   if (ip_->out_file().empty() || ip_ == nullptr) return false;
-  int bufsize = static_cast<int>(ipf::kHeader2.length());
-  char line[bufsize];
-  FILE* fp = fopen(ip_->out_file().c_str(), "r");
-  if (fp == nullptr) return false;
-  if (ip_->verbose()) {
-    std::cout << "Reading file " << ip_->out_file() << std::endl;
+  std::ifstream fs(ip_->out_file());
+  if (fs.is_open() == false) return false;
+  std::string line;
+  std::getline(fs, line);
+  if (line != ipf::kHeader1) return false;
+  std::getline(fs, line);
+  if (line != ipf::kHeader2) return false;
+  bool end = false;
+  while (std::getline(fs, line)) {
+    if (line == ipf::kFooter1) {
+      end = true;
+      break;
+    }
+    if (!std::regex_search(line, ipf::kMACRegEx)) return false;
   }
-  while (fgets(line, bufsize, fp)) {
-    std::cout << line << std::endl;
-  }
-  fclose(fp);
-  return true;
+  fs.close();
+  return end;
 }
