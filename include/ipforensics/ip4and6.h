@@ -328,6 +328,24 @@ namespace ipf {
 
   /** regular expression for a MAC address */
   const std::regex kMACRegEx {"^([0-9a-f]{2}[:]){5}([0-9a-f]{2})"};
+
+  /** output position of MAC address */
+  const size_t kOutputOffsetMAC {0};
+
+  /** output length of MAC address */
+  const size_t kOutputLengthMAC {17};
+
+  /** output position of IPv4 address */
+  const size_t kOutputOffsetIPv4 {18};
+
+  /** output length of IPv4 address */
+  const size_t kOutputLengthIPv4 {15};
+
+  /** output position of IPv6 address */
+  const size_t kOutputOffsetIPv6 {34};
+
+  /** output length of IPv6 address */
+  const size_t kOutputLengthIPv6 {39};
 }  // namespace ipf
 
 #endif  // IPFORENSICS_IP4AND6_H_
