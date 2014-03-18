@@ -51,7 +51,7 @@ class IP46File {
   /**
    *  @brief Constructs an IP46File instance with the supplied pointer to 
    *         IPForensics and filename
-   *  @param ip the IPFornesics file that this IP46File belongs to
+   *  @param ip the IPForensics instance that this IP46File belongs to
    */
   explicit IP46File(IPForensics* ip);
 

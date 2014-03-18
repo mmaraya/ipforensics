@@ -122,6 +122,7 @@ int main(int argc, char* argv[]) {
     if (ip.verbose()) {
       std::cout << "Appending hosts to " << ip.out_file() << std::endl;
     }
+    ipfile.load();
   }
   // load hosts from either file or packet capture device
   int packets_loaded {0};

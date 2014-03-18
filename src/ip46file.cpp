@@ -28,6 +28,7 @@
  */
 
 #include <fstream>  // NOLINT
+#include <set>
 #include <string>
 #include "ipforensics/ip46file.h"
 
@@ -58,4 +59,26 @@ bool IP46File::valid() const {
   }
   fs.close();
   return end;
+}
+
+/**
+ *  @todo complete this method
+ */
+std::set<Host> IP46File::load() {
+  std::set<Host> result;
+  std::ifstream fs(ip_->out_file());
+  if (fs.is_open()) {
+    std::string line, mac, v4, v6;
+    std::getline(fs, line);
+    std::getline(fs, line);
+    while (std::getline(fs, line)) {
+      if (line == ipf::kFooter1) {
+        break;
+      }
+      mac = line.substr(ipf::kOutputOffsetMAC, ipf::kOutputLengthMAC);
+      v4 = line.substr(ipf::kOutputOffsetIPv4, ipf::kOutputLengthIPv4);
+      v6 = line.substr(ipf::kOutputOffsetIPv6, ipf::kOutputLengthIPv6);
+    }
+  }
+  return result;
 }
