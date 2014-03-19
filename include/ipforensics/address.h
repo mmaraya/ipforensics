@@ -139,6 +139,13 @@ class MACAddress : public Address {
   MACAddress();
 
   /**
+   *  @brief Creates a new media access control address from the supplied
+   *         std::string
+   *  @param mac text representation of a MAC address
+   */
+  explicit MACAddress(std::string mac);
+
+  /**
    *  @brief Creates a new media access control address with the supplied value
    *  @details This constructor invokes the Address ancestor class constructor
    *           of the same signature
@@ -172,10 +179,16 @@ class MACAddress : public Address {
  */
 class IPv4Address : public Address {
  public:
-   /**
+  /**
    *  @brief Creates a new IPv4 address with an empty Address::address_
    */
   IPv4Address();
+
+  /**
+   *  @brief Creates a new IPv4 address with the supplied std::string
+   *  @param ipv4 IPv4 address in dotted-quad notation
+   */
+  explicit IPv4Address(std::string ipv4);
 
   /**
    *  @brief Creates a new IPv4 address with the supplied unsigned 32-bit value
@@ -228,6 +241,12 @@ class IPv6Address : public Address {
    *  @brief Creates a new IPv6 address with an empty Address::address_
    */
   IPv6Address();
+
+  /**
+   *  @brief Creates a new IPv6 address with the supplied std::string
+   *  @param ipv6 IPv6 address in colon-separated notation
+   */
+  explicit IPv6Address(std::string ipv6);
 
   /**
    *  @brief Creates a new IPv6 address with the supplied std::vector
