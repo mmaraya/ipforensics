@@ -77,9 +77,11 @@ bool Address::operator!=(const Address &b) const {
 MACAddress::MACAddress() {
 }
 
-MACAddress::MACAddress(std::string mac) {
+MACAddress::MACAddress(const std::string mac) {
   for (size_t i = 0; i < ipf::kLengthMAC; i++) {
     std::string segment = mac.substr(i*3, 2);
+    uint8_t value = static_cast<uint8_t>(std::stoi(segment, 0, 16));
+    Address::address_.push_back(value);
   }
 }
 

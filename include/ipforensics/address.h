@@ -143,7 +143,7 @@ class MACAddress : public Address {
    *         std::string
    *  @param mac text representation of a MAC address
    */
-  explicit MACAddress(std::string mac);
+  explicit MACAddress(const std::string mac);
 
   /**
    *  @brief Creates a new media access control address with the supplied value

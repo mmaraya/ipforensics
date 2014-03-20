@@ -68,14 +68,15 @@ std::set<Host> IP46File::load() {
   std::set<Host> result;
   std::ifstream fs(ip_->out_file());
   if (fs.is_open()) {
-    std::string line, mac, v4, v6;
+    std::string line, v4, v6;
     std::getline(fs, line);
     std::getline(fs, line);
     while (std::getline(fs, line)) {
       if (line == ipf::kFooter1) {
         break;
       }
-      mac = line.substr(ipf::kOutputOffsetMAC, ipf::kOutputLengthMAC);
+      MACAddress mac = MACAddress(line.substr(ipf::kOutputOffsetMAC,
+                                              ipf::kOutputLengthMAC));
       v4 = line.substr(ipf::kOutputOffsetIPv4, ipf::kOutputLengthIPv4);
       v6 = line.substr(ipf::kOutputOffsetIPv6, ipf::kOutputLengthIPv6);
     }
