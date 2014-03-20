@@ -77,6 +77,12 @@ bool Address::operator!=(const Address &b) const {
 MACAddress::MACAddress() {
 }
 
+MACAddress::MACAddress(std::string mac) {
+  for (size_t i = 0; i < ipf::kLengthMAC; i++) {
+    std::string segment = mac.substr(i*3, 2);
+  }
+}
+
 std::string MACAddress::str() const {
   std::stringstream ss;
   if (!address_.empty()) {
