@@ -107,6 +107,21 @@ bool MACAddress::fake() const {
 IPv4Address::IPv4Address() {
 }
 
+IPv4Address::IPv4Address(std::string ipv4) {
+  size_t start = 0, end = ipv4.find('.');
+  while (end != std::string::npos) {
+    std::string segment = ipv4.substr(start, end - start);
+    uint8_t value = static_cast<uint8_t>(std::stoi(segment, 0, 10));
+    Address::address_.push_back(value);
+    start = end + 1;
+    if (end == ipv4.rfind('.')) {
+      end = ipv4.length() - 1;
+    } else {
+      end = ipv4.find('.', start);
+    }
+  }
+}
+
 /**
  *  @details The implementation of this method shifts the supplied 32-bit
  *           unsigned int by 0, 8, 16, and 24 bits to isolate the octets and
