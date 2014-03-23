@@ -59,7 +59,7 @@ class Address {
   Address();
 
   /**
-   *  @brief Creates an Address with the supplied std::vector of unsigned char
+   *  @brief Creates an Address from the supplied std::vector of unsigned char
    *  @param address replaces the value of the internal property address_
    */
   explicit Address(std::vector<uint8_t> address);
@@ -146,7 +146,7 @@ class MACAddress : public Address {
   explicit MACAddress(const std::string mac);
 
   /**
-   *  @brief Creates a new media access control address with the supplied value
+   *  @brief Creates a new media access control address from the supplied value
    *  @details This constructor invokes the Address ancestor class constructor
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
@@ -185,19 +185,19 @@ class IPv4Address : public Address {
   IPv4Address();
 
   /**
-   *  @brief Creates a new IPv4 address with the supplied std::string
+   *  @brief Creates a new IPv4 address from the supplied std::string
    *  @param ipv4 IPv4 address in dotted-quad notation
    */
   explicit IPv4Address(std::string ipv4);
 
   /**
-   *  @brief Creates a new IPv4 address with the supplied unsigned 32-bit value
+   *  @brief Creates a new IPv4 address from the supplied unsigned 32-bit value
    *  @param address 32-bit value to be converted into Address::address_
    */
   explicit IPv4Address(const uint32_t address);
 
   /**
-   *  @brief Creates a new IPv4 address with the supplied std::vector
+   *  @brief Creates a new IPv4 address from the supplied std::vector
    *  @details This constructor invokes the Address ancestor class constructor
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
@@ -243,13 +243,13 @@ class IPv6Address : public Address {
   IPv6Address();
 
   /**
-   *  @brief Creates a new IPv6 address with the supplied std::string
+   *  @brief Creates a new IPv6 address from the supplied std::string
    *  @param ipv6 IPv6 address in colon-separated notation
    */
   explicit IPv6Address(std::string ipv6);
 
   /**
-   *  @brief Creates a new IPv6 address with the supplied std::vector
+   *  @brief Creates a new IPv6 address from the supplied std::vector
    *  @details This constructor invokes the Address ancestor class constructor
    *           of the same signature
    *  @param address is used to set the internal Address::address_ property
