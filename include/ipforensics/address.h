@@ -188,7 +188,7 @@ class IPv4Address : public Address {
    *  @brief Creates a new IPv4 address from the supplied std::string
    *  @param ipv4 IPv4 address in dotted-quad notation
    */
-  explicit IPv4Address(std::string ipv4);
+  explicit IPv4Address(const std::string ipv4);
 
   /**
    *  @brief Creates a new IPv4 address from the supplied unsigned 32-bit value
@@ -246,7 +246,7 @@ class IPv6Address : public Address {
    *  @brief Creates a new IPv6 address from the supplied std::string
    *  @param ipv6 IPv6 address in colon-separated notation
    */
-  explicit IPv6Address(std::string ipv6);
+  explicit IPv6Address(const std::string ipv6);
 
   /**
    *  @brief Creates a new IPv6 address from the supplied std::vector

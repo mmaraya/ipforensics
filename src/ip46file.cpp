@@ -68,18 +68,29 @@ std::set<Host> IP46File::load() {
   std::set<Host> result;
   std::ifstream fs(ip_->out_file());
   if (fs.is_open()) {
-    std::string line, v6;
+    std::string line, mac_str, v4_str, v6_str;
     std::getline(fs, line);
     std::getline(fs, line);
     while (std::getline(fs, line)) {
       if (line == ipf::kFooter1) {
         break;
       }
-      MACAddress mac = MACAddress(line.substr(ipf::kOutputOffsetMAC,
-                                              ipf::kOutputLengthMAC));
-      IPv4Address v4 = IPv4Address(line.substr(ipf::kOutputOffsetIPv4,
-                                               ipf::kOutputLengthIPv4));
-      v6 = line.substr(ipf::kOutputOffsetIPv6, ipf::kOutputLengthIPv6);
+      MACAddress mac;
+      mac_str = line.substr(ipf::kOutputOffsetMAC, ipf::kOutputLengthMAC);
+      if (mac_str.find_first_not_of(' ') != std::string::npos) {
+        mac = MACAddress(mac_str);
+      }
+      IPv4Address v4;
+      v4_str = line.substr(ipf::kOutputOffsetIPv4, ipf::kOutputLengthIPv4);
+      if (v4_str.find_first_not_of(' ') != std::string::npos) {
+        v4 = IPv4Address(v4_str);
+      }
+      IPv6Address v6;
+      v6_str = line.substr(ipf::kOutputOffsetIPv6, ipf::kOutputLengthIPv6);
+      if (v6_str.find_first_not_of(' ') != std::string::npos) {
+        v6 = IPv6Address(v6_str);
+        std::cout << v6.str() << std::endl;
+      }
     }
   }
   return result;
