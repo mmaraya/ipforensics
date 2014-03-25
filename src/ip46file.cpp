@@ -89,7 +89,6 @@ std::set<Host> IP46File::load() {
       v6_str = line.substr(ipf::kOutputOffsetIPv6, ipf::kOutputLengthIPv6);
       if (v6_str.find_first_not_of(' ') != std::string::npos) {
         v6 = IPv6Address(v6_str);
-        std::cout << v6.str() << std::endl;
       }
     }
   }

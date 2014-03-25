@@ -179,25 +179,24 @@ IPv6Address::IPv6Address() {
 
 IPv6Address::IPv6Address(const std::string ipv6) {
   size_t colon = static_cast<size_t>(std::count(ipv6.begin(), ipv6.end(), ':'));
-  size_t zeroCompress = ipv6.find("::");
+  size_t zeroCompress = ipv6.find("::") + 1;
   size_t start = 0, end = ipv6.find(':');
   while (end != std::string::npos) {
     if (start == zeroCompress) {
       for (size_t i = 0 ; i < ipf::kLengthIPv6 - colon; ++i) {
         Address::address_.push_back(0);
+        Address::address_.push_back(0);
       }
-      start = zeroCompress + 2;
+      start = zeroCompress + 1;
       end = ipv6.find(':', start);
     }
     std::string segment = "0x" + ipv6.substr(start, end - start);
-    uint16_t val = static_cast<uint16_t>(std::stol(segment, nullptr, 16));
-    uint8_t val1 = static_cast<uint8_t>((val & 0xFF00) >> 8);
-    uint8_t val2 = static_cast<uint8_t>(val & 0x00FF);
-    Address::address_.push_back(val1);
-    Address::address_.push_back(val2);
+    uint16_t val = static_cast<uint16_t>(std::stoul(segment, nullptr, 16));
+    Address::address_.push_back(static_cast<uint8_t>(val >> 8));
+    Address::address_.push_back(static_cast<uint8_t>(val & 0x00FF));
     start = end + 1;
     if (end == ipv6.rfind(':')) {
-      end = ipv6.length() - 1;
+      end = ipv6.find(' ', 0);
     } else {
       end = ipv6.find(':', start);
     }
