@@ -206,6 +206,10 @@ void IPForensics::load_hosts(std::string filename) {
   clean_hosts(nullptr, nullptr);
 }
 
+void IPForensics::add_host(const Host host) {
+  hosts_.insert(host);
+}
+
 void IPForensics::add_host(MACAddress mac, IPv4Address ipv4, IPv6Address ipv6) {
   hosts_.insert(Host(mac, ipv4, ipv6));
 }

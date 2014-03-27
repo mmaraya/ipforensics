@@ -192,6 +192,12 @@ class IPForensics {
 
   /**
    *  @brief Adds a new Host to IPForensics::hosts_
+   *  @param host Host instance to add to the collection
+   */
+  void add_host(const Host host);
+
+  /**
+   *  @brief Adds a new Host to IPForensics::hosts_
    *  @param mac MACAddress for this new host, this is a mandatory value
    *  @param ipv4 IPv4Address for this new host, if known
    *  @param ipv6 IPv6Address for this new host, if known
