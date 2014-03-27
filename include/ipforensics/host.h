@@ -53,6 +53,11 @@ class Host {
 
  public:
   /**
+   *  @brief Construct an empty Host
+   */
+  Host();
+
+  /**
    *  @brief Construct a new Host from the supplied MACAddress
    *  @param mac MACAddress of the new Host to create
    *  @details This is the normal way to create a Host since the MAC address is

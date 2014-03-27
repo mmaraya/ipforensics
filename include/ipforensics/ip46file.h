@@ -69,9 +69,8 @@ class IP46File {
 
   /**
    *  @brief Load hosts from a valid IPForensics information file
-   *  @retval std::set<Host> Collection of hosts identified by MAC addresses
    */
-  std::set<Host> load();
+  void load();
 };
 
 #endif  // IPFORENSICS_IP46FILE_H_

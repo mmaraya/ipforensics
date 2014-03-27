@@ -94,14 +94,6 @@ class IPForensics {
   std::vector<Packet> packets_;
 
   /**
-   *  @brief Adds a new Host to IPForensics::hosts_
-   *  @param mac MACAddress for this new host, this is a mandatory value
-   *  @param ipv4 IPv4Address for this new host, if known
-   *  @param ipv6 IPv6Address for this new host, if known
-   */
-  void add_host(MACAddress mac, IPv4Address ipv4, IPv6Address ipv6);
-
-  /**
    *  @brief Sets the IPv4 and/or IPv6 addresses of an existing Host in hosts_
    *  @param it iterator pointing to the existing Host in hosts_
    *  @param ipv4 IPv4Address associated with this host
@@ -197,6 +189,14 @@ class IPForensics {
    *  @details If reading a file, a value of 0 is taken to mean read all packets
    */
   void set_packet_count(int count);
+
+  /**
+   *  @brief Adds a new Host to IPForensics::hosts_
+   *  @param mac MACAddress for this new host, this is a mandatory value
+   *  @param ipv4 IPv4Address for this new host, if known
+   *  @param ipv6 IPv6Address for this new host, if known
+   */
+  void add_host(MACAddress mac, IPv4Address ipv4, IPv6Address ipv6);
 
   /**
    *  @brief Queries the system for all available packet capture devices and
