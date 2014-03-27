@@ -61,11 +61,7 @@ bool IP46File::valid() const {
   return end;
 }
 
-/**
- *  @todo complete this method
- */
-std::set<Host> IP46File::load() {
-  std::set<Host> result;
+void IP46File::load() {
   std::ifstream fs(ip_->out_file());
   if (fs.is_open()) {
     std::string line, mac_str, v4_str, v6_str;
@@ -75,22 +71,27 @@ std::set<Host> IP46File::load() {
       if (line == ipf::kFooter1) {
         break;
       }
+      Host host;
       MACAddress mac;
       mac_str = line.substr(ipf::kOutputOffsetMAC, ipf::kOutputLengthMAC);
       if (mac_str.find_first_not_of(' ') != std::string::npos) {
         mac = MACAddress(mac_str);
+        host = Host(mac);
       }
       IPv4Address v4;
       v4_str = line.substr(ipf::kOutputOffsetIPv4, ipf::kOutputLengthIPv4);
       if (v4_str.find_first_not_of(' ') != std::string::npos) {
         v4 = IPv4Address(v4_str);
+        host.set_ipv4(v4);
       }
       IPv6Address v6;
       v6_str = line.substr(ipf::kOutputOffsetIPv6, ipf::kOutputLengthIPv6);
       if (v6_str.find_first_not_of(' ') != std::string::npos) {
         v6 = IPv6Address(v6_str);
+        std::cout << v6.str() << std::endl;
+        host.set_ipv6(v6);
       }
+      ip_->add_host(host);
     }
   }
-  return result;
 }

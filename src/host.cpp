@@ -32,6 +32,9 @@
 #include "ipforensics/address.h"
 #include "ipforensics/host.h"
 
+Host::Host() {
+}
+
 Host::Host(const MACAddress mac) {
   mac_ = mac;
 }

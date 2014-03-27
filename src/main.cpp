@@ -119,10 +119,11 @@ int main(int argc, char* argv[]) {
   // load hosts from output file if pre-populated
   IP46File ipfile(&ip);
   if (ipfile.valid()) {
-    if (ip.verbose()) {
-      std::cout << "Appending hosts to " << ip.out_file() << std::endl;
-    }
     ipfile.load();
+    if (ip.verbose()) {
+      std::cout << "Loaded " << ip.hosts().size() << " hosts from ";
+      std::cout << ip.out_file() << std::endl;
+    }
   }
   // load hosts from either file or packet capture device
   int packets_loaded {0};
