@@ -165,6 +165,7 @@ void usage() {
   std::cout << "-i interface packet capture device to use (requires admin)\n";
   std::cout << "-c count     number of packets to read or capture\n";
   std::cout << "-r in file   read packets from pcap file\n";
-  std::cout << "-w out file  write host summary to file\n";
+  std::cout << "-w out file  write summary report to file, or append if the";
+  std::cout << " file exists\n";
   std::cout << std::endl;
 }

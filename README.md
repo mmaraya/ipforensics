@@ -22,7 +22,7 @@ Usage
     -i interface: packet capture device to use (requires admin)
     -c count: number of packets to read or capture
     -r in file: read packets from pcap file
-    -w out file: write or append summary report to file
+    -w out file: write summary report to file, or append if the file exists
 
 To read all packets from a pcap file named mycap.cap, use:
 
@@ -36,10 +36,10 @@ To read the first 250 packets from network device eth0, use:
 
     sudo ipforensics -i eth0 -c 250
 
-To read the first 125 packets from network device eth0 and save to out.txt, use:
+To read the first 125 packets from network device eth0 and write or append results to out.txt, use:
 
     sudo ipforensics -i eth0 -c 125 -w out.txt
-
+    
 License
 -------
 
