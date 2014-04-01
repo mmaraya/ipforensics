@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
     }
   } else {
     if (ip.verbose()) {
-      std::cout << ip.out_file() << " is not a valid " << ipf::kProgramName ;
+      std::cout << ip.out_file() << " is not a valid " << ipf::kProgramName;
       std::cout << " file.  No hosts loaded." << std::endl;
     }
   }
