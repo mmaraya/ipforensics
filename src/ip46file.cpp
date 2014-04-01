@@ -27,6 +27,7 @@
  * SOFTWARE.
  */
 
+#include <cctype>
 #include <fstream>  // NOLINT
 #include <set>
 #include <string>
@@ -55,7 +56,12 @@ bool IP46File::valid() const {
       end = true;
       break;
     }
-    if (!std::regex_search(line, ipf::kMACRegEx)) return false;
+    for (int i = 0; i < ipf::kLengthMAC; ++i) {
+      size_t offset = static_cast<size_t>(i * 3);
+      if (!isxdigit(line[offset++])) return false;
+      if (!isxdigit(line[offset++])) return false;
+      if ((i < ipf::kLengthMAC - 1) && (line[offset] != ':')) return false;
+    }
   }
   fs.close();
   return end;

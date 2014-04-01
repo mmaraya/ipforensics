@@ -32,7 +32,6 @@
 
 #include <stdint.h>
 #include <pcap/pcap.h>
-#include <regex>
 #include <set>
 #include <string>
 #include <vector>
@@ -331,9 +330,6 @@ namespace ipf {
 
   /** output footer for console display */
   const std::string kFooter1 {std::string(kHeader2.length(), '=')};
-
-  /** regular expression for a MAC address */
-  const std::regex kMACRegEx {"^([0-9a-f]{2}[:]){5}([0-9a-f]{2})"};
 
   /** output position of MAC address */
   const size_t kOutputOffsetMAC {0};

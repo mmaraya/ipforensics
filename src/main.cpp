@@ -124,6 +124,11 @@ int main(int argc, char* argv[]) {
       std::cout << "Loaded " << ip.hosts().size() << " hosts from ";
       std::cout << ip.out_file() << std::endl;
     }
+  } else {
+    if (ip.verbose()) {
+      std::cout << ip.out_file() << " is not a valid " << ipf::kProgramName ;
+      std::cout << " file.  No hosts loaded." << std::endl;
+    }
   }
   // load hosts from either file or packet capture device
   int packets_loaded {0};
