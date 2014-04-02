@@ -19,10 +19,11 @@ Usage
     ipforensics [-hv] [-d device] [-f filename] [-n packets]
     -h: display usage
     -v: verbose display
-    -i interface: packet capture device to use (requires admin)
+    -i interface: packet capture device to use (admin needed)
     -c count: number of packets to read or capture
     -r in file: read packets from pcap file
     -w out file: write summary report to file, or append if the file exists
+    -x exclude file: ignore MAC addresses in file
 
 To read all packets from a pcap file named mycap.cap, use:
 
