@@ -116,6 +116,17 @@ int main(int argc, char* argv[]) {
       return 1;
     }
   }
+  // exclude hosts from -x filename
+  it = find(args.begin(), args.end(), "-x");
+  if (it != args.end()) {
+    if (next(it) != args.end()) {
+      ip.set_exclude_file(*next(it));
+    } else {
+      std::cout << ipf::kProgramName << ": option -x requires an argument\n";
+      usage();
+      return 1;
+    }
+  }
   // load hosts from output file if pre-populated
   IP46File ipfile(&ip);
   if (ipfile.valid()) {
@@ -165,12 +176,13 @@ void usage() {
   std::cout << ipf::kMinorVersion << "\n\n";
   std::cout << "usage: " << ipf::kProgramName;
   std::cout << " [-hv] [-d device] [-n packets] [-f filename]\n";
-  std::cout << "-h           display usage\n";
-  std::cout << "-v           verbose display\n";
-  std::cout << "-i interface packet capture device to use (requires admin)\n";
-  std::cout << "-c count     number of packets to read or capture\n";
-  std::cout << "-r in file   read packets from pcap file\n";
-  std::cout << "-w out file  write summary report to file, or append if the";
+  std::cout << "-h              display usage\n";
+  std::cout << "-v              verbose display\n";
+  std::cout << "-i interface    packet capture device to use (admin needed)\n";
+  std::cout << "-c count        number of packets to read or capture\n";
+  std::cout << "-r in file      read packets from pcap file\n";
+  std::cout << "-w out file     write summary report to file, or append if the";
   std::cout << " file exists\n";
+  std::cout << "-x exclude file ignore MAC addresses in file";
   std::cout << std::endl;
 }

@@ -81,6 +81,11 @@ class IPForensics {
   std::string out_file_;
 
   /**
+   * @brief Exclude MAC addresses found in this file
+   */
+  std::string exclude_file_;
+
+  /**
    *  @brief Number of packets to read from the network or file
    *  @details If reading a file, a value of 0 means read all packets
    */
@@ -147,6 +152,12 @@ class IPForensics {
   std::string out_file() const;
 
   /**
+   *  @brief Accessor method for the exclude_file_ property
+   *  @retval std::string name of the file to exclude MAC addresses from
+   */
+  std::string exclude_file() const;
+
+  /**
    *  @brief Accessor method for the packet_count_ property
    *  @retval int number of packets to read from the network or file
    */
@@ -181,6 +192,12 @@ class IPForensics {
    *  @param out_file user-supplied filename to write host summary to
    */
   void set_out_file(std::string out_file);
+
+  /**
+   *  @brief Mutator method for the exclude_file property
+   *  @param exclude_file exclude MAC addresses found in this file
+   */
+  void set_exclude_file(std::string exclude_file);
 
   /**
    *  @brief Mutator method for the packet_count_ property

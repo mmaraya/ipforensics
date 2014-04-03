@@ -59,6 +59,10 @@ std::string IPForensics::out_file() const {
   return out_file_;
 }
 
+std::string IPForensics::exclude_file() const {
+  return exclude_file_;
+}
+
 int IPForensics::packet_count() const {
   return packet_count_;
 }
@@ -81,6 +85,10 @@ void IPForensics::set_in_file(std::string in_file) {
 
 void IPForensics::set_out_file(std::string out_file) {
   out_file_ = out_file;
+}
+
+void IPForensics::set_exclude_file(std::string exclude_file) {
+  exclude_file_ = exclude_file;
 }
 
 void IPForensics::set_packet_count(int packet_count) {
