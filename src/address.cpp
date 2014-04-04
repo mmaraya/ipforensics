@@ -27,6 +27,7 @@
  * SOFTWARE.
  */
 
+#include <algorithm>
 #include <iomanip>
 #include <sstream>
 #include <string>
