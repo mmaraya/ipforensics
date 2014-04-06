@@ -276,10 +276,10 @@ namespace ipf {
   const std::string kProgramName {"ipforensics"};
 
   /** program major revision number */
-  const int kMajorVersion {0};
+  const int kMajorVersion {1};
 
   /** program minor revision number */
-  const int kMinorVersion {9};
+  const int kMinorVersion {0};
 
   /** ethernet frame snapshot length */
   const int kSnapLength {256};

@@ -183,6 +183,5 @@ void usage() {
   std::cout << "-r in file      read packets from pcap file\n";
   std::cout << "-w out file     write summary report to file, or append if the";
   std::cout << " file exists\n";
-  std::cout << "-x exclude file ignore MAC addresses in file";
   std::cout << std::endl;
 }
