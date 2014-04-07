@@ -11,7 +11,7 @@ ipforensics runs under Linux, Mac OS X, and Windows.
 Download
 --------
 
-Precompiled binaries for the latest version of ipforensics can be downloaded from https://github.com/mmaraya/ipforensics/releases/tag/v0.9.
+Precompiled binaries for the latest version of ipforensics can be downloaded from https://github.com/mmaraya/ipforensics/releases/tag/v1.0.
 
 Usage
 -----
