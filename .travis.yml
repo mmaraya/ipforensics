@@ -12,4 +12,18 @@ before_install:
   - sudo update-alternatives --config g++
   - sudo apt-get install libpcap-dev
 script: make
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "fiyg0KSymj8AKR9raeUG3Ngr1hg39970E9PSJdKfH8BEunSFMNLiXKagFeSkRAdzHsQ/yFRQl7/SQbsHv6Kjw5kOxVq3xdByhHjoCrSlRIhkTl0447hpDiWqD/SYplvrRcmL+9aj1tUjKpocTqYm7c2/alTiSQ3bzhb4eBTqojk="
 
+addons:
+  coverity_scan:
+    project:
+      name: "mmaraya/ipforensics"
+      description: "Passive IPv4 and IPv6 Network Asset Discovery"
+    notification_email: mike.maraya@gmail.com
+    build_command_prepend:
+    build_command: make
+    branch_pattern: coverity_scan
