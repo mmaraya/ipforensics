@@ -1,5 +1,4 @@
-![ipforensics logo](ipforensics.png "ipforensics") [![Build Status](https://travis-ci.org/mmaraya/ipforensics.png?branch=master)](https://travis-ci.org/mmaraya/ipforensics)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/1937/badge.svg)](https://scan.coverity.com/projects/1937)
+![ipforensics logo](ipforensics.png "ipforensics") [![Build Status](https://travis-ci.org/mmaraya/ipforensics.png?branch=master)](https://travis-ci.org/mmaraya/ipforensics) [![Coverity Scan Build Status](https://scan.coverity.com/projects/1937/badge.svg)](https://scan.coverity.com/projects/1937)
 ==================================================
 
 ipforensics is a network administration utility that conducts a passive inventory of IPv4 and IPv6 devices on your local network segment.  It can be used to perform passive network enumeration and assist in IPv4 to IPv6 migrations.
