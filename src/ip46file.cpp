@@ -101,5 +101,6 @@ void IP46File::load() {
         std::cout << "Loaded host " << host << std::endl;
       }
     }
+    fs.close();
   }
 }
