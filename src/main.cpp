@@ -147,7 +147,13 @@ int main(int argc, char* argv[]) {
     ip.set_device(device_name);
     packets_loaded = ip.load_from_device();
   } else {
-    packets_loaded = ip.load_from_file();
+    try {
+      packets_loaded = ip.load_from_file();
+    } catch (std::exception const &e) {
+      std::cout << ipf::kProgramName << ": ";
+      std::cout << "Could not load packets from input file: ";
+      std::cout << e.what() << std::endl;
+    }
   }
   // exit if error encountered
   if (packets_loaded < 0) {
