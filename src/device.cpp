@@ -34,6 +34,7 @@
 
 Device::Device(IPForensics* ipf) {
   ipf_ = ipf;
+  loopback_ = false;
 }
 
 std::string Device::name() const {
