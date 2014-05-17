@@ -275,7 +275,7 @@ int IPForensics::load_from_device() {
     std::cout << e.what() << std::endl;
   }
   // select device to use
-  Device device(this);
+  Device device = Device(this);
   for (Device d : devices_) {
     if (device_ == d.name()) {
       device = d;
