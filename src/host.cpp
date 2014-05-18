@@ -115,9 +115,11 @@ bool operator>=(const Host& lhs, const Host& rhs) {
  *           so they align with the column headers in ipf::kHeader.
  */
 std::ostream& operator<<(std::ostream& out, const Host& h) {
+  std::ios::fmtflags fmt(std::cout.flags());
   out << std::left << std::setfill(' ');
   out << std::setw(18) << h.mac();
   out << std::setw(16) << h.ipv4();
   out << std::setw(39) << h.ipv6();
+  std::cout.flags(fmt);
   return out;
 }
