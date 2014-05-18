@@ -42,7 +42,8 @@ IPForensics* IP46File::ip() const {
 }
 
 bool IP46File::valid() const {
-  if (ip_->out_file().empty() || ip_ == nullptr) return false;
+  if (ip_ == nullptr) return false;
+  if (ip_->out_file().empty()) return false;
   std::ifstream fs(ip_->out_file());
   if (fs.is_open() == false) return false;
   std::string line;
