@@ -118,6 +118,7 @@ bool Packet::ipv4() const { return (ether_type_ == ipf::kEtherTypeIPv4); }
 bool Packet::ipv6() const { return (ether_type_ == ipf::kEtherTypeIPv6); }
 
 std::ostream &operator<<(std::ostream &out, const Packet &p) {
+  std::ios::fmtflags fmt(std::cout.flags());
   out << p.mac_src() << " -> " << p.mac_dst() << ' ';
   out << std::hex << std::setw(4) << std::setfill('0') << p.ether_type() << ' ';
   switch (p.ether_type()) {
@@ -131,5 +132,6 @@ std::ostream &operator<<(std::ostream &out, const Packet &p) {
       out << p.ipv6_src() << " -> " << p.ipv6_dst();
       break;
   }
+  std::cout.flags(fmt);
   return out;
 }
