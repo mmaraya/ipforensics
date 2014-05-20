@@ -335,6 +335,9 @@ namespace ipf {
   /** IPv4 broadcast address */
   const IPv4Address kBroadcastIPv4 {std::vector<uint8_t> (4, 0xFF)};
 
+  /** IPv6 link-local unicast address prefix */
+  const uint16_t kLinkLocalIPv6[2] {0xFE, 0x80};
+  
   /** MAC broadcast address */
   const MACAddress kBroadcastMAC {std::vector<uint8_t> (6, 0xFF)};
 

@@ -231,6 +231,15 @@ void IPForensics::update_host(std::set<Host>::iterator it, IPv4Address ipv4,
   if (h.ipv6().address().empty() && !ipv6.address().empty()) {
     h.set_ipv6(ipv6);
   }
+  // replace previous IPv6 address if it is link-local
+  if (!h.ipv6().address().empty() && !ipv6.address().empty()) {
+    if (h.ipv6().address()[0] == ipf::kLinkLocalIPv6[0] &&
+        h.ipv6().address()[1] == ipf::kLinkLocalIPv6[1] &&
+        ipv6.address()[0] != ipf::kLinkLocalIPv6[0] &&
+        ipv6.address()[1] != ipf::kLinkLocalIPv6[1]) {
+      h.set_ipv6(ipv6);
+    }
+  }
   hosts_.erase(it);
   hosts_.insert(h);
 }
