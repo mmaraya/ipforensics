@@ -1,6 +1,8 @@
 sudo: false
 language: cpp
-compiler: gcc
+compiler: 
+  - gcc
+  - clang
 install: 
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 addons:
@@ -10,14 +12,8 @@ addons:
     packages:
     - gcc-4.8
     - g++-4.8
+    - clang
     - libpcap-dev
-script: make
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "fiyg0KSymj8AKR9raeUG3Ngr1hg39970E9PSJdKfH8BEunSFMNLiXKagFeSkRAdzHsQ/yFRQl7/SQbsHv6Kjw5kOxVq3xdByhHjoCrSlRIhkTl0447hpDiWqD/SYplvrRcmL+9aj1tUjKpocTqYm7c2/alTiSQ3bzhb4eBTqojk="
-addons:
   coverity_scan:
     project:
       name: "mmaraya/ipforensics"
@@ -26,3 +22,8 @@ addons:
     build_command_prepend:
     build_command: make
     branch_pattern: coverity_scan
+script: make
+env:
+  global:
+   - secure: "fiyg0KSymj8AKR9raeUG3Ngr1hg39970E9PSJdKfH8BEunSFMNLiXKagFeSkRAdzHsQ/yFRQl7/SQbsHv6Kjw5kOxVq3xdByhHjoCrSlRIhkTl0447hpDiWqD/SYplvrRcmL+9aj1tUjKpocTqYm7c2/alTiSQ3bzhb4eBTqojk="
+
