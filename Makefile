@@ -31,8 +31,7 @@ INC_DIR   := include
 CPP_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
 LIB_FILES := -lpcap
-CC        := g++
-CC_FLAGS  := -g -Wall -std=c++11 -I$(INC_DIR)
+CXX_FLAGS := -g -Wall -std=c++11 -I$(INC_DIR)
 LD_FLAGS  := 
 
 .PHONY: all clean test
@@ -41,11 +40,11 @@ all: $(BIN_DIR)/$(PROGRAM)
 
 $(BIN_DIR)/$(PROGRAM): $(OBJ_FILES)
 	@mkdir -p $(@D)
-	$(CC) $(LD_FLAGS) -o $@ $^ $(LIB_FILES)
+	$(CXX) $(LD_FLAGS) -o $@ $^ $(LIB_FILES)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CC_FLAGS) -c -o $@ $<
+	$(CXX) $(CXX_FLAGS) -c -o $@ $<
 
 clean:
 	rm -f $(BIN_DIR)/$(PROGRAM) $(OBJ_DIR)/*.o
